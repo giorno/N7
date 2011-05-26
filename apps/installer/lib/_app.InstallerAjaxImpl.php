@@ -48,7 +48,7 @@ class InstallerAjaxImpl extends Installer
 		/**
 		 * Check validity of address.
 		 */
-		$validator = new EmailAddressValidator;
+		$validator = new EmailAddressValidator( );
 		if ( $validator->check_email_address( $_POST['email'] ) )
 		{
 			/**

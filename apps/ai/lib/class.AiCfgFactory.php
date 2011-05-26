@@ -1,5 +1,7 @@
 <?php
 
+require_once CHASSIS_LIB . 'list/_list_cfg.php';
+
 /**
  * @file class.AiCfgFactory.php
  * @author giorno
@@ -8,7 +10,6 @@
  * 
  * Settings and configuration instances for AI application.
  */
-
 class AiSettings extends _settings
 {
 	public function __construct ( ) { parent::__construct( _settings::SCOPE_USER, N7_SOLUTION_ID . '.Ai' ); }

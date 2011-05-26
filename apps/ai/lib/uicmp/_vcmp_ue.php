@@ -11,6 +11,8 @@
 
 require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_gi_ind.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_title.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
 
 require_once APP_AI_LIB . 'uicmp/_uicmp_ue.php';
 

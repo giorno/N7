@@ -11,6 +11,11 @@
 
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 
+require_once CHASSIS_LIB . 'apps/_wwg.Menu.php';
+require_once CHASSIS_LIB . 'apps/_wwg.MenuItem.php';
+
+require_once N7_SOLUTION_LIB . 'n7_requirer.php';
+
 require_once APP_AI_LIB . '_app.Ai.php';
 require_once APP_AI_LIB . 'class.AiCfgFactory.php';
 
