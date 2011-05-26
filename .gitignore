@@ -1,3 +1,5 @@
 # Netbeans project folder
 nbproject/
 
+# configuration file
+_cfg.php
