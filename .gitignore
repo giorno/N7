@@ -3,3 +3,6 @@ nbproject/
 
 # configuration file
 _cfg.php
+
+# framework link
+page/inc/chassis
