@@ -1,0 +1,18 @@
+# turn off Magic Quotes, security has to be handled by application
+php_flag magic_quotes_gpc Off
+
+# mod_rewrite (SEF)
+RewriteEngine on
+
+# /inc/
+RewriteRule ^inc/(.*) inc/$1 [L]
+RewriteRule ^([a-zA-Z_\.]+)/inc/(.*) inc/$2 [L]
+RewriteRule ^([a-zA-Z_\.]+)/([a-zA-Z_\.]+)_([a-zA-Z0-9_\.]+)/inc/(.*) inc/$4 [L]
+RewriteRule ^([a-zA-Z_\.]+)/([a-zA-Z_\.]+)_([a-zA-Z0-9_\.]+)/([a-zA-Z]+)_([a-zA-Z0-9]+)/inc/(.*) inc/$6 [L]
+RewriteRule ^([a-zA-Z_\.]+)/([a-zA-Z_\.]+)_([0-9]+)/([a-zA-Z_\.]+)_([a-zA-Z_\.]+)/inc/(.*) inc/$6 [L]
+
+# ajax.php thru actions
+RewriteRule ^([a-zA-Z_\.]+)/(.*)\.php $2\.php [L]
+
+# actions, languages, etc.
+RewriteRule ^([a-zA-Z_\.]+)/ ?app=$1 [L]

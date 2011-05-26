@@ -1,0 +1,21 @@
+{* HTML code for the Clock web widget *}
+<td class="_wwg">
+	<div id="wwgClock">
+		<table cellspacing="0">
+			<tr>
+				<td class="cwwgClockContent" height="100%">
+					<table cellspacing="0">
+						<tr>
+							<td align="right"><div id="wwgClockTime">{$WWG_CLOCK_DT.time.C}</div></td>
+						</tr>
+						<tr><td height="4"></td></tr>
+						<tr>
+							<td nowrap="nowrap"><div id="wwgClockDate">{$WWG_CLOCK_DT.date.C}</div></td>
+						</tr>
+					</table>
+				</td>
+				<td><img alt="{$GTDMESSAGES.altClock}" id="wwgClockImg" src="./inc/signed/_wwg.Clock.img/{$WWG_CLOCK_DT.time.zb}{$WWG_CLOCK_DT.time.m}.png"></td>
+			</tr>
+		</table>
+	</div>
+</td>

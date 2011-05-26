@@ -1,0 +1,20 @@
+._wwgLicense
+{
+	line-height:			150%;
+	padding:				0px;
+	margin:					0px;
+	padding-left:			16px;
+	padding-right:			16px;
+	margin-bottom:			12px;
+	text-align:				justify;
+}
+
+span._wwgLicenseName
+{
+	font-size:				18px;
+	font-weight:			bold;
+}
+#wwgLicenseDlg
+{
+	width:					512px;
+}

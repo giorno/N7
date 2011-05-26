@@ -1,0 +1,73 @@
+{* Template rendering content of Installer tab component *}
+
+
+			<td class="_uicmp_body_frm">
+				<table width="100%" cellspacing="0" cellpadding="0">
+					<tr>
+						<td class="_uicmp_frm_prompt">{$APP_INST_MSG.url}</td>
+						<td width="100%" class="_uicmp_frm_field">
+							<table cellspacing="0" cellpadding="0" width="100%">
+								<tr>
+									<td class="_uicmp_fri">
+										<select id="{$USR_UICMP_CMP->getHtmlId()}.schema">
+											<option value="http">http://</option>
+											<option value="https">https://</option>
+										</select>
+									</td>
+									<td width="100%">
+										<input type="text" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.path">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="_uicmp_frm_prompt"></td>
+						<td class="_uicmp_frm_field">
+							<table  cellspacing="0" cellpadding="0">
+								<tr>
+									<td class="_uicmp_gi_chk">
+										<input id="{$USR_UICMP_CMP->getHtmlId()}.modrw" type="checkbox">
+									</td>
+									<td class="_uicmp_gi_chk"><div class="_uicmp_blue" id="{$USR_UICMP_CMP->getHtmlId()}.pEnabled" onClick="document.getElementById('{$USR_UICMP_CMP->getHtmlId()}.modrw').click();">{$APP_INST_MSG.modrw}</div></td>
+								</tr>
+							</table
+						</td>
+					</tr>
+					<tr>
+						<td class="_uicmp_frm_prompt">{$APP_INST_MSG.tz}</td>
+						<td class="_uicmp_frm_field">
+							<select id="{$USR_UICMP_CMP->getHtmlId()}.tz">
+								{foreach from=$USR_UICMP_CMP->getZones() key=id item=zone}
+								<option {if $id==$USR_UICMP_CMP->getZone()}selected="selected" {/if}value="{$id}">{$zone.display}</option>
+								{/foreach}
+							</select>
+						</td>
+					</tr>
+					{*<tr><td colspan="2" class="_uicmp_frm_hdr"><div class="_uicmp_frm_hdr_cap">{$APP_INST_MSG.root}</div></td></tr>*} 
+					<tr><td colspan="2" class="_uicmp_frm_hdr_vsp"></td></tr>
+					<tr>
+
+						<td colspan="2" class="_uicmp_frm_hdr"><div class="_uicmp_frm_hdr_cap">{$APP_INST_MSG.root}</div></td>
+					</tr>
+					<tr><td colspan="2" class="_uicmp_frm_hdr_vsp"></td></tr>
+					<tr>
+						<td class="_uicmp_frm_prompt">{$APP_INST_MSG.login}</td>
+						<td width="100%" class="_uicmp_frm_field">
+							<input type="text" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.login">
+						</td>
+					</tr>
+					<tr>
+						<td class="_uicmp_frm_prompt">{$APP_INST_MSG.password}</td>
+						<td class="_uicmp_frm_field">
+							<input type="password" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.password">
+						</td>
+					</tr>
+					<tr>
+						<td class="_uicmp_frm_prompt">{$APP_INST_MSG.email}</td>
+						<td class="_uicmp_frm_field">
+							<input type="text" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.email">
+						</td>
+					</tr>
+				</table>
+			</td>

@@ -1,0 +1,25 @@
+{* Main renderer for Installer *}
+{include file='x_head.html'}
+
+<body onLoad="{if USR_APPS_REGISTRY}{USR_APPS_REGISTRY->getOnLoad assign='onLoadCode'}{$onLoadCode}{/if}">
+	<table cellspacing="0" width="100%" class="N7H100P">
+		<tr>
+			<td height="15%" colspan="3" class="_uicmp_layout"></td>
+		</tr>
+		<tr>
+			<td class="_uicmp_login_gap"></td>
+			<td style="min-width:512px;" class="_uicmp_layout">
+				{if $APP_INST_CTRL}
+					{assign var='USR_UICMP_LAYOUT' value=$APP_INST_CTRL}
+					{include file="$CHASSIS_UI_UICMP/layout.html"}
+				{/if}
+			</td>
+			<td class="_uicmp_login_gap"></td>
+		</tr>
+		<tr>
+			<td height="85%" colspan="3"></td>
+		</tr>
+	</table>
+</body>
+
+</html>

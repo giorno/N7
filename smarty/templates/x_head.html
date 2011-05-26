@@ -1,0 +1,69 @@
+{* Beginning of HTML content, de-facto header *}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Language" content="{$N7_MSG.code}">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Cache-Control" content="post-check=0, pre-check=0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<title>{if $N7_NICKNAME}{$N7_NICKNAME}{else}{$N7_MSG.title}{/if}</title>
+	<meta name="author" content="giorno">
+	<meta name="copyright" content="(c) 2008 - 2011 Ján Staník">
+	<meta name="description" content="{$N7_MSG.desc}">
+	<meta name="keywords" content="{$N7_MSG.keywords}">
+	<meta name="revisit-after" content="1 Day">
+	<link rel="icon" type="image/png" href="inc/img/favicon.png">
+	<link rel="stylesheet" type="text/css" href="inc/css/n7.css">
+	<link rel="stylesheet" type="text/css" href="inc/chassis/css/_wwg.css">
+	<link rel="stylesheet" type="text/css" href="inc/chassis/css/_sd.css">
+	<link rel="stylesheet" type="text/css" href="inc/chassis/3rd/textarearesizer.css">
+	<script type="text/javascript" src="inc/chassis/3rd/selection.js"></script>
+	<script type="text/javascript" src="inc/chassis/3rd/prototype.js"></script>
+	<script type="text/javascript" src="inc/chassis/3rd/browserdetect.js"></script>
+	<script type="text/javascript" src="inc/chassis/3rd/sprintf.js"></script>
+	<script type="text/javascript" src="inc/chassis/js/wa.js"></script>
+	<script type="text/javascript" src="inc/chassis/js/_srv.js"></script>
+	<script type="text/javascript" src="inc/chassis/js/_sd.js"></script>
+	<script type="text/javascript" src="inc/chassis/js/_wdg.js"></script>
+	<script type="text/javascript" src="inc/chassis/3rd/getheight.js"></script>
+	<script type="text/javascript" src="inc/chassis/3rd/caret.js"></script>
+	<script type="text/javascript" src="inc/chassis/3rd/textarearesizer.js"></script>
+	{if USR_APPS_REGISTRY}
+		{USR_APPS_REGISTRY->getExecutedId assign='executedId'}
+		{assign var='executedId' value=$executedId scope='global'}
+		{USR_APPS_REGISTRY->getCss assign='cssLinks'}
+		{USR_APPS_REGISTRY->getCssPlain assign='cssPlain'}
+		{USR_APPS_REGISTRY->getJs assign='jsLibs'}
+		{USR_APPS_REGISTRY->getJsPlain assign='jsPlain'}
+		{USR_APPS_REGISTRY->getBodyChildren assign='bodyChildren'}
+		{assign var='bodyChildren' value=$bodyChildren scope='global'}
+		
+	{foreach from=$jsLibs key=file item=comment}
+<script type="text/javascript" src="{$file}?{$USR_APPS_MAGIC}"></script><!-- {$comment} -->
+	{/foreach}
+{if $jsPlain}
+<script type="text/javascript">{$jsPlain}</script>
+{/if}
+
+	{foreach from=$cssLinks key=file item=comment}
+<link rel="stylesheet" type="text/css" href="{$file}?{$USR_APPS_MAGIC}"></script><!-- {$comment} -->
+	{/foreach}
+	
+{if $cssPlain}
+<style>
+{$cssPlain}
+</style>
+{/if}
+	{USR_APPS_REGISTRY->getById id=$executedId assign='executedApp'}
+	{assign var='executedApp' value=$executedApp scope='global'}
+		{if $executedApp}
+			{assign var=path value=$executedApp->getHeadTemplatePath()}
+			{if $path}
+				{include file=$path}
+			{/if}
+		{/if}
+	{/if}
+</head>
+

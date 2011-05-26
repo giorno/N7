@@ -1,0 +1,29 @@
+/**
+ * Stylesheet for AI application.
+ */
+
+div._ai_ico_d,div._ai_ico_e
+{
+	margin:							0px;
+	padding:						0px;
+	float:							right;
+	/*border:							1px solid #000000;*/
+	background:						url(./_list_ico_d_off.gif) no-repeat center center;
+	height:							16px;
+	width:							16px;
+	min-height:						16px;
+	min-width:						16px;
+	cursor:							pointer;
+}
+div._ai_ico_e
+{
+	background:						url(./_list_ico_d_on.gif) no-repeat center center;
+}
+div._ai_ico_d:hover
+{
+	background:						url(./_list_ico_d_on.gif) no-repeat center center;
+}
+div._ai_ico_e:hover
+{
+	background:						url(./_list_ico_e_on.gif) no-repeat center center;
+}

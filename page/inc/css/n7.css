@@ -1,0 +1,180 @@
+
+/**
+ * @file n7.css
+ * @author giorno
+ * @package N7
+ *
+ * Global stylesheet for solution.
+ */
+ 
+html
+{
+	height:							100%;
+	margin:							0px;
+	overflow-y:						scroll;			/* FF hack to have vertical scrollbar always present */
+}
+
+body
+{
+	margin:							0px;
+	background-color:				#99bbdd;
+	/*background-color:				#89abcd;*/
+	height:							100%;
+	_height:							auto;
+}
+
+body,td,input,select
+{
+	font-family:					Arial, Helvetica, Tahoma, Verdana, Sans-serif;
+	font-size:						12px;
+	vertical-align:					top;
+}
+
+input,select
+{
+	font-size:						12px;
+	padding:						1px;
+}
+tbody
+{
+	margin:							0px;
+	padding:						0px;
+}
+table
+{
+	border-spacing:					0px;
+}
+
+td
+{
+	padding:						0px;
+}
+
+table.N7H100P,td.N7H100P
+{
+	height:							100%;
+}
+
+/* For tabs content layout */
+div
+{
+	float:							left;
+}
+
+acronym
+{
+	cursor:							help;
+}
+
+a
+{
+	text-decoration:				none;
+	color:							#003387;	/* should be consistent with framework colors */
+	cursor:							pointer;
+}
+a:hover
+{
+	text-decoration:				underline;
+}
+
+/* Container for application specific content */
+td#n7_app_container
+{
+	padding-bottom:					16px;
+}
+
+/* Application icons stylesheet */
+td.n7_appicon_active
+{
+	border-top:						1px solid #e7e7e7;
+	border-bottom:					1px solid #e7e7e7;
+	background-color:				#e7e7e7;
+}
+div.n7_appicon_active_l,div.n7_appicon_active_r,div.n7_appicon_inactive_l,div.n7_appicon_inactive_r
+{
+	background:						url(../img/n7_app_a.gif) no-repeat top left;
+	width:							8px;
+	height:							26px;
+}
+div.n7_appicon_active_r
+{
+	background:						url(../img/n7_app_a.gif) no-repeat top right;
+}
+td.n7_appicon_inactive
+{
+	background-color:				#598bad;
+}
+div.n7_appicon_inactive_l,div.n7_appicon_inactive_r
+{
+	background:						url(../img/n7_app_ia.gif) no-repeat top left;
+
+}
+div.n7_appicon_inactive_r
+{
+	background:						url(../img/n7_app_ia.gif) no-repeat top right;
+}
+
+/* Applications tabs */
+td.n7_appicon_active_cap,td.n7_appicon_inactive_cap
+{
+	vertical-align:					middle;
+	padding-left:					4px;
+	padding-right:					4px;
+	font-size:						12px;
+	color:							#ffffff;
+}
+td.n7_appicon_active_cap
+{
+	font-weight:					bold;
+	color:							#000000;
+}
+div.n7_appicon_inactive,div.n7_appicon_active
+{
+	cursor:							pointer;
+	margin-bottom:					2px;
+	margin-right:					4px;
+}
+
+/* Container for application tabs */
+td.n7_appicon
+{
+	vertical-align:					bottom;
+}
+
+/* 16px high separator field */
+td.N716pxH
+{
+	padding-left:			8px;
+	padding-right:			8px;
+	height:					16px;
+	padding-top:			2px;
+	color:					#878787;
+}
+
+/* Container for footer info (copyright etc.) and/or anchors for tabs */
+td.n7_pool_foot
+{
+	text-align:						left;
+	padding-left:					16px;
+	padding-right:					16px;
+	padding-bottom:					16px;
+	padding-top:					16px;
+	border-top:						1px dashed #e7e7e7;
+}
+
+/* Icon badge for first menu item */
+div.n7_icon
+{
+	padding:						0px;
+	padding-left:					8px;
+	padding-right:					8px;
+	border-width:					1px;
+	border-color:					#99bbdd;
+	border-style:					solid;
+	color:							#000000;
+	background-color:				#99bbdd;
+	-moz-border-radius:				3px;
+	-webkit-border-radius:			3px;
+	border-radius:					3px;
+	margin-right:					12px;
+}

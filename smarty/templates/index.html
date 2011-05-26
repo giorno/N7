@@ -1,0 +1,125 @@
+{include file='x_head.html'}
+
+<body onLoad="{if USR_APPS_REGISTRY}{USR_APPS_REGISTRY->getOnLoad assign='onLoadCode'}{$onLoadCode}{/if}_wdg_create( );">
+	<table cellspacing="0" width="100%" class="N7H100P">
+		<tr>
+			<td class="_uicmp_layout _wwgMenu">
+				{* POOL_MENU *}
+				<table width="100%" cellspacing="0" width="100%">
+					<tr>
+						<td class="_wwg"><div class="n7_icon">{$N7_NICKNAME}</div></td>
+						{if MFW_OBJ_WWG_REGISTRY}
+							{MFW_OBJ_WWG_REGISTRY->getFirst pool='MFW_POOL_MENU' assign='wdg'}
+							{while $wdg}
+								{assign var=template value=$wdg->getTemplate()}
+									{include file=$template}
+								{MFW_OBJ_WWG_REGISTRY->getNext assign='wdg'}
+							{/while}
+						{/if}
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+		{* rendering applications icons *}
+		{if USR_APPS_REGISTRY}
+		<tr>
+			<td class="_uicmp_layout _wwgMenu">
+				{USR_APPS_REGISTRY->getFirst assign='app'}
+				{if $app}
+				<table cellspacing="0" cellpadding="0">
+					<tr>
+					{while $app}
+						{assign var=icon value=$app->icon()}
+						{if $icon}
+						<td class="n7_appicon">
+						
+							{if $executedId==$icon.id}
+							<div onClick="window.location = '{$N7_URL->myUrl($icon.id)}';" class="n7_appicon_active">
+								<table cellspacing="0">
+									<tr>
+										<td><div class="n7_appicon_active_l"></div></td>
+										<td nowrap="nowrap" class="n7_appicon_active n7_appicon_active_cap"><span id="app{$icon.id}.icoTxt">{$icon.title}</span></td>
+										<td><div class="n7_appicon_active_r"></div></td>
+									</tr>
+								</table>
+							</div>
+							{else}
+							<div onClick="window.location = '{$N7_URL->myUrl($icon.id)}';" class="n7_appicon_inactive">
+								<table cellspacing="0">
+									<tr>
+										<td><div class="n7_appicon_inactive_l"></div></td>
+										<td nowrap="nowrap" class="n7_appicon_inactive n7_appicon_inactive_cap"><span id="app{$icon.id}.icoTxt">{$icon.title}</span></td>
+										<td><div class="n7_appicon_inactive_r"></div></td>
+									</tr>
+								</table>
+							</div>
+							{/if}
+						</td>
+						{/if}
+						{USR_APPS_REGISTRY->getNext assign='app'}
+					{/while}
+					</tr>
+				</table>
+				{/if}	
+			</td>
+		</tr>
+		{/if}
+		<tr>
+			<td id="n7_app_container" width="100%" class="N7H100P">
+				{if $executedApp}
+					{assign var=path value=$executedApp->getIndexTemplatePath()}
+					{if $path}
+						{include file=$path}
+					{/if}
+				{/if}
+			</td>
+		</tr>
+		<tr>
+			<td class="n7_pool_foot">
+				<table cellspacing="0" width="100%">
+					<tr>
+						<td>
+							{* POOL_BOTTOM *}
+							<table cellspacing="0" width="100%">
+								<tr>
+									{if MFW_OBJ_WWG_REGISTRY}
+										{MFW_OBJ_WWG_REGISTRY->getFirst pool='MFW_POOL_BOTTOM' assign='wdg'}
+										{while $wdg}
+											{assign var=template value=$wdg->getTemplate()}
+												{include file=$template}
+											{MFW_OBJ_WWG_REGISTRY->getNext assign='wdg'}
+										{/while}
+									{/if}
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							{* POOL_FOOTER *}
+							<table cellspacing="0" width="100%">
+								<tr>
+									{if MFW_OBJ_WWG_REGISTRY}
+										{MFW_OBJ_WWG_REGISTRY->getFirst pool='MFW_POOL_FOOTER' assign='wdg'}
+										{while $wdg}
+											{assign var=template value=$wdg->getTemplate()}
+												{include file=$template}
+											{MFW_OBJ_WWG_REGISTRY->getNext assign='wdg'}
+										{/while}
+									{/if}
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	{foreach from=$bodyChildren key=file item=comment}
+	<!-- {$comment} -->
+		{include file="$file"}
+	{/foreach}
+</body>
+
+</html>

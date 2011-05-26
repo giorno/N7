@@ -1,0 +1,14 @@
+{* Renderer of AI app UI *}
+
+<table width="100%" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="_uicmp_layout_gap"></td>
+		<td class="_uicmp_layout">
+			{if $APP_AI_LAYOUT}
+				{assign var='USR_UICMP_LAYOUT' value=$APP_AI_LAYOUT}
+				{include file="$CHASSIS_UI_UICMP/layout.html"}
+			{/if}
+		</td>
+		<td class="_uicmp_layout_gap"></td>
+	</tr>
+</table>

@@ -1,0 +1,44 @@
+/* Extension of framework's stlesheet for UICMP, styles for login form */
+
+td._uicmp_login_body
+{
+	padding-top:			4px;
+}
+
+td._uicmp_login_gap
+{
+	border-top:				36px solid #89abcd;
+	width:					50%;
+}
+td._uicmp_login_field,td._uicmp_login_prompt,td._uicmp_login_message
+{
+	padding:				12px;
+	padding-top:			4px;
+	padding-bottom:			4px;
+}
+/* To prevent visual layout from changing when message is displayed */
+td._uicmp_login_message div
+{
+	white-space:			normal;
+}
+td._uicmp_login_field
+{
+	width:					100%;
+}
+
+select._uicmp_login_field
+{
+	width:					100%;
+}
+
+td._uicmp_login_prompt
+{
+	padding-right:			0px;
+	text-align:				right;
+	vertical-align:			middle;
+	white-space:			nowrap;
+}
+td._uicmp_login_bt
+{
+	vertical-align:			middle;
+}
