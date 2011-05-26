@@ -56,8 +56,6 @@ include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 		 *       namespace of tSettings
 		 */
 		include N7_SOLUTION_APPS . 'branding/_idx.php';
-		include N7_SOLUTION_APPS . 'stuff/_idx.php';
-		//include N7_SOLUTION_APPS . 'addressbook/_idx.php';
 		include N7_SOLUTION_APPS . 'signed/_idx.php';
 		include N7_SOLUTION_APPS . 'ai/_idx.php';
 		include N7_SOLUTION_APPS . 'account/_idx.php';
@@ -68,7 +66,7 @@ include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 		 */
 		$spacer = new Spacer( );
 		_wwg_registry::getInstance( )->register( _wwg_registry::POOL_BOTTOM, $spacer->getId( ), $spacer );
-		_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_BOTTOM, Array( Goals::ID, $spacer->getId( ), Clock::ID ) );
+		_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_BOTTOM, Array( $spacer->getId( ), Clock::ID ) );
 
 		/**
 		 * Enforce layout for MENU pool.

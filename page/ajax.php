@@ -16,7 +16,6 @@ require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 error_reporting( E_ERROR);
 require_once N7_SOLUTION_LIB . 'libtz.php';
-require_once N7_SOLUTION_APPS . 'stuff/_cfg.php';
 
 require_once CHASSIS_LIB . 'apps/_app_registry.php';
 
@@ -35,7 +34,6 @@ if ( _session_wrapper::getInstance( )->isSigned( ) === true )
 	 *        and call _reg.php in each of them
 	 */
 	include N7_SOLUTION_APPS . 'signed/_ajx.php';		// must be first to become fallback Ajax interface
-	include N7_SOLUTION_APPS . 'stuff/_ajx.php';
 	include N7_SOLUTION_APPS . 'ai/_ajx.php';
 	include N7_SOLUTION_APPS . 'account/_ajx.php';
 	
@@ -48,19 +46,6 @@ else
 }
 
 _app_registry::getInstance()->exec( $_POST['app'] );
-
-/*
- * Regardless signed or not.
- */
-switch ( $_POST['action'] )
-{
-	case 'latestOfBlog':
-		require_once N7_SOLUTION_LIB . 'class.GtdUsability.php';
-		$__SMARTY->assign( 'LATEST', GtdUsability::LastPodcast( $__msgGtd['urlBlogFeed'], false ) );
-		$__SMARTY->assign( 'BLOGURL', $__BLOGS[n7_globals::lang( )] );
-		$__SMARTY->display( N7_SOLUTION_ROOT . 'smarty/templates/x_latestofblog.html' );
-	break;
-}
 
 _db_close();
 
