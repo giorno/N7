@@ -10,6 +10,7 @@
  */
 
 require_once CHASSIS_3RD . 'EmailAddressValidator.php';
+require_once CHASSIS_LIB . 'list/_list_empty.php';
 
 require_once APP_AI_LIB . '_app.Ai.php';
 require_once APP_AI_LIB . 'class.AiUsers.php';
