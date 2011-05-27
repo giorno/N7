@@ -63,8 +63,6 @@ class AiUsers extends AiUser
 		{
 			case self::F_EMAIL:break;
 			case self::F_LOGIN:
-				//$wc = "AND `" . self::F_LOGIN . "` LIKE \"" . _db_escape( $order ) . "\"";
-				//$oc = "ORDER BY `" . self::F_LOGIN . "` " . _db_escape( $dir );
 			break;
 		
 			/**
@@ -131,7 +129,7 @@ class AiUsers extends AiUser
 																			'',
 																			null,
 																			'',
-																			$ue_js_var . ".modify( " . $row[self::F_UID] . ", '" . Wa::JsStringEscape( $row[self::F_LOGIN] ) . "', '" . Wa::JsStringEscape( $row[self::F_EMAIL] ) . "', " . ( ( (int)$row[self::F_ENABLED] == 1 )? 'true' : 'false' ) . " );" ),
+																			( ( self::isRoot( $row[self::F_UID] ) )	? null : $ue_js_var . ".modify( " . $row[self::F_UID] . ", '" . Wa::JsStringEscape( $row[self::F_LOGIN] ) . "', '" . Wa::JsStringEscape( $row[self::F_EMAIL] ) . "', " . ( ( (int)$row[self::F_ENABLED] == 1 )? 'true' : 'false' ) . " );" ) ),
 														_list_cell::MAN_DECO ),
 							
 										new _list_cell(	_list_cell::Text(	$row[self::F_EMAIL] ) ),
