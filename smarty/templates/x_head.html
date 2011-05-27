@@ -8,7 +8,7 @@
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 	<meta http-equiv="Cache-Control" content="post-check=0, pre-check=0">
 	<meta http-equiv="Pragma" content="no-cache">
-	<title>{if $N7_NICKNAME}{$N7_NICKNAME}{else}{$N7_MSG.title}{/if}</title>
+	<title>{if isset($N7_NICKNAME)}{$N7_NICKNAME}{else}{$N7_MSG.title}{/if}</title>
 	<meta name="author" content="giorno">
 	<meta name="copyright" content="(c) 2008 - 2011 Ján Staník">
 	<meta name="description" content="{$N7_MSG.desc}">
