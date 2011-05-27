@@ -23,7 +23,7 @@ require_once N7_SOLUTION_ROOT . '_cfg.php';
 /**
  * Loading other required resources.
  */
-require_once N7_FRAMEWORK_ROOT . 'cfg/config.php';
+require_once N7_FRAMEWORK_ROOT . '/cfg/config.php';
 
 /**
  * Setup Smarty wrapper defaults.
