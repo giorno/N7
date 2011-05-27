@@ -10,9 +10,14 @@ require_once CHASSIS_LIB . 'libfw.php';
  * 
  * User details handling routines.
  */
-
 class AiUser extends Config
 {
+	/**
+	 * Checks if user with given ID is root (an administrator) or not.
+	 * 
+	 * @param int $uid user ID
+	 * @return bool
+	 */
 	public static function isRoot ( $uid )
 	{
 		if ( (int)$uid == 1 )
@@ -21,6 +26,12 @@ class AiUser extends Config
 			return false;
 	}
 	
+	/**
+	 * Toggle ENABLED flag. Must not be performed for root user(s).
+	 * 
+	 * @param int $uid user ID
+	 * @return bool 
+	 */
 	public static function toggle ( $uid )
 	{
 		if ( self::isRoot( $uid ) )
@@ -74,6 +85,12 @@ class AiUser extends Config
 		}
 	}
 	
+	/**
+	 * Checks if login already exists in the table.
+	 * 
+	 * @param string $login user account login
+	 * @return bool 
+	 */
 	public static function exists ( $login )
 	{
 		return ( (int)_db_1field( "SELECT COUNT(*) FROM `" . self::T_USERS . "` WHERE `" . self::F_LOGIN . "` = \"" . _db_escape( /*trim*/( $login ) ) . "\"" ) > 0 );
@@ -91,9 +108,15 @@ class AiUser extends Config
 	 */
 	public static function passOk ( $pass )
 	{
-		return ( strlen( /*trim*/( $pass ) ) >= 4 );
+		return ( strlen( ( $pass ) ) >= 4 );
 	}
 	
+	/**
+	 * Checks if login value has valid format.
+	 * 
+	 * @param string $login user account login
+	 * @return bool 
+	 */
 	public static function loginOk ( $login )
 	{
 		if ( trim( $login ) == '' )
