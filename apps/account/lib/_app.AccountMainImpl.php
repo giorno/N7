@@ -15,7 +15,7 @@ require_once N7_SOLUTION_LIB . 'sem/sem_atom.php';
 require_once N7_SOLUTION_LIB . 'sem/sem_collection.php';
 
 require_once ACCTAB_LIB . '_app.Account.php';
-require_once ACCTAB_LIB . '_vcmp_sem.php';
+require_once ACCTAB_LIB . 'uicmp/_vcmp_sem.php';
 
 class AccountMainImpl extends Account implements SemProvider
 {
@@ -37,8 +37,8 @@ class AccountMainImpl extends Account implements SemProvider
 	protected function __construct ( )
 	{
 		parent::__construct( );
-		$this->indexTemplatePath = ACCTAB_TEMPLATES . 'index.html';
-		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'APP_ACCOUNT_TEMPLATES', ACCTAB_TEMPLATES );
+		$this->indexTemplatePath = ACCTAB_UI . 'index.html';
+		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'APP_ACCOUNT_TEMPLATES', ACCTAB_UI );
 	}
 
 	public function exec ( )

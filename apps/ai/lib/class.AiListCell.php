@@ -8,7 +8,6 @@
  *
  * Custom methods and constants for application AI.
  */
-
 class AiListCell
 {
 	/**
@@ -20,7 +19,6 @@ class AiListCell
 	 * Icon for disabled user.
 	 */
 	const MAN_AI_USR_D        = 'manAiUserDisabled';
-
 }
 
 ?>

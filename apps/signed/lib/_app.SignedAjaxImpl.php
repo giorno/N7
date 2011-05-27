@@ -50,30 +50,6 @@ class SignedAjaxImpl extends Signed
 			break;
 
 			/*
-			 * Load Timezone Ui for changing Tz.
-			 */
-		/*	case 'tzLoadUi':
-				require_once N7_SOLUTION_LIB . 'n7_timezone.php';
-				$TzHndl = new n7_timezone( );
-				$__SMARTY->assign( 'ZONES', $TzHndl->All(  ) );
-				$__SMARTY->assign( 'ACT', n7_globals::settings( )->RealTz(  ) );
-				$__SMARTY->display( N7_SOLUTION_ROOT . 'smarty/templates/x_tzfrm.html' );
-			break;*
-
-			/*
-			 * Set new timezone and send widget to client.
-			 */
-			/*case 'tzSet':
-				n7_globals::settings( )->SaveOne( 'TimeZone', $_POST['zone'] );
-				n7_globals::settings( )->Load( );
-				require_once N7_SOLUTION_LIB . 'n7_timezone.php';
-				$TzHndl = new n7_timezone( n7_globals::settings( )->RealTz( ) );
-				$__SMARTY->assign( 'ZONEINFO', $TzHndl->ActualZoneInfo( ) );
-				$__SMARTY->assign( 'RELOADBT', true );
-				$__SMARTY->display( N7_SOLUTION_ROOT . 'smarty/templates/x_tzinfo.html' );
-			break;*/
-
-			/*
 			 * Provide structured datetime information in XML format. Used
 			 * for clock and calendar leaf.
 			 */
