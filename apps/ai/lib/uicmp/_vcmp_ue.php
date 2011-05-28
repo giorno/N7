@@ -76,7 +76,7 @@ class _vcmp_ue extends _vcmp_comp
 		$buttons = new _uicmp_buttons( $this->parent->getHead( ), $this->parent->getHead( )->getId( ) . '.Buttons' );
 				$buttons->add( new _uicmp_gi( $buttons, $buttons->getId( ) . '.Back', _uicmp_gi::IT_A, $this->messages['ue']['btBack'], $this->parent->getLayoutJsVar( ) . '.back( );', '_uicmp_gi_back' ) );
 				$buttons->add( new _uicmp_gi( $buttons, $buttons->getId( ) . '.S1', _uicmp_gi::IT_TXT, '|' ) );
-				$buttons->add( $this->bt = new _uicmp_gi( $buttons, $buttons->getId( ) . '.Save', _uicmp_gi::IT_BT, $this->messages['ue']['btSave'], $this->ue->getJsVar() . '.save( );' ) );
+				$buttons->add( $this->bt = new _uicmp_gi( $buttons, $buttons->getId( ) . '.Save', _uicmp_gi::IT_BT, $this->messages['ue']['btCreate'], $this->ue->getJsVar() . '.save( );' ) );
 				$this->ind = new _uicmp_gi_ind( $buttons, $buttons->getId( ) . '.Ind', _uicmp_gi::IT_IND, $this->messages['ue']['i'] );
 					$buttons->add( $this->ind );
 				$this->parent->getHead( )->add( $buttons );
