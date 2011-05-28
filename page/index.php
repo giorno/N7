@@ -14,7 +14,7 @@ require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 
-error_reporting( E_ERROR );
+error_reporting( E_ALL );
 
 /**
  * Initialize Menhir framework.
@@ -55,10 +55,11 @@ include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 		 *       and call _reg.php in each of them or define order in G
 		 *       namespace of tSettings
 		 */
-		include N7_SOLUTION_APPS . 'branding/_idx.php';
-		include N7_SOLUTION_APPS . 'signed/_idx.php';
+		
 		include N7_SOLUTION_APPS . 'ai/_idx.php';
 		include N7_SOLUTION_APPS . 'account/_idx.php';
+		include N7_SOLUTION_APPS . 'branding/_idx.php';
+		include N7_SOLUTION_APPS . 'signed/_idx.php';
 		_app_registry::getInstance( )->exec( $__APP );
 
 		/**
