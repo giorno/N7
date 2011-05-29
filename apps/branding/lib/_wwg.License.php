@@ -1,18 +1,21 @@
 <?php
 
-/**
- * @file _wwg.License.php
- * @author giorno
- *
- * Widget displaying legal information about the product.
- *
- * @todo prevent dialog with license to prolongue main window, use internal scrolling instead
- */
 
 require_once CHASSIS_LIB . 'apps/_app_registry.php';
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
 
+/**
+ * @file _wwg.License.php
+ * @author giorno
+ * @package N7
+ * @subpackage Branding
+ * @license Apache License, Version 2.0, see LICENSE file
+ *
+ * Widget displaying legal information about the product.
+ *
+ * @todo create AUTHORS badge displaying contributors
+ */
 class License extends Wwg
 {
 	const ID = '_wwg.License';
