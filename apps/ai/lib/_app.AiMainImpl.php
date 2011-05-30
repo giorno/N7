@@ -11,10 +11,10 @@
 
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 
-require_once CHASSIS_LIB . 'apps/_wwg.Menu.php';
-require_once CHASSIS_LIB . 'apps/_wwg.MenuItem.php';
-
+require_once N7_SOLUTION_LIB . 'wwg/_wwg.Menu.php';
+require_once N7_SOLUTION_LIB . 'wwg/_wwg.MenuItem.php';
 require_once N7_SOLUTION_LIB . 'n7_requirer.php';
+require_once N7_SOLUTION_LIB . 'n7_ui.php';
 
 require_once APP_AI_LIB . '_app.Ai.php';
 require_once APP_AI_LIB . 'class.AiCfgFactory.php';
@@ -50,7 +50,7 @@ class AiMainImpl extends Ai
 		$url		= n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php';	// Ajax server URL
 		$params		= Array( 'app' => $this->id, 'action' => 'ue' );					// Ajax request parameters
 			
-		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );
+		$this->layout = n7_ui::getInstance( )->getLayout( );
 		$this->layout->createSep( );
 
 			/**
@@ -74,13 +74,10 @@ class AiMainImpl extends Ai
 		$this->layout->createSep( );
 		$this->layout->init( );
 		
-		$this->menu = new Menu( );
-			$this->menu->register(	new MenuItem(	MenuItem::TYPE_JS,
-									$this->messages['riAdd'],
-									$ue->getJsVar( ) . '.create( );',
-									'_wwgMi_b _wwgMi_ico _wwgMi_ico_add' ) );
-
-		_wwg_registry::getInstance( )->register( _wwg_registry::POOL_MENU, $this->menu->getId( ), $this->menu );
+		n7_ui::getInstance( )->getMenu( )->register(	new MenuItem(	MenuItem::TYPE_JS,
+														$this->messages['riAdd'],
+														$ue->getJsVar( ) . '.create( );',
+														'_uicmp_blue' ) );
 
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
 		$smarty->assignByRef( 'APP_AI_LAYOUT', $this->layout );
