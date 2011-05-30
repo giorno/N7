@@ -13,6 +13,7 @@ require_once '../_init.php';
 require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
+require_once N7_SOLUTION_LIB . 'n7_ui.php';
 
 error_reporting( E_ALL );
 
@@ -74,7 +75,7 @@ include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 		 */
 		$spacer = new Spacer( );
 		_wwg_registry::getInstance( )->register( _wwg_registry::POOL_MENU, $spacer->getId( ), $spacer );
-		_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_MENU, Array( Menu::DEFAULT_ID, $spacer->getId( ), LogMeOut::ID ) );
+		_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_MENU, Array( n7_ui::getInstance( )->getMenu( )->getId( ), $spacer->getId( ), LogMeOut::ID ) );
 	}
 	else
 	{

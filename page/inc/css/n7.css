@@ -83,58 +83,6 @@ td#n7_app_container
 	padding-bottom:					16px;
 }
 
-/* Application icons stylesheet */
-td.n7_appicon_active
-{
-	border-top:						1px solid #e7e7e7;
-	border-bottom:					1px solid #e7e7e7;
-	background-color:				#e7e7e7;
-}
-div.n7_appicon_active_l,div.n7_appicon_active_r,div.n7_appicon_inactive_l,div.n7_appicon_inactive_r
-{
-	background:						url(../img/n7_app_a.gif) no-repeat top left;
-	width:							8px;
-	height:							26px;
-}
-div.n7_appicon_active_r
-{
-	background:						url(../img/n7_app_a.gif) no-repeat top right;
-}
-td.n7_appicon_inactive
-{
-	background-color:				#598bad;
-}
-div.n7_appicon_inactive_l,div.n7_appicon_inactive_r
-{
-	background:						url(../img/n7_app_ia.gif) no-repeat top left;
-
-}
-div.n7_appicon_inactive_r
-{
-	background:						url(../img/n7_app_ia.gif) no-repeat top right;
-}
-
-/* Applications tabs */
-td.n7_appicon_active_cap,td.n7_appicon_inactive_cap
-{
-	vertical-align:					middle;
-	padding-left:					4px;
-	padding-right:					4px;
-	font-size:						12px;
-	color:							#ffffff;
-}
-td.n7_appicon_active_cap
-{
-	font-weight:					bold;
-	color:							#000000;
-}
-div.n7_appicon_inactive,div.n7_appicon_active
-{
-	cursor:							pointer;
-	margin-bottom:					2px;
-	margin-right:					4px;
-}
-
 /* Container for application tabs */
 td.n7_appicon
 {
@@ -162,19 +110,147 @@ td.n7_pool_foot
 	border-top:						1px dashed #e7e7e7;
 }
 
-/* Icon badge for first menu item */
-div.n7_icon
+td.n7_main_ctrl
 {
-	padding:						0px;
+	background-color:				#89abcd;
+	
+}
+td.n7_icons
+{
+	border-bottom:					16px solid #89abcd;	/* should be consistent with framework UICMP layout background */
+}
+td.n7_menu
+{
+	background-color:				#e7e7e7;
+	height:							24px;
+	vertical-align:					middle;
+	padding-left:					16px;
+	padding-right:					16px;
+	
+}
+
+/* Applications icons row item */
+td.n7_app_icons_ri
+{
+	/*border-bottom:					1px solid #d7d7d7;*/		/* should be consistent with framework UICMP head deco */
+	min-width:						12px;					/* so it can be used for gap effect */
+	vertical-align:					middle;
+}
+div.n7_app_ico_name
+{
+	font-size:						12px;
+	white-space:					nowrap;
 	padding-left:					8px;
 	padding-right:					8px;
-	border-width:					1px;
-	border-color:					#99bbdd;
-	border-style:					solid;
-	color:							#000000;
-	background-color:				#99bbdd;
-	-moz-border-radius:				3px;
-	-webkit-border-radius:			3px;
-	border-radius:					3px;
-	margin-right:					12px;
+	/*padding-top: 					4px;
+	padding-bottom:					4px;*/
+	color:							#ffffff;
+}
+td.n7_app_ico_act div.n7_app_ico_name
+{
+	font-size:						14px;
+	font-weight:					bold;
+	color:							#444444;
+}
+div.n7_app_ico
+{
+	cursor:							pointer;
+	/*padding-right:					4px;*/
+}
+td.n7_app_ico
+{
+	padding-right:					2px;
+	padding-left:					2px;
+	border-top:						6px solid transparent;
+}
+/* Used in case first app is inactive */
+td.n7_app_ico_1st
+{
+	padding-left:					4px;
+}
+td.n7_app_ico_act
+{
+	padding-right:					0px;
+	padding-left:					0px;
+	border-top:						0px;
+}
+td.n7_app_ico_bg
+{
+	
+}
+td.n7_app_ico_act td.n7_app_ico_bg
+{
+	background-color:				#e7e7e7;
+	/*border-bottom:					1px solid #ffffff;*/
+}
+
+td.n7_app_ico td,td.n7_app_ico_act td
+{
+	min-width:						8px;
+	min-height:						26px;
+	height:							26px;
+	background-color:				#598bad;
+	vertical-align:					middle;
+}
+td.n7_app_ico td.n7_app_ico_l
+{
+	background:						url(../img/n7_app_ia.gif) no-repeat top left;
+}
+td.n7_app_ico td.n7_app_ico_r
+{
+	background:						url(../img/n7_app_ia.gif) no-repeat top right;
+}
+td.n7_app_ico_act td
+{
+	background-color:				#e7e7e7;
+	height:							32px;
+	min-height:						32px;
+}
+td.n7_app_ico_act td.n7_app_ico_l
+{
+	background:						url(../img/n7_app_a.gif) no-repeat top left;
+}
+td.n7_app_ico_act td.n7_app_ico_r
+{
+	background:						url(../img/n7_app_a.gif) no-repeat top right;
+}
+div.n7_mi_txt
+{
+	color:							#444444;
+}
+td.n7_mi
+{
+	padding-right:					8px;
+}
+/* Container of the widget */
+td.n7_wwg
+{
+	white-space:					nowrap;
+	vertical-align:					top;
+}
+/* Separator cell */
+td.n7_wwg_menu_sep
+{
+	padding-left:					8px;
+	padding-right:					8px;
+	color:							#666666;
+}
+/* Style of widgets in POOL_FOOTER */
+td.n7_wwg_footer
+{
+	vertical-align:					bottom;
+	padding-top:					16px;
+}
+
+a.n7_wwg_mi,div.n7_wwg_mi
+{
+	color:							#ffffff;
+	text-decoration:				none;
+	cursor:							pointer;
+	font-weight:					bold;
+}
+a.n7_wwg_mi:hover,div.n7_wwg_mi:hover
+{
+	text-decoration:				underline;
+	color:							#ffffff;
 }
