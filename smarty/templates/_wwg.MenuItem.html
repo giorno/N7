@@ -1,0 +1,6 @@
+{* Template rendering MenuItem web widget *}
+<td class="n7_wwg">
+	{if $item->getType()==MenuItem::TYPE_JS}
+		<div onClick="{$item->getValue()}" class="{$item->getClass()}">{$item->getTitle()}</div>
+	{/if}
+</td>
