@@ -9,7 +9,7 @@
 
 $__msgAcc['tabName']				= 'My Account';
 
-$__msgAcc['sem']['btSave']			= 'Save';
+$__msgAcc['sem']['btSave']			= 'Save settings';
 $__msgAcc['sem']['btReset']			= 'Reload';
 $__msgAcc['sem']['collGlobal']		= 'Global settings';
 $__msgAcc['sem']['aLanguage']		= 'Language';
@@ -20,7 +20,8 @@ $__msgAcc['sem']['saved']			= 'Saved';
 $__msgAcc['sem']['e_unknown']		= 'Error: Unknown error! Contact administrators.';
 $__msgAcc['sem']['e_data']			= 'Error: invalid value!';
 
-$__msgAcc['capSettings']			= 'Settings';
+$__msgAcc['foldSettings']			= 'Settings';
+$__msgAcc['capSettings']			= 'Central management of your account setting';
 
 $__msgAcc['capWishlist']			= 'I want to...';
 

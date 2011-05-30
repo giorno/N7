@@ -8,6 +8,9 @@
  */
 
 require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_title.php';
+
+require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 
 require_once N7_SOLUTION_LIB . 'sem/iface.SemProvider.php';
 require_once N7_SOLUTION_LIB . 'sem/sem.php';
@@ -44,8 +47,10 @@ class AccountMainImpl extends Account implements SemProvider
 	public function exec ( )
 	{
 		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );
+		$this->layout->createSep( );
 		
 			$tab = $this->layout->createTab( $this->id . '.Settings', FALSE );
+				$tab->createFold( $this->messages['foldSettings'] );
 				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['capSettings']) );
 
 				$sem = new _vcmp_sem(	$tab,
@@ -57,6 +62,7 @@ class AccountMainImpl extends Account implements SemProvider
 
 				$tab->addVcmp( $sem );
 
+		$this->layout->createSep( );
 		$this->layout->init( );
 
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );

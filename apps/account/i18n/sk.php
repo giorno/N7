@@ -9,7 +9,7 @@
 
 $__msgAcc['tabName']				= 'Môj účet';
 
-$__msgAcc['sem']['btSave']			= 'Uložiť';
+$__msgAcc['sem']['btSave']			= 'Uložiť nastavenia';
 $__msgAcc['sem']['btReset']			= 'Obnoviť';
 $__msgAcc['sem']['collGlobal']		= 'Globálne nastavenia';
 $__msgAcc['sem']['aLanguage']		= 'Jazyk';
@@ -21,7 +21,10 @@ $__msgAcc['sem']['e_unknown']		= 'Chyba: Neznáma chyba! Kontaktujte správcov.'
 $__msgAcc['sem']['e_data']			= 'Chyba: chybná hodnota!';
 
 $__msgAcc['capWishlist']			= 'Prajem si...';
-$__msgAcc['capSettings']			= 'Nastavenia';
+
+$__msgAcc['foldSettings']			= 'Nastavenia';
+$__msgAcc['capSettings']			= 'Centrálna správa nastavení vášho účtu';
+
 $__msgAcc['capPassword']			= 'Zmeniť heslo';
 $__msgAcc['capInvitation']			= 'Pozvať priateľa';
 $__msgAcc['capWriteUs']				= 'Napísať adminom';

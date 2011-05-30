@@ -3,6 +3,9 @@
 
 
 require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_gi.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_gi_ind.php';
 
 require_once ACCTAB_LIB . 'uicmp/_uicmp_sem.php';
 
