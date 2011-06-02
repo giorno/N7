@@ -1,5 +1,6 @@
 {* Main template for the solution.
  *
+ * @file index.html
  * @author giorno
  * @package N7
  * @license Apache License, Version 2.0, see LICENSE file
@@ -60,10 +61,6 @@
 								</tr>
 							</table>
 						</td>
-						<td>
-							
-						</td>
-						
 					</tr>
 					{/if}
 					<tr>
@@ -81,6 +78,23 @@
 						{include file=$path}
 					{/if}
 				{/if}
+			</td>
+		</tr>
+		<tr>
+			<td class="n7_foot_hdr">
+				{* POOL_FOOTER *}
+							<table cellspacing="0" width="100%">
+								<tr>
+									{if MFW_OBJ_WWG_REGISTRY}
+										{MFW_OBJ_WWG_REGISTRY->getFirst pool='MFW_POOL_FOOTER' assign='wdg'}
+										{while $wdg}
+											{assign var=template value=$wdg->getTemplate()}
+												{include file=$template}
+											{MFW_OBJ_WWG_REGISTRY->getNext assign='wdg'}
+										{/while}
+									{/if}
+								</tr>
+							</table>
 			</td>
 		</tr>
 		<tr>
@@ -103,10 +117,10 @@
 							</table>
 						</td>
 					</tr>
-					<tr>
-						<td>
+					{*<tr>
+						<td>*}
 							{* POOL_FOOTER *}
-							<table cellspacing="0" width="100%">
+							{*<table cellspacing="0" width="100%">
 								<tr>
 									{if MFW_OBJ_WWG_REGISTRY}
 										{MFW_OBJ_WWG_REGISTRY->getFirst pool='MFW_POOL_FOOTER' assign='wdg'}
@@ -119,7 +133,7 @@
 								</tr>
 							</table>
 						</td>
-					</tr>
+					</tr>*}
 				</table>
 			</td>
 		</tr>
