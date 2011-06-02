@@ -16,6 +16,8 @@ require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
 require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
 
+require_once N7_SOLUTION_LIB . 'n7_requirer.php';
+
 class Clock extends Wwg
 {
 	const ID = '_wwg.Clock';
@@ -38,6 +40,10 @@ class Clock extends Wwg
 
 			_wwg_registry::getInstance( )->register( _wwg_registry::POOL_BOTTOM, $this->id, $this );
 
+			$requirer = n7_requirer::getInstance( );
+			$requirer->call( _uicmp_layout::RES_JS, array( $requirer->getRelative() .  '3rd/tinyxmlsax.js' , __CLASS__ ) );
+			$requirer->call( _uicmp_layout::RES_JS, array( $requirer->getRelative() .  '3rd/tinyxmlw3cdom.js' , __CLASS__ ) );
+			
 			_app_registry::getInstance( )->requireJs( 'inc/signed/_wwg.Clock.js', $this->id );
 			_app_registry::getInstance( )->requireCss( 'inc/signed/_wwg.Clock.css', $this->id );
 			_app_registry::getInstance( )->requireOnLoad( '_wwgClockStartup();' );
