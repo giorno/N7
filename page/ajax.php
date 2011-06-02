@@ -22,6 +22,8 @@ require_once CHASSIS_LIB . 'apps/_app_registry.php';
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 n7_globals::getInstance( );
 
+include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
+
 if ( _session_wrapper::getInstance( )->isSigned( ) === true )
 {
 	require_once N7_SOLUTION_LIB . 'n7_settings.php';
