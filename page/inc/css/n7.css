@@ -107,7 +107,8 @@ td.n7_pool_foot
 	padding-right:					16px;
 	padding-bottom:					16px;
 	padding-top:					16px;
-	border-top:						1px dashed #e7e7e7;
+	/*border-top:						1px dashed #e7e7e7;*/
+	background-color:				#ffffff;
 }
 
 td.n7_main_ctrl
@@ -121,18 +122,30 @@ td.n7_icons
 }
 td.n7_menu
 {
-	background-color:				#e7e7e7;
-	height:							24px;
-	vertical-align:					middle;
 	padding-left:					16px;
 	padding-right:					16px;
-	
+	background-color:				#e7e7e7;
+
+}
+td.n7_foot_hdr,td.n7_menu
+{
+	height:							24px;
+	vertical-align:					middle;
+}
+td.n7_foot_hdr
+{
+	padding:						16px;
+	padding-top:					8px;
+	padding-bottom:					4px;
+	background-color:				#e7e7e7;
+	/*border-top:						1px solid #ffffff;*/	/* should be consistent with framework UICMP head deco */
+	border-bottom:					1px solid #d5d5d5;	/* should be consistent with framework UICMP head deco */
 }
 
 /* Applications icons row item */
 td.n7_app_icons_ri
 {
-	/*border-bottom:					1px solid #d7d7d7;*/		/* should be consistent with framework UICMP head deco */
+	
 	min-width:						12px;					/* so it can be used for gap effect */
 	vertical-align:					middle;
 }
