@@ -14,4 +14,6 @@ $__msg['keywords']					= 'web, app, aplikace, Open Source, N7, dusíks';
 $__msg['code']						= 'sk_SK';
 $__msg['copy'][0]					= '2008-2011 Ján Staník';
 
+setlocale( LC_TIME, 'cs_CZ.UTF-8' );
+
 ?>

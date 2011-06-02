@@ -14,4 +14,7 @@ $__msg['keywords']					= 'web, app, application, Open Source, N7, nitrogen';
 $__msg['code']						= 'en_GB';
 $__msg['copy'][0]					= '2008-2011 Ján Staník';
 
+setlocale( LC_TIME, 'en_IE.UTF-8' );
+
+
 ?>
