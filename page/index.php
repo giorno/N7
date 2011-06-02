@@ -68,7 +68,7 @@ include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 		 */
 		$spacer = new Spacer( );
 		_wwg_registry::getInstance( )->register( _wwg_registry::POOL_BOTTOM, $spacer->getId( ), $spacer );
-		_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_BOTTOM, Array( $spacer->getId( ), Clock::ID ) );
+		_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_BOTTOM, Array( Clock::ID, $spacer->getId( ) ) );
 
 		/**
 		 * Enforce layout for MENU pool.
