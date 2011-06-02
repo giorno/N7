@@ -11,7 +11,7 @@ td.wwgClockContent
 /* Clock container */
 div#wwgClock
 {
-	float:							right;
+	float:							left;
 }
 
 div#wwgClockTime
@@ -25,5 +25,5 @@ div#wwgClockTime,div#wwgClockDate
 {
 	padding-left:					8px;
 	padding-right:					8px;
-	float:							right;
+	float:							left;
 }

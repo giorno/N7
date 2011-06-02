@@ -77,6 +77,7 @@ function _wwgClockUpdate ( )
 									{
 										var parser = new DOMImplementation( );
 										var domDoc = parser.loadXML( data.responseText );
+										
 										var docRoot = domDoc.getDocumentElement();
 										var time = docRoot.getElementsByTagName( 'time' ).item( 0 );
 
@@ -90,6 +91,7 @@ function _wwgClockUpdate ( )
 										uiClockImages['now'].src = uiClockPath( hour, minute, 0 );
 										uiClockImages['plus1'].src = uiClockPath( hour, minute, 1 );
 										uiClockImages['plus2'].src = uiClockPath( hour, minute, 2 );
+										
 										document.getElementById( 'wwgClockImg' ).src = uiClockImages['now'].src;
 
 										var date = docRoot.getElementsByTagName( 'date' ).item( 0 );
