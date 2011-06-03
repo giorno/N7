@@ -36,14 +36,6 @@ class _uicmp_sem extends _uicmp_comp
 	}
 
 	/**
-	 * Hack to allow virtual component _vcmp_cpe to extract requirer
-	 * object from _uicmp_layout instance.
-	 *
-	 * @return <_requirer>
-	 */
-	//public function getRequirer ( ) { return parent::getRequirer( ); }
-
-	/**
 	 * To conform abstract parent.
 	 */
 	public function  generateJs ( ) { }

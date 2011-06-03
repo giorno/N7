@@ -8,6 +8,9 @@
  * Client side logic for Account app UICMP components.
  */
 
+/**
+ * Derive from N7 SEM client side logic.
+ */
 _uicmp_sem.prototype = new sem;
 
 function _uicmp_sem ( url, params, ind )

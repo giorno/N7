@@ -1,7 +1,5 @@
 <?php
 
-
-
 require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_gi.php';
@@ -86,7 +84,7 @@ class _vcmp_sem extends _vcmp_comp
 			$requirer->call( _uicmp_layout::RES_JS, array( $requirer->getRelative( ) . '3rd/XMLWriter-1.0.0-min.js' , __CLASS__ ) );
 			$requirer->call( _uicmp_layout::RES_JS, array( $requirer->getRelative( ) . '3rd/base64.js' , __CLASS__ ) );
 			$requirer->call( _uicmp_layout::RES_JS, array( 'inc/js/sem.js' , __CLASS__ ) );
-			$requirer->call( _uicmp_layout::RES_JS, array( 'inc/account/_uicmp_account.js' , __CLASS__ ) );
+			$requirer->call( _uicmp_layout::RES_JS, array( 'inc/account/_uicmp.js' , __CLASS__ ) );
 			if ( !is_null( $this->sem ) )
 			{
 				$requirer->call( _uicmp_layout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . " = new _uicmp_sem( '{$this->url}', " . $this->generateJsArray( $this->params ) . ", {$this->ind->getJsVar()} );" );
