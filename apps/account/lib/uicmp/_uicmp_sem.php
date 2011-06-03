@@ -1,5 +1,7 @@
 <?php
 
+require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+
 /**
  * @file _uicmp_sem.php
  * @author giorno
@@ -8,9 +10,6 @@
  * 
  * Virtual UICMP component rendering settings editor (part of SEM).
  */
-
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
-
 class _uicmp_sem extends _uicmp_comp
 {
 	/**
@@ -30,10 +29,11 @@ class _uicmp_sem extends _uicmp_comp
 		$this->jsPrefix	= 'uicmp_sem';
 	}
 
-	public function getSem ( )
-	{
-		return $this->sem;
-	}
+	/**
+	 * Read interface for SEM model.
+	 * @return type 
+	 */
+	public function getSem ( ) { return $this->sem; }
 
 	/**
 	 * To conform abstract parent.
