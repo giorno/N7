@@ -19,6 +19,7 @@ require_once N7_SOLUTION_LIB . 'sem/sem_collection.php';
 
 require_once ACCTAB_LIB . '_app.Account.php';
 require_once ACCTAB_LIB . 'uicmp/_vcmp_sem.php';
+require_once ACCTAB_LIB . 'uicmp/_vcmp_chpass.php';
 
 class AccountMainImpl extends Account implements SemProvider
 {
@@ -61,12 +62,25 @@ class AccountMainImpl extends Account implements SemProvider
 										$this->getMessages( ) );
 
 				$tab->addVcmp( $sem );
+				
+			$tab = $this->layout->createTab( $this->id . '.ChPass' );
+				$tab->createFold( $this->messages['foldChPass'] );
+				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['capChPass']) );
+
+				$chp = new _vcmp_chpass(	$tab,
+											$tab->id . '.ChPass',
+											n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php',
+											Array( 'app' => $this->id, 'action' => 'chpass' ),
+											$this->getMessages( ) );
+
+				$tab->addVcmp( $chp );
 
 		$this->layout->createSep( );
 		$this->layout->init( );
 
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
 		$smarty->assignByRef( 'APP_ACCOUNT_LAYOUT', $this->layout );
+		$smarty->assignByRef( 'APP_ACCOUNT_MSG', $this->messages );
 	}
 
 	/**

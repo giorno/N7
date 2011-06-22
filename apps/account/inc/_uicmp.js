@@ -92,3 +92,72 @@ function _uicmp_sem ( url, params, ind )
 		return sender;
 	};
 }
+
+function _uicmp_chpass ( url, params, ind )
+{
+	/**
+	 * Ajax server implementation URL.
+	 */
+	this.url = url;
+
+	/**
+	 * Additional parameters for Ajax request.
+	 */
+	this.params = params;
+
+	/**
+	 * _uicmp_gi_ind instance.
+	 */
+	this.ind = ind;
+	
+	this.save = function ( )
+	{
+		//this.set_disabled( true );
+		
+		/**
+		 * Copy me into this scope. Awkward, but works.
+		 */
+		var scope = this;
+
+		/**
+		 * Compose request parameters.
+		 */
+		var reqParams = '';
+		for ( var key in scope.params )
+			reqParams += '&' + key + '=' + scope.params[key];
+
+		reqParams += '&method=save';
+
+		//var data = this.encode( );
+
+		var sender = new Ajax.Request( scope.url,
+									{
+										method: 'post',
+										parameters: reqParams,
+										onCreate: function ( ) {scope.ind.show( 'doing', '_uicmp_ind_gray' );},
+										onFailure: function ( )
+										{
+											scope.set_disabled( false );
+											scope.ind.show( 'e_unknown', '_uicmp_ind_red' );
+										},
+										onSuccess: function ( data )
+										{
+											//alert(data.responseText);
+											scope.set_disabled( false );
+											
+											if ( data.responseText == 'OK' )
+											{
+												window.location.reload();
+												scope.ind.fade( 'done', '_uicmp_ind_green' );
+											}
+											else
+												if ( scope.ind.messages[data.responseText] )
+													scope.ind.show( data.responseText, '_uicmp_ind_red' );
+												else
+													scope.ind.show( 'e_unknown', '_uicmp_ind_red' );
+										}
+									}
+								);
+		return sender;
+	};
+}

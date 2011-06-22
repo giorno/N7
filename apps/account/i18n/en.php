@@ -20,19 +20,35 @@ $__msgAcc['sem']['saved']			= 'Saved';
 $__msgAcc['sem']['e_unknown']		= 'Error: Unknown error! Contact administrators.';
 $__msgAcc['sem']['e_data']			= 'Error: invalid value!';
 
+/**
+ * Change password form.
+ */
+$__msgAcc['chpass']['btDo']				= 'Change';
+$__msgAcc['chpass']['old']				= 'Current password';
+$__msgAcc['chpass']['new']				= 'New password';
+$__msgAcc['chpass']['retype']			= 'Retype new password';
+$__msgAcc['chpass']['ind']['e_old']		= 'Error: invalid current password!';
+$__msgAcc['chpass']['ind']['e_new']		= 'Error: invalid value for new password!';
+$__msgAcc['chpass']['ind']['e_retype']	= 'Error: values for new password do not match!';
+$__msgAcc['chpass']['ind']['e_unknown']	= $__msgAcc['sem']['e_unknown'];
+$__msgAcc['chpass']['ind']['doing']		= 'Executing..';
+$__msgAcc['chpass']['ind']['done']		= 'Password changed';
+
 $__msgAcc['foldSettings']			= 'Settings';
 $__msgAcc['capSettings']			= 'Central management of your account setting';
 
 $__msgAcc['capWishlist']			= 'I want to...';
 
-$__msgAcc['capPassword']			= 'Change password';
+$__msgAcc['foldChPass']					= 'Change password';
+$__msgAcc['capChPass']					= 'For security reasons change your password at least every 3 months';
+
 $__msgAcc['capInvitation']			= 'Invite friend';
 $__msgAcc['capWriteUs']				= 'Write admins';
 
 $__msgAcc['back2Wishlist']			= 'Back to Overview';
 
 $__msgAcc['wishSettings']			= 'Change settings';
-$__msgAcc['wishPassword']			= $__msgAcc['capPassword'];
+//$__msgAcc['wishPassword']			= $__msgAcc['capPassword'];
 $__msgAcc['wishInvitation']			= $__msgAcc['capInvitation'];
 $__msgAcc['wishWriteUs']			= $__msgAcc['capWriteUs'];
 
