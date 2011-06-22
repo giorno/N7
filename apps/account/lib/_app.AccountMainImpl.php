@@ -1,11 +1,4 @@
 <?php
-/**
- * @file _app.AccountMainImpl.php
- * @author giorno
- * @subpackage Account
- *
- * Main execution instance of Account application.
- */
 
 require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_title.php';
@@ -21,6 +14,15 @@ require_once ACCTAB_LIB . '_app.Account.php';
 require_once ACCTAB_LIB . 'uicmp/_vcmp_sem.php';
 require_once ACCTAB_LIB . 'uicmp/_vcmp_chpass.php';
 
+/**
+ * @file _app.AccountMainImpl.php
+ * @author giorno
+ * @package N7
+ * @subpackage Account
+ * @license Apache License, Version 2.0, see LICENSE file
+ *
+ * Main execution instance of Account application.
+ */
 class AccountMainImpl extends Account implements SemProvider
 {
 
@@ -45,6 +47,9 @@ class AccountMainImpl extends Account implements SemProvider
 		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'APP_ACCOUNT_TEMPLATES', ACCTAB_UI );
 	}
 
+	/**
+	 * Main execution body of the application. Creates client side UI and logic.
+	 */
 	public function exec ( )
 	{
 		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );

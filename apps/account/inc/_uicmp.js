@@ -4,6 +4,7 @@
  * @author giorno
  * @package N7
  * @subpackage Account
+ * @license Apache License, Version 2.0, see LICENSE file
  *
  * Client side logic for Account app UICMP components.
  */
@@ -93,8 +94,13 @@ function _uicmp_sem ( url, params, ind )
 	};
 }
 
-function _uicmp_chpass ( url, params, ind )
+function _uicmp_chpass ( id, url, params, ind )
 {
+	/**
+	 * Form component HTML ID.
+	 */
+	this.id = id;
+	
 	/**
 	 * Ajax server implementation URL.
 	 */
@@ -125,10 +131,18 @@ function _uicmp_chpass ( url, params, ind )
 		var reqParams = '';
 		for ( var key in scope.params )
 			reqParams += '&' + key + '=' + scope.params[key];
+		
+		/**
+		 * Extract data.
+		 */
+		var o = document.getElementById( this.id + '.old' ).value;
+		var n = document.getElementById( this.id + '.new' ).value;
+		var r = document.getElementById( this.id + '.retype' ).value;
 
-		reqParams += '&method=save';
-
-		//var data = this.encode( );
+		reqParams += '&method=save' +
+					 '&o=' + Base64.encode( o ) +
+					 '&n=' + Base64.encode( n ) +
+					 '&r=' + Base64.encode( r );
 
 		var sender = new Ajax.Request( scope.url,
 									{
@@ -137,13 +151,14 @@ function _uicmp_chpass ( url, params, ind )
 										onCreate: function ( ) {scope.ind.show( 'doing', '_uicmp_ind_gray' );},
 										onFailure: function ( )
 										{
-											scope.set_disabled( false );
+											//scope.set_disabled( false );
 											scope.ind.show( 'e_unknown', '_uicmp_ind_red' );
 										},
 										onSuccess: function ( data )
 										{
+											
 											//alert(data.responseText);
-											scope.set_disabled( false );
+											//scope.set_disabled( false );
 											
 											if ( data.responseText == 'OK' )
 											{

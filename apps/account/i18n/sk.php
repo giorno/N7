@@ -9,6 +9,9 @@
 
 $__msgAcc['tabName']				= 'Môj účet';
 
+/**
+ * Settings editor form.
+ */
 $__msgAcc['sem']['btSave']			= 'Uložiť nastavenia';
 $__msgAcc['sem']['btReset']			= 'Obnoviť';
 $__msgAcc['sem']['collGlobal']		= 'Globálne nastavenia';
@@ -20,10 +23,27 @@ $__msgAcc['sem']['saved']			= 'Uložené';
 $__msgAcc['sem']['e_unknown']		= 'Chyba: Neznáma chyba! Kontaktujte správcov.';
 $__msgAcc['sem']['e_data']			= 'Chyba: chybná hodnota!';
 
+/**
+ * Change password form.
+ */
+$__msgAcc['chpass']['btDo']				= 'Zmeniť';
+$__msgAcc['chpass']['old']				= 'Súčasné heslo';
+$__msgAcc['chpass']['new']				= 'Nové heslo';
+$__msgAcc['chpass']['retype']			= 'Kontrola hesla';
+$__msgAcc['chpass']['ind']['e_old']		= 'Chyba: nesprávne súčasné heslo!';
+$__msgAcc['chpass']['ind']['e_new']		= 'Chyba: nepovolená hodnota pre nové heslo!';
+$__msgAcc['chpass']['ind']['e_retype']	= 'Chyba: nové heslo a kontrola nesúhlasia!';
+$__msgAcc['chpass']['ind']['e_unknown']	= $__msgAcc['sem']['e_unknown'];
+$__msgAcc['chpass']['ind']['doing']		= 'Vykonávam..';
+$__msgAcc['chpass']['ind']['done']		= 'Heslo zmenené';
+
 $__msgAcc['capWishlist']			= 'Prajem si...';
 
 $__msgAcc['foldSettings']			= 'Nastavenia';
 $__msgAcc['capSettings']			= 'Centrálna správa nastavení vášho účtu';
+
+$__msgAcc['foldChPass']					= 'Zmeniť heslo';
+$__msgAcc['capChPass']					= 'Pre vyššiu bezpečnosť meňte svoje heslo každé 3 mesiace';
 
 $__msgAcc['capPassword']			= 'Zmeniť heslo';
 $__msgAcc['capInvitation']			= 'Pozvať priateľa';

@@ -157,6 +157,9 @@ function _uicmp_ue ( layout, tab_id, cap_id, form_id, bt_id, ind, url, params )
 		var password = document.getElementById( me.form_id + '.password' ).value;
 		var enabled = ( document.getElementById( me.form_id + '.enabled' ).checked ) ? '1' : '0';
 		
+		/**
+		 * @todo encode delivered content using Base64.encode()
+		 */
 		reqParams += '&method=save' +
 					 '&uid=' + scope.uid +
 					 '&login=' + me.preview( ) +

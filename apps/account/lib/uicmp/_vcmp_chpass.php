@@ -10,6 +10,7 @@ require_once ACCTAB_LIB . 'uicmp/_uicmp_chpass.php';
  * @author giorno
  * @package N7
  * @subpackage Account
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * Object rendering change password tab content.
  */
@@ -62,38 +63,16 @@ class _vcmp_chpass extends _vcmp_comp
 				$this->parent->getHead( )->add( $buttons );
 	}
 	
+	/**
+	 * Generates requirements and logic for client side.
+	 */
 	public function generateJs ( )
 	{
 		$requirer = $this->uicmp->getRequirer( );
 		if ( !is_null( $requirer ) )
 		{
-			//$requirer->call( _uicmp_layout::RES_JS, array( $requirer->getRelative( ) . '3rd/XMLWriter-1.0.0-min.js' , __CLASS__ ) );
-			//$requirer->call( _uicmp_layout::RES_JS, array( $requirer->getRelative( ) . '3rd/base64.js' , __CLASS__ ) );
-			//$requirer->call( _uicmp_layout::RES_JS, array( 'inc/js/sem.js' , __CLASS__ ) );
 			$requirer->call( _uicmp_layout::RES_JS, array( 'inc/account/_uicmp.js' , __CLASS__ ) );
-			$requirer->call( _uicmp_layout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . " = new _uicmp_chpass( '{$this->url}', " . $this->generateJsArray( $this->params ) . ", {$this->ind->getJsVar()} );" );
-			/*	$requirer->call( _uicmp_layout::RES_ONLOAD, $this->uicmp->getJsVar( ) . '.startup();' );
-
-				$coll = $this->sem->getFirst();
-				while ( $coll )
-				{
-					$requirer->call( _uicmp_layout::RES_JSPLAIN, $this->uicmp->getJsVar( ) . ".add( new sem_collection( '{$coll->getId()}' ) );" );
-					$atom = $coll->getFirst( );
-					while ( $atom )
-					{
-						$particle = $atom->getFirst( );
-						while ( $particle )
-						{
-							$requirer->call( _uicmp_layout::RES_JSPLAIN, "{$this->uicmp->getJsVar()}.colls[{$this->uicmp->getJsVar()}.colls.length-1].add( new sem_atom( {$particle->getType()}, '{$particle->getKey()}', '" . $this->uicmp->getHtmlId( ) . '.' . $particle->getKey( ) . "' ) );" );
-							$particle = $atom->getNext( );
-						}
-						$atom = $coll->getnext( );
-					}
-
-					$coll = $this->sem->getNext();
-				}
-			}*/
-
+			$requirer->call( _uicmp_layout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . " = new _uicmp_chpass( '" . $this->uicmp->getHtmlId( ) . "', '{$this->url}', " . $this->generateJsArray( $this->params ) . ", {$this->ind->getJsVar()} );" );
 		}
 	}
 }

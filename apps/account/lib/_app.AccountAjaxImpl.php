@@ -1,25 +1,28 @@
 <?php
-/**
- * @file _app.AccountAjaxImpl.php
- * @author giorno
- * @package N7
- * @subpackage Account
- *
- * Main execution instance of Account application.
- */
 
 require_once N7_SOLUTION_LIB . 'sem/iface.SemApplicator.php';
 require_once N7_SOLUTION_LIB . 'sem/sem_decoder.php';
 
 require_once ACCTAB_LIB . '_app.Account.php';
 
+/**
+ * @file _app.AccountAjaxImpl.php
+ * @author giorno
+ * @package N7
+ * @subpackage Account
+ * @license Apache License, Version 2.0, see LICENSE file
+ *
+ * Main execution instance of Account application.
+ */
 class AccountAjaxImpl extends Account implements SemApplicator
 {
 	public function exec ( )
 	{
-		//var_dump($_POST);
 		switch ( $_POST['action'] )
 		{
+			/**
+			 * Request from SEM UI. Applies new settings.
+			 */
 			case 'sem':
 				$sem = sem_decoder::decode( $_POST['data'] );
 				if ( $this->setSem( $sem ) )
@@ -27,6 +30,54 @@ class AccountAjaxImpl extends Account implements SemApplicator
 				else
 					echo "KO";
 			break;
+			
+			/**
+			 * Processing change password request.
+			 */
+			case 'chpass':
+				
+				$old = base64_decode( $_POST['o'] );
+				$new = base64_decode( $_POST['n'] );
+				$retype = base64_decode( $_POST['r'] );
+
+				/**
+				 * Check current password.
+				 */
+				if ( !_session_wrapper::getInstance()->checkPassword( $old ) )
+				{
+					echo "e_old";
+					break;
+				}
+					
+				require_once APP_AI_LIB . 'class.AiUser.php';
+				
+				/**
+				 * Check new password to fulfillment of security.
+				 */
+				if ( !AiUser::passOk( $new ) )
+				{
+					echo "e_new";
+					break;
+				}
+				
+				if ( $new != $retype )
+				{
+					echo "e_retype";
+					break;
+				}
+				
+				/**
+				 * Set and check the result.
+				 */
+				_session_wrapper::getInstance()->setPassword( $new );
+				
+				if ( !_session_wrapper::getInstance()->checkPassword( $new ) )
+					echo "e_unknown";
+				else
+					echo "OK";
+				
+			break;
+			
 		}
 	}
 

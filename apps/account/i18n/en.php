@@ -9,6 +9,9 @@
 
 $__msgAcc['tabName']				= 'My Account';
 
+/**
+ * Settings editor form.
+ */
 $__msgAcc['sem']['btSave']			= 'Save settings';
 $__msgAcc['sem']['btReset']			= 'Reload';
 $__msgAcc['sem']['collGlobal']		= 'Global settings';
