@@ -7,3 +7,17 @@
 --- Script installing database tables specific for N7 solution. These extend
 --- base tables installed by framework script.
 
+---
+--- Table of installed applications
+---
+
+CREATE TABLE IF NOT EXISTS `tApps` (
+  `ns` char(64) NOT NULL,
+  `app_id` char(64) NOT NULL,
+  `fs_name` char(64) NOT NULL,
+  `version` char(16) NOT NULL,
+  `inst_seq` int(4) NOT NULL,
+  `exec_seq` int(4) NOT NULL,
+  `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `flags` int(4) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

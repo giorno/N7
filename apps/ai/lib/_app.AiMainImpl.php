@@ -5,6 +5,7 @@
  * @author giorno
  * @package N7
  * @subpackage AI
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * Main implementation of AI application.
  */
@@ -64,12 +65,16 @@ class AiMainImpl extends Ai
 							 
 			$params['ue_js_var'] = $ue->getJsVar( );
 			$params['action'] = 'search';
-			$tab = $this->layout->createTab( $this->id . '.Search', FALSE );
+			$tab = $this->layout->createTab( $this->id . '.Users', FALSE );
 				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['title']) );
 				$tab->createFold( $this->messages['fold'] );
 				$srch = $tab->createSearch( $this->getVcmpSearchId( 'Users' ), 0, $url, $params, AiCfgFactory::getCfg( 'usr.lst.Users' ), $page_size );
 				$rszr = $srch->getResizer( );
 				$rszr->add( new _uicmp_gi( $rszr, $rszr->getId( ) . '.mi1', _uicmp_gi::IT_A,  $this->messages['riAdd'], $ue->getJsVar( ) . '.create( );', '_uicmp_gi_add' ) );
+				
+			$tab = $this->layout->createTab( $this->id . '.Apps' );
+				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['tApps']) );
+				$tab->createFold( $this->messages['fApps'] );
 
 		$this->layout->createSep( );
 		$this->layout->init( );

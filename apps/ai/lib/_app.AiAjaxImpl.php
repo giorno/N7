@@ -5,6 +5,7 @@
  * @author giorno
  * @package N7
  * @subpackage AI
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * Ajax server implementation for AI application.
  */
@@ -21,8 +22,6 @@ class AiAjaxImpl extends Ai
 	{
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
 		$smarty->assign( 'USR_LIST_CUST_MGR', APP_AI_UI . 'list/list_cust_mgr.html' );
-		//$smarty->assign( 'APP_STUFF_TEMPLATES', STUFFTAB_TEMPLATES );
-		//$smarty->assignByRef( 'APP_STUFF_MSG', $this->messages );
 		
 		switch ($_POST['action'])
 		{
@@ -106,14 +105,12 @@ class AiAjaxImpl extends Ai
 					 * Process UE form data.
 					 */
 					case 'save':
-						//require_once CHASSIS_3RD . 'check_email_address.php';
 						
 						/**
 						 * Check validity of address.
 						 */
 						$validator = new EmailAddressValidator;
 						if ( $validator->check_email_address( $_POST['email'] ) )
-					//	if ( check_email_address( $_POST['email'] ) )
 						{
 							/**
 							 * Check for correct login.
@@ -142,7 +139,6 @@ class AiAjaxImpl extends Ai
 								break;
 							}
 							
-							//$engine = new AiUsers( $this );
 							if ( AiUsers::save( $_POST['uid'], $_POST['login'], $_POST['password'], $_POST['email'], $_POST['enabled'] ) )
 								echo 'OK';
 							else
@@ -150,9 +146,7 @@ class AiAjaxImpl extends Ai
 						}
 						else
 							echo 'e_address';
-						//$engine->
 					break;
-					
 				}
 				
 			break;

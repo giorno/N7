@@ -5,6 +5,7 @@
  * @author giorno
  * @package N7
  * @subpackage AI
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * English language localization strings for AI application.
  */
@@ -13,6 +14,10 @@ $__msg_ai['icon']['text']			= 'Administration';
 
 $__msg_ai['fold']					= 'Users';
 $__msg_ai['title']					= 'Display, create and modify user accounts';
+
+$__msg_ai['fApps']					= 'Applications';
+$__msg_ai['tApps']					= 'Management of solution applications';
+
 $__msg_ai['riAdd']					= 'Create new account';
 
 /**
