@@ -3,6 +3,7 @@
 require_once CHASSIS_LIB . 'libdb.php';
 require_once CHASSIS_3RD . 'EmailAddressValidator.php';
 
+require_once N7_SOLUTION_LIB . 'n7_at.php';
 require_once N7_SOLUTION_APPS. 'ai/lib/class.AiUser.php';
 
 require_once INSTALLER_LIB. '_app.Installer.php';
@@ -11,6 +12,7 @@ require_once INSTALLER_LIB. '_app.Installer.php';
  * @file _app.InstallerAjaxImpl.php
  * @author giorno
  * @package N7
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * Ajax server implementation for Installer application.
  */
@@ -81,12 +83,16 @@ class InstallerAjaxImpl extends Installer
 		 * Installing database
 		 */
 		$tables = file_get_contents( CHASSIS_ROOT . 'sql/tables.sql' );
+		$at = file_get_contents( INSTALLER_ROOT . 'sql/tables.sql' );
 		$settings = file_get_contents( INSTALLER_ROOT . 'sql/settings.sql' );
 		
-		$body = $tables . "\n\r" . $settings;
+		$body = $tables . "\n\r" . $at . "\n\r" . $settings;
 		$table = Config::T_SETTINGS;
 		$ns = N7_SOLUTION_ID;
 		
+		/**
+		 * Remove comments and bind namespace.
+		 */
 		$comments = array( '/\s*--.*\n/' );
 		$script = preg_replace( $comments, "\n", $body );
 		$script = str_replace( '{$__1}', $table, $script );
@@ -117,6 +123,30 @@ class InstallerAjaxImpl extends Installer
 			
 			AiUser::save( 0, $_POST['login'], $_POST['password'], $_POST['email'], true );
 			_db_query ( "UPDATE `" . Config::T_USERS . "` SET`" . Config::F_UID . "` = \"1\"" );
+			
+			/**
+			 * Populating applications table with bundled applications.
+			 */
+			require_once N7_SOLUTION_APPS . 'branding/_cfg.php';
+			require_once N7_SOLUTION_APPS . 'branding/lib/_app.Branding.php';
+			n7_at::register( Branding::APP_ID , 'branding', 'base', n7_at::FL_MAINRR | n7_at::FL_SIGNED );
+			
+			require_once N7_SOLUTION_APPS . 'unsigned/_cfg.php';
+			require_once N7_SOLUTION_APPS . 'unsigned/lib/_app.Login.php';
+			n7_at::register( Login::APP_ID , 'unsigned', 'base', n7_at::FL_MAINRR | n7_at::FL_AJAXRR | n7_at::FL_UNSIGNED );
+			
+			require_once N7_SOLUTION_APPS . 'signed/_cfg.php';
+			require_once N7_SOLUTION_APPS . 'signed/lib/_app.Signed.php';
+			n7_at::register( Signed::APP_ID , 'signed', 'base', n7_at::FL_MAINRR | n7_at::FL_AJAXRR | n7_at::FL_SIGNED );
+			
+			require_once N7_SOLUTION_APPS . 'account/_cfg.php';
+			require_once N7_SOLUTION_APPS . 'account/lib/_app.Account.php';
+			n7_at::register( Account::APP_ID , 'account', 'base', n7_at::FL_MAINRR | n7_at::FL_AJAXRR | n7_at::FL_SIGNED );
+			
+			require_once N7_SOLUTION_APPS . 'ai/_cfg.php';
+			require_once N7_SOLUTION_APPS . 'ai/lib/_app.Ai.php';
+			n7_at::register( Ai::APP_ID , 'ai', 'base', n7_at::FL_MAINRR | n7_at::FL_AJAXRR | n7_at::FL_SIGNED );
+			
 
 			_db_query( "COMMIT" );
 		
