@@ -43,6 +43,9 @@ class AccountMainImpl extends Account implements SemProvider
 	protected function __construct ( )
 	{
 		parent::__construct( );
+		
+		_app_registry::getInstance( )->setDefault( $this->id );
+		
 		$this->indexTemplatePath = ACCTAB_UI . 'index.html';
 		_smarty_wrapper::getInstance( )->getEngine( )->assign( 'APP_ACCOUNT_TEMPLATES', ACCTAB_UI );
 	}
