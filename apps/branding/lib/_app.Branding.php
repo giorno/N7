@@ -23,6 +23,11 @@ require_once dirname( __FILE__ ) . '/_wwg.Promotion.php';
 class Branding extends App
 {
 	/**
+	 * Identifier of application instance.
+	 */
+	const APP_ID = '_app.Branding';
+	
+	/**
 	 * Singleton instance.
 	 */
 	private static $instance = NULL;
@@ -46,6 +51,8 @@ class Branding extends App
 	 */
 	protected function __construct( )
 	{
+		$this->id = self::APP_ID;
+		
 		$i18n = dirname( __FILE__ ) . '/../i18n/' . n7_globals::lang( ) . '.php';
 		if ( file_exists( $i18n ) )
 			include $i18n;

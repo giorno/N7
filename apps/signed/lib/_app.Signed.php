@@ -13,6 +13,11 @@ require_once CHASSIS_LIB . 'apps/_app_registry.php';
 abstract class Signed extends App
 {
 	/**
+	 * Application identifier.
+	 */
+	const APP_ID = '_[4lan/7uring/0be/5rs]_';
+	
+	/**
 	 * Instance of class or its descendant.
 	 * @var <App>
 	 */
@@ -28,7 +33,7 @@ abstract class Signed extends App
 		/**
 		 * To make this app name unique and non-conflicting with others.
 		 */
-		$this->id = '_[4lan/7uring/0be/5rs]_';
+		$this->id = self::APP_ID;
 	}
 
 	/**

@@ -14,6 +14,11 @@ require_once CHASSIS_LIB . 'apps/_app_registry.php';
 abstract class Login extends App
 {
 	/**
+	 * Identifier of the application.
+	 */
+	const APP_ID = '_app.Login';
+	
+	/**
 	 * Singleton instance.
 	 *
 	 * @var <Login>
@@ -25,7 +30,7 @@ abstract class Login extends App
 	 */
 	protected function __construct ( )
 	{
-		$this->id = '_app.Login';
+		$this->id = self::APP_ID;
 		_app_registry::getInstance()->setDefault( $this->id );
 	}
 
