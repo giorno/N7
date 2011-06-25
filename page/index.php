@@ -14,6 +14,7 @@ require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 require_once N7_SOLUTION_LIB . 'n7_ui.php';
+require_once N7_SOLUTION_LIB . 'n7_at.php';
 
 error_reporting( E_ALL );
 
@@ -51,16 +52,13 @@ include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 		
 		/**
 		 * Register applications.
-		 *
-		 * @todo Change to implicit registration by going through diven app dir
-		 *       and call _reg.php in each of them or define order in G
-		 *       namespace of tSettings
 		 */
-		
-		include N7_SOLUTION_APPS . 'ai/_idx.php';
-		include N7_SOLUTION_APPS . 'account/_idx.php';
-		include N7_SOLUTION_APPS . 'branding/_idx.php';
-		include N7_SOLUTION_APPS . 'signed/_idx.php';
+		n7_at::run( n7_at::FL_SIGNED | n7_at::FL_MAINRR );
+		/*$apps = n7_at::get( n7_at::FL_SIGNED | n7_at::FL_MAINRR );
+		if ( is_array( $apps ) )
+			foreach ( $apps as $app )
+				include N7_SOLUTION_APPS . $app[n7_at::F_FSNAME] .'/_idx.php';*/
+
 		_app_registry::getInstance( )->exec( $__APP );
 
 		/**
@@ -82,7 +80,8 @@ include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 		/**
 		 * Register applications for unsigned user and trigger proper one.
 		 */
-		include N7_SOLUTION_APPS . 'unsigned/_idx.php';
+		n7_at::run( n7_at::FL_UNSIGNED | n7_at::FL_MAINRR );
+		//include N7_SOLUTION_APPS . 'unsigned/_idx.php';
 		_app_registry::getInstance( )->exec( $__APP );
 	}
 
