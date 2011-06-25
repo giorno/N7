@@ -2,6 +2,7 @@
 
 
 require_once CHASSIS_LIB . 'apps/_app_registry.php';
+require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
 require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
 
