@@ -19,5 +19,6 @@ CREATE TABLE IF NOT EXISTS `tApps` (
   `inst_seq` int(4) NOT NULL,
   `exec_seq` int(4) NOT NULL,
   `stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `flags` int(4) NOT NULL
+  `flags` int(4) NOT NULL,
+  KEY `ns` (`ns`,`app_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
