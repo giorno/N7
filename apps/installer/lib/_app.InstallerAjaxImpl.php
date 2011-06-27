@@ -20,7 +20,7 @@ class InstallerAjaxImpl extends Installer
 {
 	/**
 	 * Main execution body of Installer. This actually analyses data from client
-	 * side, performs installation and produces HTML output.
+	 * side, performs installation and produces result.
 	 */
 	public function exec ( )
 	{
@@ -118,14 +118,14 @@ class InstallerAjaxImpl extends Installer
 			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz']) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"usr.tz\"" );
 
 			/**
-			 * Creating admin account
+			 * Create admin account.
 			 */
 			
 			AiUser::save( 0, $_POST['login'], $_POST['password'], $_POST['email'], true );
 			_db_query ( "UPDATE `" . Config::T_USERS . "` SET`" . Config::F_UID . "` = \"1\"" );
 			
 			/**
-			 * Populating applications table with bundled applications.
+			 * Populate applications table with bundled applications.
 			 */
 			require_once N7_SOLUTION_APPS . 'branding/_cfg.php';
 			require_once N7_SOLUTION_APPS . 'branding/lib/_app.Branding.php';

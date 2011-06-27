@@ -10,7 +10,7 @@
 require_once CHASSIS_CFG . 'class.Config.php';
 
 /**
- * Library class handling manipulation with applications table.
+ * Library class handling manipulation with Applications Table (AT).
  */
 class n7_at
 {
