@@ -2,7 +2,7 @@
  * Stylesheet for AI application.
  */
 
-div._ai_ico_d,div._ai_ico_e
+div._ai_ico_d,div._ai_ico_e,div._ai_ico_down,div._ai_ico_up
 {
 	margin:							0px;
 	padding:						0px;
@@ -26,4 +26,20 @@ div._ai_ico_d:hover
 div._ai_ico_e:hover
 {
 	background:						url(./_list_ico_e_on.gif) no-repeat center center;
+}
+div._ai_ico_down
+{
+	background:						url(./_list_ico_down_off.gif) no-repeat center center;
+}
+div._ai_ico_up
+{
+	background:						url(./_list_ico_up_off.gif) no-repeat center center;
+}
+div._ai_ico_down:hover
+{
+	background:						url(./_list_ico_down_on.gif) no-repeat center center;
+}
+div._ai_ico_up:hover
+{
+	background:						url(./_list_ico_up_on.gif) no-repeat center center;
 }
