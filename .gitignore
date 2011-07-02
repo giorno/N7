@@ -6,3 +6,21 @@ _cfg.php
 
 # framework link
 page/inc/chassis
+
+# 3rd party apps in apps dir and client include dir
+apps/*
+!apps/account
+!apps/ai
+!apps/branding
+!apps/installer
+!apps/signed
+!apps/unsigned
+page/inc/*
+!page/inc/account 
+!page/inc/ai
+!page/inc/branding
+!page/inc/css
+!page/inc/img
+!page/inc/js
+!page/inc/signed
+!page/inc/unsigned
