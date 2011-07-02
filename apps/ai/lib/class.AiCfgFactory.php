@@ -7,6 +7,7 @@ require_once CHASSIS_LIB . 'list/_list_cfg.php';
  * @author giorno
  * @package N7
  * @subpackage AI
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * Settings abstraction for AI application.
  */
@@ -43,6 +44,21 @@ class AiCfgFactory
 	 * Width of icon/action field in Ai lists.
 	 */
 	const LIST_HDRW_ICON	= '16px';
+	
+	/**
+	 * Execution sequence field in AT.
+	 */
+	const LIST_HDRW_SEQ		= '32px;';
+	
+	/**
+	 * App ID in AT.
+	 */
+	const LIST_HDRW_ID		= '240px;';
+	
+	/**
+	 * App folder in AT.
+	 */
+	const LIST_HDRW_FSNAME	= '240px;';
 	
 	/**
 	 * Cache used for created instances.

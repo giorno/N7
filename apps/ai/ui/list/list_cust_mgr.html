@@ -6,5 +6,13 @@
 	<td width="1%" class="{$allItemClass} _list_row_item_icon {$cell->data.class}">
 		<div title="{$cell->data.alt}" onClick="{$cell->data.code}" class="_ai_ico_d"></div>
 	</td>
+{elseif $cell->manager==AiListCell::MAN_AI_AT_UP}
+	<td width="1%" class="{$allItemClass} _list_row_item_icon {$cell->data.class}">
+		<div title="{$cell->data.alt}" onClick="{$cell->data.code}" class="_ai_ico_up"></div>
+	</td>
+{elseif $cell->manager==AiListCell::MAN_AI_AT_DOWN}
+	<td width="1%" class="{$allItemClass} _list_row_item_icon {$cell->data.class}">
+		<div title="{$cell->data.alt}" onClick="{$cell->data.code}" class="_ai_ico_down"></div>
+	</td>
 {else}
 {/if}

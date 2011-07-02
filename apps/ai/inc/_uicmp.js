@@ -196,3 +196,228 @@ function _uicmp_ue ( layout, tab_id, cap_id, form_id, bt_id, ind, url, params )
 		return sender;
 	};
 }
+
+/**
+ * Logic for AT UI.
+ */
+function _uicmp_at ( my_name, cnt_id, url, params, ind )
+{
+	/**
+	 * Copy scope.
+	 */
+	me = this;
+	
+	/**
+	 * Name of Javascript variable referencing this instance.
+	 */
+	this.my_name = my_name;
+	
+	/**
+	 * HTML ID of container for list of applications.
+	 */
+	this.cnt_id = cnt_id;
+	
+	/**
+	 * Ajax request URL.
+	 */
+	this.url = url;
+	
+	/**
+	 * Ajax request parameters.
+	 */
+	this.params = params;
+	
+	/**
+	 * Indicator component.
+	 */
+	this.ind = ind;
+	
+	/**
+	 * Reference to cover effect element instance.
+	 * 
+	 * @stolen from _uicmp_search
+	 */
+	this.effect = null;
+	
+	/**
+	 * Renders semitransparent cover effect over the search container during the
+	 * execution of refresh() method.
+	 * 
+	 * @stolen from _uicmp_search
+	 */
+	this.effect_show = function ( )
+	{
+		if ( !this.effect )
+			this.effect = document.getElementById( this.cnt_id + '.effect' );
+		
+		if ( this.effect )
+		{
+			var parent = this.effect.parentNode;
+			if ( parent )
+			{
+				this.effect.style.height = parent.offsetHeight + 'px';
+				this.effect.style.width = parent.offsetWidth + 'px';
+				this.effect.style.visibility = 'visible';
+				this.effect.style.display = 'block';
+			}
+		}
+	};
+	
+	/**
+	 * Hides cover effect.
+	 * 
+	 * @stolen from _uicmp_search
+	 */
+	this.effect_hide = function ( )
+	{
+		if ( !this.effect )
+			this.effect = document.getElementById( this.cnt_id + '.effect' );
+		
+		if ( this.effect )	
+		{
+			this.effect.style.visibility = 'hidden';
+			this.effect.style.display = 'none';
+			this.effect.style.width = '0px';
+			this.effect.style.height = '0px';
+		}
+	};
+	
+	/**
+	 * Refresh the list of applications.
+	 */
+	this.list = function ( )
+	{
+		/**
+		 * Copy me into this scope. Awkward, but works.
+		 */
+		var scope = me;
+
+		/**
+		 * Compose request parameters.
+		 */
+		var reqParams = '';
+		for ( var key in scope.params )
+			reqParams += '&' + key + '=' + scope.params[key];
+
+		reqParams += '&method=list' +
+					 '&js_var=' + scope.my_name;
+
+		var sender = new Ajax.Updater( scope.cnt_id, scope.url,
+									{
+										method: 'post',
+										parameters: reqParams,
+										onCreate: function ( ) {
+											scope.effect_show( );
+											scope.ind.show( 'loading', '_uicmp_ind_gray' );
+										},
+										onFailure: function ( )
+										{
+											scope.effect_hide( );
+											srch.ind.show( 'e_unknown', '_uicmp_ind_red' );
+										},
+										onSuccess: function ( data )
+										{
+											scope.effect_hide( );
+											scope.ind.fade( 'loaded', '_uicmp_ind_green' );
+										}
+									}
+								);
+		return sender;
+	};
+	
+	/**
+	 * Invokes installation of application (its database structures).
+	 * 
+	 * @param fsname filesystem folder containing application
+	 */
+	this.install = function ( fsname )
+	{
+		/**
+		 * Copy me into this scope. Awkward, but works.
+		 */
+		var scope = me;
+
+		/**
+		 * Compose request parameters.
+		 */
+		var reqParams = '';
+		for ( var key in scope.params )
+			reqParams += '&' + key + '=' + scope.params[key];
+
+		reqParams += '&method=install' +
+					 '&fsname=' + fsname;
+
+		var sender = new Ajax.Request( scope.url,
+									{
+										method: 'post',
+										parameters: reqParams,
+										onCreate: function ( ) {
+											scope.effect_show( );
+											scope.ind.show( 'installing', '_uicmp_ind_gray' );
+										},
+										onFailure: function ( )
+										{
+											scope.effect_hide( );
+											srch.ind.show( 'e_unknown', '_uicmp_ind_red' );
+										},
+										onSuccess: function ( data )
+										{
+											scope.effect_hide( );
+											scope.ind.fade( 'installed', '_uicmp_ind_green' );
+											scope.list( );
+										}
+									}
+								);
+		return sender;
+	};
+	
+	this.move = function ( id, distance )
+	{
+		/**
+		 * Copy me into this scope. Awkward, but works.
+		 */
+		var scope = me;
+
+		/**
+		 * Compose request parameters.
+		 */
+		var reqParams = '';
+		for ( var key in scope.params )
+			reqParams += '&' + key + '=' + scope.params[key];
+
+		if ( distance > 0 )
+			reqParams += '&method=down';
+		else
+			reqParams += '&method=up';
+			
+		reqParams += '&id=' + id;
+
+		var sender = new Ajax.Request( scope.url,
+									{
+										method: 'post',
+										parameters: reqParams,
+										onCreate: function ( ) {
+											scope.effect_show( );
+											scope.ind.show( 'installing', '_uicmp_ind_gray' );
+										},
+										onFailure: function ( )
+										{
+											scope.effect_hide( );
+											srch.ind.show( 'e_unknown', '_uicmp_ind_red' );
+										},
+										onSuccess: function ( data )
+										{
+											//alert(data.responseText);
+											scope.effect_hide( );
+											scope.ind.fade( 'installed', '_uicmp_ind_green' );
+											scope.list( );
+										}
+									}
+								);
+		return sender;
+	};
+	
+	this.up = function ( id ) { this.move( id, -1 ); };
+	
+	this.down = function ( id ) { this.move( id, 1 ); };
+}

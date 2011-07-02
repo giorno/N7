@@ -127,11 +127,34 @@ class InstallerAjaxImpl extends Installer
 			/**
 			 * Populate applications table with bundled applications.
 			 */
-			require_once N7_SOLUTION_APPS . 'branding/_cfg.php';
-			require_once N7_SOLUTION_APPS . 'branding/lib/_app.Branding.php';
-			n7_at::register( Branding::APP_ID , 'branding', 'base', n7_at::FL_MAINRR | n7_at::FL_SIGNED );
+			$apps = array ( 'branding', 'unsigned', 'signed', 'account', 'ai' );
+			foreach( $apps as $app )
+			{
+				$man = NULL;
+				include N7_SOLUTION_APPS . $app . '/_man.php';
+				n7_at::register( $man['id'] , $app, $man['version'], serialize( $man['i18n'] ), $man['flags'] );
+			}
 			
-			require_once N7_SOLUTION_APPS . 'unsigned/_cfg.php';
+			/*$man = NULL;
+			include N7_SOLUTION_APPS . 'unsigned/_man.php';
+			n7_at::register( $man['id'] , 'unsigned', $man['version'], serialize( $man['i18n'] ), $man['flags'] );
+			
+			$man = NULL;
+			include N7_SOLUTION_APPS . 'signed/_man.php';
+			n7_at::register( $man['id'] , 'signed', $man['version'], serialize( $man['i18n'] ), $man['flags'] );
+			
+			$man = NULL;
+			include N7_SOLUTION_APPS . 'account/_man.php';
+			n7_at::register( $man['id'] , 'account', $man['version'], serialize( $man['i18n'] ), $man['flags'] );
+			
+			$man = NULL;
+			include N7_SOLUTION_APPS . 'ai/_man.php';
+			n7_at::register( $man['id'] , 'ai', $man['version'], serialize( $man['i18n'] ), $man['flags'] );*/
+			
+			//require_once N7_SOLUTION_APPS . 'branding/lib/_app.Branding.php';
+			
+			
+			/*require_once N7_SOLUTION_APPS . 'unsigned/_cfg.php';
 			require_once N7_SOLUTION_APPS . 'unsigned/lib/_app.Login.php';
 			n7_at::register( Login::APP_ID , 'unsigned', 'base', n7_at::FL_MAINRR | n7_at::FL_AJAXRR | n7_at::FL_UNSIGNED );
 			
@@ -145,7 +168,7 @@ class InstallerAjaxImpl extends Installer
 			
 			require_once N7_SOLUTION_APPS . 'ai/_cfg.php';
 			require_once N7_SOLUTION_APPS . 'ai/lib/_app.Ai.php';
-			n7_at::register( Ai::APP_ID , 'ai', 'base', n7_at::FL_MAINRR | n7_at::FL_AJAXRR | n7_at::FL_SIGNED );
+			n7_at::register( Ai::APP_ID , 'ai', 'base', n7_at::FL_MAINRR | n7_at::FL_AJAXRR | n7_at::FL_SIGNED );*/
 			
 
 			_db_query( "COMMIT" );

@@ -20,6 +20,7 @@ require_once N7_SOLUTION_LIB . 'n7_ui.php';
 require_once APP_AI_LIB . '_app.Ai.php';
 require_once APP_AI_LIB . 'class.AiCfgFactory.php';
 
+require_once APP_AI_LIB . 'uicmp/_vcmp_at.php';
 require_once APP_AI_LIB . 'uicmp/_vcmp_ue.php';
 
 class AiMainImpl extends Ai
@@ -72,9 +73,11 @@ class AiMainImpl extends Ai
 				$rszr = $srch->getResizer( );
 				$rszr->add( new _uicmp_gi( $rszr, $rszr->getId( ) . '.mi1', _uicmp_gi::IT_A,  $this->messages['riAdd'], $ue->getJsVar( ) . '.create( );', '_uicmp_gi_add' ) );
 				
-			$tab = $this->layout->createTab( $this->id . '.Apps' );
+			$params['action'] = 'at';
+			$this->layout->addVcmp( new _vcmp_at( $this->layout, $this->getVcmpSearchId( 'At' ), $url, $params, $this->messages ) );
+			/*$tab = $this->layout->createTab( $this->id . '.Apps' );
 				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['tApps']) );
-				$tab->createFold( $this->messages['fApps'] );
+				$tab->createFold( $this->messages['fApps'] );*/
 
 		$this->layout->createSep( );
 		$this->layout->init( );
