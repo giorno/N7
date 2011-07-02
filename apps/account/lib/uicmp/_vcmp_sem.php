@@ -64,7 +64,7 @@ class _vcmp_sem extends _vcmp_comp
 		$this->parent->getBody( )->add( $this->uicmp );
 		
 		$buttons = new _uicmp_buttons( $this->parent->getHead( ), $this->parent->getHead( )->getId( ) . '.Buttons' );
-				$buttons->add( $this->bt = new _uicmp_gi( $buttons, $buttons->getId( ) . '.Reset', _uicmp_gi::IT_A, $messages['sem']['btReset'], $this->uicmp->getJsVar() . '.reset( );', '_uicmp_gi_now _uicmp_blue_b' ) );
+				$buttons->add( $this->bt = new _uicmp_gi( $buttons, $buttons->getId( ) . '.Reset', _uicmp_gi::IT_A, $messages['sem']['btReset'], $this->uicmp->getJsVar() . '.reset( );', '_uicmp_gi_refresh _uicmp_blue_b' ) );
 				$buttons->add( new _uicmp_gi( $buttons, $buttons->getId( ) . '.S1', _uicmp_gi::IT_TXT, '|' ) );
 				$buttons->add( $this->bt = new _uicmp_gi( $buttons, $buttons->getId( ) . '.Save', _uicmp_gi::IT_BT, $messages['sem']['btSave'], $this->uicmp->getJsVar() . '.save( );' ) );
 				
