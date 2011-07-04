@@ -111,6 +111,12 @@ td.n7_pool_foot
 	background-color:				#ffffff;
 }
 
+/* BOTTOM pool items */
+td.n7_pool_fi
+{
+	padding-left:					16px;
+}
+
 td.n7_main_ctrl
 {
 	background-color:				#89abcd;

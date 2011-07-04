@@ -58,8 +58,8 @@ if ( _session_wrapper::getInstance( )->isSigned( ) === true )
 	/**
 	 * Enforce layout for BOTTOM pool.
 	 */
-	/*$spacer = new Spacer( );
-	_wwg_registry::getInstance( )->register( _wwg_registry::POOL_BOTTOM, $spacer->getId( ), $spacer );*/
+	$spacer = new Spacer( );
+	_wwg_registry::getInstance( )->register( _wwg_registry::POOL_BOTTOM, $spacer->getId( ), $spacer );
 	//_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_BOTTOM, Array( Clock::ID, $spacer->getId( ) ) );
 }
 else
