@@ -37,6 +37,7 @@ class Menu extends Wwg
 			$this->id = static::DEFAULT_ID;
 		
 		$this->template = N7_SOLUTION_ROOT . 'smarty/templates/_wwg.Menu.html';
+		n7_requirer::getInstance()->call( _vcmp_layout::RES_CSS, array( n7_requirer::getInstance()->getRelative() . 'css/_uicmp.css' , __CLASS__ ) );
 
 		$this->type = __CLASS__;
 	}
