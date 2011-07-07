@@ -47,7 +47,14 @@ if ( _session_wrapper::getInstance( )->isSigned( ) === true )
 	 * Provide user nickname and domain name in left top corner.
 	 */
 	$host = parse_url( n7_globals::getInstance( )->get( 'url' )->myUrl( ), PHP_URL_HOST );
-	_smarty_wrapper::getInstance( )->getEngine( )->assign( 'N7_NICKNAME', _session_wrapper::getInstance( )->getNick( ) . '@' . $host );
+	$whoami = _session_wrapper::getInstance( )->getNick( ) . '@' . $host;
+	_smarty_wrapper::getInstance( )->getEngine( )->assign( 'N7_NICKNAME', $whoami );
+	
+	n7_ui::getInstance( )->getMenu( )->register(	new MenuItem(	MenuItem::TYPE_TXT,
+																	$whoami,
+																	NULL ) );
+	
+	
 		
 	/**
 	 * Register applications.

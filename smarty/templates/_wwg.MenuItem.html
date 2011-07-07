@@ -1,6 +1,16 @@
-{* Template rendering MenuItem web widget *}
+{* Template rendering MenuItem web widget.
+ *
+ * @file index.html
+ * @author giorno
+ * @package N7
+ * @subpackage Wwg
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
 <td class="n7_wwg">
 	{if $item->getType()==MenuItem::TYPE_JS}
 		<div onClick="{$item->getValue()}" class="{$item->getClass()}">{$item->getTitle()}</div>
+	{elseif $item->getType()==MenuItem::TYPE_TXT}
+		<div class="{if $item->getClass()}{$item->getClass()}{else}n7_mi_txt{/if}">{$item->getTitle()}</div>
 	{/if}
 </td>

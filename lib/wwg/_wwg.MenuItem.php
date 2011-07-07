@@ -1,13 +1,16 @@
 <?php
 
-require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
-
 /**
  * @file __wwg.MenuItem.php
  * @author giorno
  * @package N7
  * @subpackage Wwg
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
+
+/**
  * Object representing anchor in menu row.
  */
 class MenuItem extends Wwg
@@ -17,6 +20,7 @@ class MenuItem extends Wwg
 	 */
 	const TYPE_JS	= 'js';		// Javascript action item
 	const TYPE_A	= 'a';		// regular HTML anchor
+	const TYPE_TXT	= 'txt';	// simple text
 
 	/**
 	 * Static variable used for generating unique ID of the widget.

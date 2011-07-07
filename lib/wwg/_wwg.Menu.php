@@ -1,13 +1,18 @@
 <?php
 
-require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
-
 /**
  * @file __wwg.Menu.php
  * @author giorno
  * @package N7
  * @subpackage WWg
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
+
+require_once N7_SOLUTION_LIB . 'n7_requirer.php';
+
+/**
  * Object representing group of MenuItem widgets.
  */
 class Menu extends Wwg

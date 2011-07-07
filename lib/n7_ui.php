@@ -1,15 +1,19 @@
 <?php
 
-require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
-
-require_once N7_SOLUTION_LIB . 'wwg/_wwg.Menu.php';
-
 /**
  * @file n7_ui.php
  * @author giorno
  * @package N7
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
+
+require_once N7_SOLUTION_LIB . 'wwg/_wwg.Menu.php';
+require_once N7_SOLUTION_LIB . 'wwg/_wwg.MenuItem.php';
+
+/**
  * Provider of UI widgets instances.
  */
 class n7_ui
