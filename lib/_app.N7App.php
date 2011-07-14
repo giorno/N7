@@ -1,12 +1,17 @@
 <?php
 
-require_once CHASSIS_LIB . 'apps/_app.App.php';
-
 /**
  * @file _app.N7App.php
  * @author giorno
  * @package N7
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . '_cdes.php';
+require_once CHASSIS_LIB . 'apps/_app.App.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_cdes_cloud.php';
+
+/** 
  * Specialization of framework class to provide common processing methods to all
  * solution applications.
  */
@@ -85,6 +90,39 @@ abstract class N7App extends App
 				$cdes->remove( $_POST['ctx'] );
 			break;
 		}
+	}
+	
+	/**
+	 * Creates cloud of contexts and send to to client.
+	 * 
+	 * @param string $table database table to take contexts from
+	 * @param string $js_var client side instance variable name
+	 * @param string $prefix prefix for HTML ID's
+	 * @param string $error_msg text to display when no contexts are available
+	 */
+	protected function getCdesCloud ( $table, $js_var, $prefix, $error_msg )
+	{
+		$cloud = new _uicmp_cdes_cloud( NULL, NULL, $js_var, _cdes::allCtxs( _session_wrapper::getInstance( )->getUid( ), $table ), $prefix );
+		$cloud->setErrorMsg( $error_msg );
+		_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'USR_UICMP_CMP', $cloud );
+		_smarty_wrapper::getInstance( )->setContent( $cloud->getRenderer( ) );
+		_smarty_wrapper::getInstance( )->render( );
+	}
+	
+	/**
+	 * Handles 'save textarea height' requests data.
+	 * 
+	 * @param _settings $settings application settings instance with proper namespace
+	 * @param string $key setting identifier
+	 * @param int $tah value to set
+	 */
+	protected function handleTah ( &$settings, $key, $tah )
+	{
+		$min = n7_globals::getInstance()->get( 'config' )->get( 'usr.ta.h.min');
+		if ( $tah < $min )
+			$tah = $min;
+						
+		$settings->saveOne( $key, $tah );
 	}
 }
 
