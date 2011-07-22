@@ -83,6 +83,14 @@ class AiApps
 				 */
 				if ( $i == ( count( $apps ) - 1 ) )
 					$last = true;
+				/**
+				 * Is it candidate?
+				 */
+				elseif ( $apps[$i][n7_at::F_EXECSEQ] == n7_at::V_CANDIDATE  )
+					$last = true;
+				/**
+				 * Is it last registered app before first pending?
+				 */
 				elseif ( ( $i < ( count( $apps ) - 1 ) ) && ( ( $app[n7_at::F_EXECSEQ] >= 0 ) && ( $apps[$i+1][n7_at::F_EXECSEQ] == n7_at::V_CANDIDATE  ) ) )
 					$last = true;
 				

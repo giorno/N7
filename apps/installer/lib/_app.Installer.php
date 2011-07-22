@@ -1,15 +1,23 @@
 <?php
 
-require_once CHASSIS_LIB . 'apps/_app.App.php';
-require_once CHASSIS_LIB . 'apps/_app_registry.php';
-
 /**
  * @file _app.Installer.php
  * @author giorno
  * @package N7
- * 
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'apps/_app.App.php';
+require_once CHASSIS_LIB . 'apps/_app_registry.php';
+
+/** 
  * Common part of installer application. Contains functionality shared by all
  * its implementations. Singleton.
+ * 
+ * Installer instances owned by Installer application are used only for
+ * installation of solution and its core application through main install.php
+ * script, they are not involved in installation of any other applications. To
+ * install applications please use Installer class in N7 libraries folder.
  */
 abstract class Installer extends App
 {

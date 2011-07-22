@@ -46,8 +46,8 @@ $__msgUnsigned['cs']['loginBtRememberMe']		= 'zůstat přihlášen(a)';
 $__msgUnsigned['cs']['loginPromptLogin']		= 'jméno';
 $__msgUnsigned['cs']['loginPromptPassword']		= 'heslo';
 $__msgUnsigned['cs']['loginPromptLanguage']		= 'jazyk';
-$__msgUnsigned['cs']['statusSigningIn']			= 'Pšihlašuji...';
-$__msgUnsigned['cs']['statusSigned']			= 'Prihlášen(a). Načítávám...';
+$__msgUnsigned['cs']['statusSigningIn']			= 'Přihlašuji...';
+$__msgUnsigned['cs']['statusSigned']			= 'Přihlášen(a). Načítávám...';
 $__msgUnsigned['cs']['statusError']				= 'Chyba: Nesprávne jméno nebo heslo!';
 $__msgUnsigned['cs']['statusUnknown']			= 'Chyba: Chyba spojení! Kontaktujte správce.';
 

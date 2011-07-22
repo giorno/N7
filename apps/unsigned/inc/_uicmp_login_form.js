@@ -62,6 +62,14 @@ function _uicmp_login_toggle_checkbox ( id )
 function _uicmp_login_login ( )
 {
 	var login = document.getElementById( _uicmp_login_id + '.Login' ).value;
+	
+	/**
+	 * This is to fix onKeyUp event triggering login prematurely when manually
+	 * typing address into browser address bar.
+	 */
+	if ( login == '' )
+		return;
+	
 	var password = document.getElementById( _uicmp_login_id + '.Password' ).value;
 	var rememberMe = document.getElementById( _uicmp_login_id + '.ChkBox' ).checked;
 	var lang = document.getElementById( _uicmp_login_id + '.Language' )[document.getElementById( _uicmp_login_id + '.Language' ).selectedIndex].value;

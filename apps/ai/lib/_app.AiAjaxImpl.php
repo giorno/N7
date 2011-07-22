@@ -179,22 +179,16 @@ class AiAjaxImpl extends Ai
 					 * Perform installation of application.
 					 */
 					case 'install':
-						$apps  = n7_at::search( );
-						if ( is_array( $apps ) )
-							foreach ( $apps as $app )
-								if ( ( $app[n7_at::F_FSNAME] == $_POST['fsname'] ) && ( $app[n7_at::F_EXECSEQ] == n7_at::V_CANDIDATE ) )
-								{
-									$script = N7_SOLUTION_APPS . $_POST['fsname'] . '/inst/install.php';
-									
-									if ( file_exists( $script ) )
-										include $script;
-									
-									n7_at::register( $app[n7_at::F_APPID], $app[n7_at::F_FSNAME], $app[n7_at::F_VERSION], $app[n7_at::F_I18N], $app[n7_at::F_FLAGS] );
-									
-									echo "OK";
-									
-									break;
-								}
+						$lib = N7_SOLUTION_APPS . $_POST['fsname'] . '/inst/class.Installer.php';
+						if ( file_exists( $lib ) )
+						{
+							require_once $lib;
+							$installer = new Installer( );
+							$installer->exec( );
+							echo "OK";
+						}
+						else
+							echo "KO";
 					break;
 					
 					/**
