@@ -363,7 +363,14 @@ function _uicmp_at ( my_name, cnt_id, url, params, ind )
 										onSuccess: function ( data )
 										{
 											scope.effect_hide( );
-											scope.ind.fade( 'installed', '_uicmp_ind_green' );
+											
+											/**
+											 * @todo implement more specific error messages
+											 */
+											if ( data.responseText == 'OK' )
+												scope.ind.fade( 'installed', '_uicmp_ind_green' );
+											else
+												scope.ind.show( 'e_unknown', '_uicmp_ind_red' );
 											scope.list( );
 										}
 									}
