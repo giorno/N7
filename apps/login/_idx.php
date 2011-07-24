@@ -9,7 +9,7 @@
 
 require_once dirname( __FILE__ ) . '/_cfg.php';
 
-require_once UNSIGNEDTAB_LIB . '_app.LoginMainImpl.php';
+require_once APP_LOGIN_LIB . '_app.LoginMainImpl.php';
 LoginMainImpl::getInstance();
 
 ?>

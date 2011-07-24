@@ -3,13 +3,17 @@
 /**
  * @file _uicmp_login_form.php
  * @author giorno
- *
- * Login form component. Specialization of _uicmp_tab.
+ * @package N7
+ * @subpackage Login
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_tab.php';
 
+/**
+ * Login form component. Specialization of _uicmp_tab.
+ */
 class _uicmp_login_form extends _uicmp_tab
 {
 	/**
@@ -38,7 +42,7 @@ class _uicmp_login_form extends _uicmp_tab
 	{
 		parent::__construct( $parent, $id );
 		$this->type = __CLASS__;
-		$this->renderer = UNSIGNEDTAB_ROOT . 'templ/uicmp/login_form.html';
+		$this->renderer = APP_LOGIN_ROOT . 'ui/uicmp/login_form.html';
 		$this->url = $url;
 		$this->appName = $appName;
 	}
@@ -50,8 +54,8 @@ class _uicmp_login_form extends _uicmp_tab
 	{
 		parent::generateJs( );
 		
-		$this->getRequirer( )->call( _uicmp_layout::RES_CSS, Array( 'inc/unsigned/_uicmp_login_form.css', $this->id ) );
-		$this->getRequirer( )->call( _uicmp_layout::RES_JS, Array( 'inc/unsigned/_uicmp_login_form.js', $this->id ) );
+		$this->getRequirer( )->call( _uicmp_layout::RES_CSS, Array( 'inc/login/_uicmp_login_form.css', $this->id ) );
+		$this->getRequirer( )->call( _uicmp_layout::RES_JS, Array( 'inc/login/_uicmp_login_form.js', $this->id ) );
 		$this->getRequirer( )->call( _uicmp_layout::RES_ONLOAD, '_uicmp_login_startup(\'' . $this->getHtmlId( ) . '\', \'' . $this->url . '\', \'' . $this->appName . '\');' );
 	}
 }

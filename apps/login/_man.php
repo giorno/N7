@@ -4,7 +4,7 @@
  * @file _man.php
  * @author giorno
  * @package N7
- * @subpackage Unsigned
+ * @subpackage Login
  * @license Apache License, Version 2.0, see LICENSE file
  * 
  * Application manifest.

@@ -14,8 +14,8 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
 require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 
-require_once UNSIGNEDTAB_LIB . '_app.Login.php';
-require_once UNSIGNEDTAB_LIB . '_uicmp_login_form.php';
+require_once APP_LOGIN_LIB . '_app.Login.php';
+require_once APP_LOGIN_LIB . 'uicmp/_uicmp_login_form.php';
 
 class LoginMainImpl extends Login
 {
@@ -50,7 +50,7 @@ class LoginMainImpl extends Login
 		/**
 		 * Setting up localization messages.
 		 */
-		include UNSIGNEDTAB_ROOT . "i18n/all.php";
+		include APP_LOGIN_ROOT . "i18n/all.php";
 
 		$this->messages = &$__msgUnsigned;
 		$this->languages = &n7_globals::languages( );
@@ -62,7 +62,7 @@ class LoginMainImpl extends Login
 	 */
 	public function exec ( )
 	{
-		_smarty_wrapper::getInstance( )->setContent( UNSIGNEDTAB_ROOT . 'templ/index.html' );
+		_smarty_wrapper::getInstance( )->setContent( APP_LOGIN_ROOT . 'ui/index.html' );
 
 		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );
 			$tab = new _uicmp_login_form( $this->layout, $this->id . '.Form', n7_globals::getInstance( )->get('url')->myUrl( ) . '/ajax.php', $this->id );

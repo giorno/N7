@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file _app.InstallerAjaxImpl.php
+ * @author giorno
+ * @package N7
+ * @subpackage Installer
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
 require_once CHASSIS_LIB . 'libdb.php';
 require_once CHASSIS_3RD . 'EmailAddressValidator.php';
 
@@ -8,12 +16,7 @@ require_once N7_SOLUTION_APPS. 'ai/lib/class.AiUser.php';
 
 require_once INSTALLER_LIB. '_app.Installer.php';
 
-/**
- * @file _app.InstallerAjaxImpl.php
- * @author giorno
- * @package N7
- * @license Apache License, Version 2.0, see LICENSE file
- * 
+/** 
  * Ajax server implementation for Installer application.
  */
 class InstallerAjaxImpl extends Installer
@@ -126,7 +129,7 @@ class InstallerAjaxImpl extends Installer
 			/**
 			 * Populate applications table with bundled applications.
 			 */
-			$apps = array ( 'branding', 'unsigned', 'signed', 'account', 'ai' );
+			$apps = array ( 'branding', 'signed', 'account', 'ai', 'login' );
 			foreach( $apps as $app )
 			{
 				$man = NULL;

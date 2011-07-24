@@ -3,13 +3,17 @@
 /**
  * @file _app.LoginAjaxImpl.php
  * @author giorno
- *
- * Ajax server implementation for Login application.
+ * @package N7
+ * @subpackage Login
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'session/_session_wrapper.php';
-require_once UNSIGNEDTAB_LIB . '_app.Login.php';
+require_once APP_LOGIN_LIB . '_app.Login.php';
 
+/**
+ * Ajax server implementation for Login application.
+ */
 class LoginAjaxImpl extends Login
 {
 	/**
