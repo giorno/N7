@@ -14,7 +14,7 @@ apps/*
 !apps/branding
 !apps/installer
 !apps/signed
-!apps/unsigned
+!apps/login
 page/inc/*
 !page/inc/account 
 !page/inc/ai
@@ -23,4 +23,4 @@ page/inc/*
 !page/inc/img
 !page/inc/js
 !page/inc/signed
-!page/inc/unsigned
+!page/inc/login

@@ -12,12 +12,12 @@
 
 					<tr>
 						<td class="_uicmp_login_prompt" id="{$USR_UICMP_TAB->getHtmlId()}.loginPromptLogin">{$APP_LOGIN_MSG.loginPromptLogin}</td>
-						<td class="_uicmp_login_field"><input onKeyUp="if ( waEventKeycode(event) == 13 ) _uicmp_login_login();" id="{$USR_UICMP_TAB->getHtmlId()}.Login" class="_uicmp_frm_input" type="text" value=""></td>
+						<td class="_uicmp_login_field"><input onKeyUp="if ( waEventKeycode(event) == 13 ) {$USR_UICMP_TAB->getJsVar()}.login();" id="{$USR_UICMP_TAB->getHtmlId()}.Login" class="_uicmp_frm_input" type="text" value=""></td>
 					</tr>
 
 					<tr>
 						<td class="_uicmp_login_prompt" id="{$USR_UICMP_TAB->getHtmlId()}.loginPromptPassword">{$APP_LOGIN_MSG.loginPromptPassword}</td>
-						<td class="_uicmp_login_field"><input onKeyUp="if ( waEventKeycode(event) == 13 ) _uicmp_login_login();" id="{$USR_UICMP_TAB->getHtmlId()}.Password" class="_uicmp_frm_input" type="password" value=""></td>
+						<td class="_uicmp_login_field"><input onKeyUp="if ( waEventKeycode(event) == 13 ) {$USR_UICMP_TAB->getJsVar()}.login();" id="{$USR_UICMP_TAB->getHtmlId()}.Password" class="_uicmp_frm_input" type="password" value=""></td>
 					</tr>
 
 					<tr>
@@ -26,8 +26,8 @@
 							<table cellspacing="0" cellpadding="0" width="100%">
 								<tr>
 									<td><input id="{$USR_UICMP_TAB->getHtmlId()}.ChkBox" type="checkbox"></td>
-									<td width="100%" class="_uicmp_login_bt"><div id="{$USR_UICMP_TAB->getHtmlId()}.btRememberMe" onClick="_uicmp_login_toggle_checkbox( '{$USR_UICMP_TAB->getHtmlId()}.ChkBox' );" class="_uicmp_blue">{$APP_LOGIN_MSG.loginBtRememberMe}</div></td>
-									<td align="right" class="_uicmp_login_bt"><div id="{$USR_UICMP_TAB->getHtmlId()}.btSignIn" onClick="_uicmp_login_login( );" class="_uicmp_blue_b">{$APP_LOGIN_MSG.loginBtSignIn}</div></td>
+									<td width="100%" class="_uicmp_login_bt"><div id="{$USR_UICMP_TAB->getHtmlId()}.btRememberMe" onClick="document.getElementById( '{$USR_UICMP_TAB->getHtmlId()}.ChkBox' ).click();" class="_uicmp_blue">{$APP_LOGIN_MSG.loginBtRememberMe}</div></td>
+									<td align="right" class="_uicmp_login_bt"><div id="{$USR_UICMP_TAB->getHtmlId()}.btSignIn" onClick="{$USR_UICMP_TAB->getJsVar()}.login( );" class="_uicmp_blue_b">{$APP_LOGIN_MSG.loginBtSignIn}</div></td>
 								</tr>
 							</table>
 
@@ -45,7 +45,7 @@
 					<tr>
 						<td class="_uicmp_login_prompt" id="{$USR_UICMP_TAB->getHtmlId()}.loginPromptLanguage">{$APP_LOGIN_MSG.loginPromptLanguage}</td>
 						<td class="_uicmp_login_field">
-							<select onChange="_uicmp_login_set_lang( );" id="{$USR_UICMP_TAB->getHtmlId()}.Language" class="_uicmp_login_field">
+							<select onChange="{$USR_UICMP_TAB->getJsVar()}.lang_set( );" id="{$USR_UICMP_TAB->getHtmlId()}.Language" class="_uicmp_login_field">
 								{foreach from=$APP_LOGIN_LANGUAGES key='code' item='lang'}
 								<option value="{$code}"{if $code==$APP_LOGIN_LANG} selected="selected"{/if}>{$lang}</option>
 								{/foreach}

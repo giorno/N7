@@ -3,8 +3,9 @@
 /**
  * @file _app.LoginMainImpl.php
  * @author giorno
- *
- * Main implementation of Login application. Delivers resources to client side.
+ * @package N7
+ * @subpackage Login
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once CHASSIS_LIB . 'class.Wa.php';
@@ -15,28 +16,31 @@ require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 
 require_once APP_LOGIN_LIB . '_app.Login.php';
-require_once APP_LOGIN_LIB . 'uicmp/_uicmp_login_form.php';
+require_once APP_LOGIN_LIB . 'uicmp/_uicmp_login_frm.php';
 
+/**
+ * Main implementation of Login application. Delivers resources to client side.
+ */
 class LoginMainImpl extends Login
 {
 	/**
 	 * Reference to UICMP Layout.
 	 *
-	 * @var <_uicmp_layout>
+	 * @var _uicmp_layout
 	 */
 	protected $layout = NULL;
 
 	/**
 	 * Localization strings.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $messages = NULL;
 
 	/**
 	 * Associative array of languages, indexed by 2-letter codes.
 	 *
-	 * @var <array>
+	 * @var array
 	 */
 	protected $languages = NULL;
 
@@ -65,7 +69,7 @@ class LoginMainImpl extends Login
 		_smarty_wrapper::getInstance( )->setContent( APP_LOGIN_ROOT . 'ui/index.html' );
 
 		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );
-			$tab = new _uicmp_login_form( $this->layout, $this->id . '.Form', n7_globals::getInstance( )->get('url')->myUrl( ) . '/ajax.php', $this->id );
+			$tab = new _uicmp_login_frm( $this->layout, $this->id . '.Form', n7_globals::getInstance( )->get('url')->myUrl( ) . '/ajax.php', array( 'app' => $this->id, 'action' => 'login' ), $this->messages );
 				$tab->show( );
 			$this->layout->addUicmp( $tab );
 
@@ -79,11 +83,6 @@ class LoginMainImpl extends Login
 			$smarty->assignByRef( 'APP_LOGIN_MSG', $this->messages[n7_globals::lang( )] );
 			$smarty->assignByRef( 'APP_LOGIN_LANG', n7_globals::lang( ) );
 			$smarty->assignByRef( 'APP_LOGIN_LANGUAGES', $this->languages );
-
-		/**
-		 * Translate localization into Javascript.
-		 */
-		_app_registry::getInstance()->requireJsPlain( Wa::JsMessages( $this->messages, '_appLoginMsg' ) );
 	}
 
 	/**

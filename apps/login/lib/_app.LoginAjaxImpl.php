@@ -24,7 +24,7 @@ class LoginAjaxImpl extends Login
 	{
 		$session = _session_wrapper::getInstance( );
 		
-		if ( $session->login( N7_SOLUTION_ID , $_POST['login'], $_POST['password'], $_POST['rememberMe'] ) )
+		if ( $session->login( N7_SOLUTION_ID , $_POST['login'], $_POST['password'], $_POST['auto'] ) )
 			echo "OK";
 		else
 			echo "KO";
