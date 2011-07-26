@@ -14,6 +14,7 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
 
 require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
+require_once N7_SOLUTION_LIB . 'n7_ui.php';
 
 require_once APP_LOGIN_LIB . '_app.Login.php';
 require_once APP_LOGIN_LIB . 'uicmp/_uicmp_login_frm.php';
@@ -23,13 +24,6 @@ require_once APP_LOGIN_LIB . 'uicmp/_uicmp_login_frm.php';
  */
 class LoginMainImpl extends Login
 {
-	/**
-	 * Reference to UICMP Layout.
-	 *
-	 * @var _uicmp_layout
-	 */
-	protected $layout = NULL;
-
 	/**
 	 * Localization strings.
 	 *
@@ -67,22 +61,40 @@ class LoginMainImpl extends Login
 	public function exec ( )
 	{
 		_smarty_wrapper::getInstance( )->setContent( APP_LOGIN_ROOT . 'ui/index.html' );
-
-		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );
-			$tab = new _uicmp_login_frm( $this->layout, $this->id . '.Form', n7_globals::getInstance( )->get('url')->myUrl( ) . '/ajax.php', array( 'app' => $this->id, 'action' => 'login' ), $this->messages );
-				$tab->show( );
-			$this->layout->addUicmp( $tab );
-
-			$this->layout->init( );
-
+		
+		$layout = n7_ui::getInstance( )->getLayout( );
+		$this->mkUicmp( $layout );
+	}
+	
+	/**
+	 * Method creates UICMP component for Login widget. This separated
+	 * instantiation is intended for use not only from within this application,
+	 * but also for custom public interfaces.
+	 * 
+	 * @param _uicmp_layout $layout parent instance rendering the form
+	 * @return _uicmp_login_frm reference to login form widget
+	 */
+	public function mkUicmp ( &$layout )
+	{
+		/**
+		 * Build UI.
+		 */
+		$uicmp = new _uicmp_login_frm( $layout, $this->id . '.Form', n7_globals::getInstance( )->get('url')->myUrl( ) . '/ajax.php', array( 'app' => $this->id, 'action' => 'login' ), $this->messages );
+		$uicmp->show( );
+		
+		$layout->addUicmp( $uicmp );
+		$layout->init( );
+		
 		/**
 		 * Set Smarty resources for the application interface.
 		 */
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
-			$smarty->assignByRef( 'APP_LOGIN_FORM', $this->layout );
+			$smarty->assignByRef( 'APP_LOGIN_FORM', $layout );
 			$smarty->assignByRef( 'APP_LOGIN_MSG', $this->messages[n7_globals::lang( )] );
 			$smarty->assignByRef( 'APP_LOGIN_LANG', n7_globals::lang( ) );
 			$smarty->assignByRef( 'APP_LOGIN_LANGUAGES', $this->languages );
+			
+		return $uicmp;
 	}
 
 	/**

@@ -42,6 +42,15 @@ class _uicmp_login_frm extends _uicmp_tab
 		$this->jsPrefix	= '_uicmp_login_i';
 		$this->messages	= $messages;
 	}
+	
+	/**
+	 * Method allowing change for renderer. This is intented to provide users
+	 * outside the Login app with ability to change way how this widget is
+	 * rendered for their own purpose, e.g. public interface.
+	 * 
+	 * @param string $path path to new renderer template
+	 */
+	public function setRenderer( $path ) { $this->renderer	= $path; }
 
 	/**
 	 * Compose and deliver CSS and Javascript requirements of the component.
