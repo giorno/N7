@@ -81,7 +81,7 @@ else
 _app_registry::getInstance( )->render( );
 _wwg_registry::getInstance( )->render( );	
 _smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'N7_MSG', $__msg );
-_smarty_wrapper::getInstance( )->getEngine( )->assign( 'N7_URL', n7_globals::getInstance( )->get( 'url' ) );
+_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'N7_URL', n7_globals::getInstance( )->get( 'url' ) );
 _smarty_wrapper::getInstance( )->render( );
 
 ?>
