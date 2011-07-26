@@ -22,6 +22,12 @@ require_once N7_SOLUTION_LIB . 'n7_url.php';
 class n7_globals extends _request_globals
 {
 	/**
+	 * Name of cookie carrying HTTP session language code. Cookie name may not
+	 * contain dots.
+	 */
+	const COOKIE_LANG = 'io_creat_n7_lang';
+	
+	/**
 	 * Constructor. Called from Singleton interface. Initializes storage.
 	 */
 	protected function __construct ( )
@@ -76,16 +82,22 @@ class n7_globals extends _request_globals
 		if ( ( !array_key_exists( 'usr.lang', $this->storage ) ) || ( !array_key_exists( $this->storage['usr.lang'], $this->storage['languages'] ) ) )
 		{
 			/**
-			 * There was nothing useful in browser settings. Let's use IP address.
+			 * Language is not provided in the HTTP cookie.
 			 */
-			if ( !$this->langFromBrowser( ) )
+			if ( !$this->langFromCookie( ) )
 			{
 				/**
-				 * Unable to retrieve language from IP address. Fallback to
-				 * English.
+				 * There was nothing useful in browser settings. Let's use IP address.
 				 */
-				if ( !$this->langFromIp( ) )
-					$this->storage['usr.lang'] = 'en';
+				if ( !$this->langFromBrowser( ) )
+				{
+					/**
+					 * Unable to retrieve language from IP address. Fallback to
+					 * English.
+					 */
+					if ( !$this->langFromIp( ) )
+						$this->storage['usr.lang'] = 'en';
+				}
 			}
 		}
 
@@ -161,6 +173,27 @@ class n7_globals extends _request_globals
 		}
 		return false;
 	}
+	
+	/**
+	 * Tries to retrieve specific language from HTTP cookies.
+	 * 
+	 * @return bool 
+	 */
+	private function langFromCookie ( )
+	{
+		if ( array_key_exists( self::COOKIE_LANG, $_COOKIE ) )
+			$code = $_COOKIE[self::COOKIE_LANG];
+		else
+			return false;
+		
+		if ( array_key_exists( $code, $this->storage['languages'] ) )
+		{
+			$this->storage['usr.lang'] = $code;
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Shortcut for accesing settings instance.
@@ -197,20 +230,6 @@ class n7_globals extends _request_globals
 	 * @return <n7_timezone>
 	 */
 	public static function serverTz ( ) { return static::getInstance( )->get( 'server.tz' ); }
-
-	/**
-	 * Shortcut for accesing solution configuration.
-	 *
-	 * @return <n7_config>
-	 */
-	//public static function config ( ) { return static::getInstance( )->get( 'config' ); }
-
-	/**
-	 * Shortcut for accesing URL provider.
-	 *
-	 * @return <n7_url>
-	 */
-	//public static function url ( ) { return static::getInstance( )->get( 'url' ); }
 
 }
 
