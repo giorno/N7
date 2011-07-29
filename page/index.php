@@ -78,6 +78,7 @@ else
 	_app_registry::getInstance( )->exec( $__APP );
 }
 
+n7_ui::getInstance( )->preRender( );
 _app_registry::getInstance( )->render( );
 _wwg_registry::getInstance( )->render( );	
 _smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'N7_MSG', $__msg );

@@ -9,6 +9,7 @@
 
 require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_dlgs.php';
 
 require_once N7_SOLUTION_LIB . 'wwg/_wwg.Menu.php';
 require_once N7_SOLUTION_LIB . 'wwg/_wwg.MenuItem.php';
@@ -24,6 +25,13 @@ class n7_ui
 	 * @var _uicmp_layout 
 	 */
 	protected $layout = NULL;
+	
+	/**
+	 * Instance of UICMP layout for dynamic dialogs.
+	 * 
+	 * @var _uicmp_dlgs 
+	 */
+	protected $dlgs = NULL;
 	
 	/**
 	 * Instance of Menu widget.
@@ -73,6 +81,21 @@ class n7_ui
 	}
 	
 	/**
+	 * Provider of _uicmp_dlgs instance.
+	 * 
+	 * @todo use of language setting
+	 * 
+	 * @return _uicmp_dlgs 
+	 */
+	public function getDlgs ( )
+	{
+		if ( is_null( $this->dlgs ) )
+			$this->dlgs = new _uicmp_dlgs ( n7_requirer::getInstance( ) );
+		
+		return $this->dlgs;
+	}
+	
+	/**
 	 * Provider of Menu widget instance.
 	 * 
 	 * @return Menu 
@@ -86,6 +109,24 @@ class n7_ui
 		}
 		
 		return $this->menu;
+	}
+	
+	/**
+	 * Perform pre-prender phase actions. Initializes layouts.
+	 */
+	public function preRender ( )
+	{
+		/**
+		 * This order is important as static UI may depend on dynamic.
+		 */
+		$this->getDlgs( );
+		$this->getLayout( );
+		
+		$this->dlgs->init( );
+		$this->layout->init( );
+			
+		_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'USR_UICMP_DLGS', $this->dlgs );
+		_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'USR_UICMP_LAYOUT', $this->layout );
 	}
 }
 

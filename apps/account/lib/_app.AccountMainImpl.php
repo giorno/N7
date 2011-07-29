@@ -55,7 +55,7 @@ class AccountMainImpl extends Account implements SemProvider
 	 */
 	public function exec ( )
 	{
-		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );
+		$this->layout = n7_ui::getInstance( )->getLayout( );
 		$this->layout->createSep( );
 		
 			$tab = $this->layout->createTab( $this->id . '.Settings', FALSE );
@@ -84,7 +84,6 @@ class AccountMainImpl extends Account implements SemProvider
 				$tab->addVcmp( $chp );
 
 		$this->layout->createSep( );
-		$this->layout->init( );
 
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
 		$smarty->assignByRef( 'APP_ACCOUNT_LAYOUT', $this->layout );
