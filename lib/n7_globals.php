@@ -9,6 +9,8 @@
  * table.
  */
 
+require_once CHASSIS_LIB . 'i18n/_i18n_loader.php';
+
 require_once CHASSIS_LIB . 'session/_request_globals.php';
 require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 require_once CHASSIS_LIB . 'session/_settings.php';
@@ -46,6 +48,7 @@ class n7_globals extends _request_globals
 		$this->storage['config'] = new n7_config( );
 		$serverTz = $this->storage['config']->get( 'server.tz' );
 		_tz_setsqltz( $serverTz );
+		
 		/*
 		 * Global variable containing codes and names of languages for
 		 * displaying. This is suposed to be changed only during development.
@@ -106,7 +109,11 @@ class n7_globals extends _request_globals
 		 */
 		if ( !array_key_exists( $this->storage['usr.lang'], $this->storage['languages'] ) )
 			$this->langFromIp( );
-
+		
+		/**
+		 * Load Chassis framework localization.
+		 */
+		$this->storage['io.creat.chassis.i18n'] = _i18n_loader::getInstance( $this->storage['usr.lang'] );
 	}
 
 	/**

@@ -75,7 +75,7 @@ class n7_ui
 	public function getLayout ( )
 	{
 		if ( is_null( $this->layout ) )
-			$this->layout = new _uicmp_layout ( n7_requirer::getInstance( ) );
+			$this->layout = new _uicmp_layout( n7_requirer::getInstance( ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 		
 		return $this->layout;
 	}
@@ -90,7 +90,7 @@ class n7_ui
 	public function getDlgs ( )
 	{
 		if ( is_null( $this->dlgs ) )
-			$this->dlgs = new _uicmp_dlgs ( n7_requirer::getInstance( ) );
+			$this->dlgs = new _uicmp_dlgs( n7_requirer::getInstance( ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 		
 		return $this->dlgs;
 	}

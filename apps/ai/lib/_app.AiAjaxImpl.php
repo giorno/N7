@@ -56,7 +56,7 @@ class AiAjaxImpl extends Ai
 									$search_id = $this->getVcmpSearchId( 'Users' );
 									if ( trim( $_POST['keywords'] ) != '' )
 									{
-										$empty = new _list_empty( $this->messages['nomatch']['Users'] );
+										$empty = new _list_empty( $this->messages['nomatch']['Users'], n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 										$empty->add( $this->messages['eo']['again'], "_uicmp_lookup.lookup( '{$search_id}' ).focus();" );
 										$empty->add( $this->messages['eo']['allUsers'], "_uicmp_lookup.lookup( '{$search_id}' ).showAll();" );
 									}
@@ -65,7 +65,7 @@ class AiAjaxImpl extends Ai
 										/**
 										 * This is impossible to happen. If it does, you are probably using too big hammer.
 										 */
-										$empty = new _list_empty( $this->messages['empty']['Users'] );
+										$empty = new _list_empty( $this->messages['empty']['Users'], n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 										$empty->add( $this->messages['eo']['createUser'], "{$_POST['ue_js_var']}.create();" );
 									}
 									$empty->render( );

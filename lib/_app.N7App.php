@@ -54,7 +54,7 @@ abstract class N7App extends App
 			 */
 			case 'refresh':
 				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::lang( ) );
+				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 				$cdes->display( $list_cfg, $_POST['id'], $_POST['cdes_ed'], n7_globals::settings( )->get( 'usr.lst.len' ), n7_globals::settings( )->get( 'usr.lst.pagerhalf' ), $_POST['keywords'], $_POST['page'], $_POST['order'], $_POST['dir'], $rm_cb );
 			break;
 
@@ -70,7 +70,7 @@ abstract class N7App extends App
 			 */
 			case 'save':
 				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::lang( ) );
+				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 				if ( trim( $_POST['disp'] ) == '' )
 					echo "e_format";
 				elseif ( ( $_POST['ctx'] == 0 ) && ( $cdes->exists( $_POST['disp'] ) ) )
@@ -86,7 +86,7 @@ abstract class N7App extends App
 			 */
 			case 'remove':
 				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::lang( ) );
+				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 				$cdes->remove( $_POST['ctx'] );
 			break;
 		}
