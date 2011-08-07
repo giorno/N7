@@ -28,14 +28,11 @@ if ( array_key_exists( 'action', $_POST ) )
 else // normal request -> build UI and client logic
 {
 	include N7_SOLUTION_APPS . 'installer/_idx.php';
+	n7_ui::getInstance( )->preRender( );
 	_app_registry::getInstance()->exec( Installer::ID );
 	_app_registry::getInstance()->render( );
 	_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'N7_MSG', $__msg );
 	_smarty_wrapper::getInstance( )->render( );
 }
-
-
-	
-
 
 ?>

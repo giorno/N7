@@ -5,6 +5,7 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_info.php';
 
 require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_timezone.php';
+require_once N7_SOLUTION_LIB . 'n7_ui.php';
 
 require_once INSTALLER_LIB. '_app.Installer.php';
 require_once INSTALLER_LIB. 'uicmp/_vcmp_inst_ctrl.php';
@@ -17,14 +18,7 @@ require_once INSTALLER_LIB. 'uicmp/_vcmp_inst_ctrl.php';
  * Main RR implementation of Installer application.
  */
 class InstallerMainImpl extends Installer
-{
-	/**
-	 * Reference to UICMP Layout.
-	 *
-	 * @var _uicmp_layout
-	 */
-	protected $layout = NULL;
-	
+{	
 	protected function __construct ( )
 	{
 		parent::__construct( );
@@ -43,19 +37,18 @@ class InstallerMainImpl extends Installer
 			$registry->requireCssPlain( 'td._inst_no{font-size:18px;font-weight:bold;width:1px;padding-right:0px;}' );
 		}
 		_smarty_wrapper::getInstance( )->setContent( INSTALLER_UI . 'index.html' );
-		
-		$this->layout = new _uicmp_layout( n7_requirer::getInstance( ) );
-			$tab = $this->layout->createTab( $this->id . '.Tab', FALSE );
+		$layout = n7_ui::getInstance( )->getLayout( );
+			$tab = $layout->createTab( $this->id . '.Tab', FALSE );
 			$tab->getHead()->add( new _uicmp_title( $tab, $tab->getId() . '.Title', $this->messages['title'] ) );
 			$tab->getHead()->add( new _uicmp_info( $tab, $tab->getId() . '.Info', $this->messages['info'] ) );
 			$tab->addVcmp( new _vcmp_inst_ctrl( $tab, $this->id . '.Ctrl', n7_timezone::allZones( ), $this->messages ) );
-			$this->layout->init( );
+			$layout->init( );
 			
 		/**
 		 * Set Smarty resources for the application interface.
 		 */
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
-			$smarty->assignByRef( 'APP_INST_CTRL',	$this->layout );
+			$smarty->assignByRef( 'APP_INST_CTRL',	$layout );
 			$smarty->assignByRef( 'APP_INST_MSG',	$this->messages );
 				
 	}

@@ -11,6 +11,8 @@ require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
 require_once CHASSIS_LIB . 'uicmp/_uicmp_dlgs.php';
 
+require_once N7_SOLUTION_LIB . 'n7_globals.php';
+
 require_once N7_SOLUTION_LIB . 'wwg/_wwg.Menu.php';
 require_once N7_SOLUTION_LIB . 'wwg/_wwg.MenuItem.php';
 

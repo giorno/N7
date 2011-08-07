@@ -47,6 +47,15 @@ class n7_globals extends _request_globals
 		 */
 		$this->storage['config'] = new n7_config( );
 		$serverTz = $this->storage['config']->get( 'server.tz' );
+		
+		/**
+		 * During the installation we need to use n7_ui singleton, which uses
+		 * this one, but as there are not database tables, some configurations
+		 * are missing. It also serves as fallback value.
+		 */
+		if ( is_null( $serverTz ) )
+			$serverTz = 'Europe/Brussels';
+		
 		_tz_setsqltz( $serverTz );
 		
 		/*

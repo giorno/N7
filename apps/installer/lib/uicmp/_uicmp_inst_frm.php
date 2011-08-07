@@ -34,7 +34,7 @@ class _uicmp_inst_frm extends _uicmp_comp
 		/**
 		 * User login application stylesheet for special purposes.
 		 */
-		$this->getRequirer( )->call( _uicmp_layout::RES_CSS, Array( 'inc/unsigned/_uicmp_login_form.css', $this->id ) );
+		$this->getRequirer( )->call( _uicmp_layout::RES_CSS, Array( 'inc/login/_uicmp.css', $this->id ) );
 	}
 	
 	/**
