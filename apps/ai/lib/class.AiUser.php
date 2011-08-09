@@ -116,6 +116,8 @@ class AiUser extends Config
 	 * 
 	 * @param string $login user account login
 	 * @return bool 
+	 * 
+	 * @todo allow use of certain non-alphanum characters, like dots, dashes, etc.
 	 */
 	public static function loginOk ( $login )
 	{
@@ -130,7 +132,6 @@ class AiUser extends Config
 				continue;
 			else
 				return false;
-				
 		}
 		
 		return true;
