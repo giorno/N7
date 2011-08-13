@@ -33,7 +33,16 @@ body,td,input,select
 input,select
 {
 	font-size:						12px;
-	padding:						1px;
+	vertical-align:					middle;
+}
+/* Firefox hack to set text in buttons into middle */
+@-moz-document url-prefix()
+{
+	input
+	{
+		line-height:					22px;
+		height:							22px;
+	}
 }
 tbody
 {
