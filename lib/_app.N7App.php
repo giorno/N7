@@ -14,6 +14,8 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_cdes_cloud.php';
 /** 
  * Specialization of framework class to provide common processing methods to all
  * solution applications.
+ * 
+ * @todo loading of localization in separate method or constructor
  */
 abstract class N7App extends App
 {
