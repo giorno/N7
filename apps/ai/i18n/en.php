@@ -60,21 +60,21 @@ $__msg_ai['eo']['allUsers']			= 'Show all users';
 /**
  * Applications Table related strings.
  */
-$__msg_ai['at']['fold']					= 'Applications';
-$__msg_ai['at']['title']				= 'Management of solution applications';
-$__msg_ai['at']['app']					= 'Application';
-$__msg_ai['at']['refresh']				= 'Refresh view';
-$__msg_ai['at']['i']['loading']			= 'Loading...';
-$__msg_ai['at']['i']['loaded']			= 'Loaded';
-$__msg_ai['at']['i']['installing']		= 'Installing...';
-$__msg_ai['at']['i']['installed']		= 'Installed';
-$__msg_ai['at']['seq']					= 'Sequence';
-$__msg_ai['at']['id']					= 'Identifier';
-$__msg_ai['at']['path']					= 'Folder';
-$__msg_ai['at']['flags']				= 'Flags';
-$__msg_ai['at']['version']				= 'Version';
-$__msg_ai['at']['install']				= 'Install';
-$__msg_ai['at']['up']					= 'Move up';
-$__msg_ai['at']['down']					= 'Move down';
+$__msg_ai['at']['fold']				= 'Applications';
+$__msg_ai['at']['title']			= 'Management of solution applications';
+$__msg_ai['at']['app']				= 'Application';
+$__msg_ai['at']['refresh']			= 'Refresh view';
+$__msg_ai['at']['i']['loading']		= 'Loading...';
+$__msg_ai['at']['i']['loaded']		= 'Loaded';
+$__msg_ai['at']['i']['installing']	= 'Installing...';
+$__msg_ai['at']['i']['installed']	= 'Installed';
+$__msg_ai['at']['seq']				= 'Sequence';
+$__msg_ai['at']['id']				= 'Identifier';
+$__msg_ai['at']['path']				= 'Folder';
+$__msg_ai['at']['flags']			= 'Flags';
+$__msg_ai['at']['version']			= 'Version';
+$__msg_ai['at']['install']			= 'Install';
+$__msg_ai['at']['up']				= 'Move up';
+$__msg_ai['at']['down']				= 'Move down';
 
 ?>
