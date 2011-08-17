@@ -282,3 +282,23 @@ a.n7_wwg_mi:hover,div.n7_wwg_mi:hover
 	text-decoration:				underline;
 	color:							#ffffff;
 }
+/* Indicator container */
+td.n7_wwg_ind
+{
+	padding-left:					8px;
+	vertical-align:					middle;
+}
+
+/* Webwidget caption */
+td.n7_wwg_cap
+{
+	font-size:						18px;
+	font-weight:					bold;
+	white-space:					nowrap;
+}
+
+/* Container for content (delivered by Ajax) */
+td.n7_wwg_cnt
+{
+	min-width:						170px;
+}
