@@ -25,7 +25,7 @@ $__msgSigned['wwgClockTime']			= '%H:%M';
  * News RSS widget.
  */
 $__msgSigned['news']['i']['loading']	= 'Stahuji...';
-$__msgSigned['news']['i']['loaded']		= 'Stáhnuto';
+$__msgSigned['news']['i']['loaded']		= 'Staženo';
 $__msgSigned['news']['i']['e_unknown']	= 'Chyba: neznáma chyba! Kontaktuje správce.';
 $__msgSigned['news']['caption']			= 'Novinky';
 
