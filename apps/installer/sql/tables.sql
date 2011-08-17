@@ -23,3 +23,14 @@ CREATE TABLE IF NOT EXISTS `tApps` (
   `flags` int(4) NOT NULL,
   KEY `ns` (`ns`,`app_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+---
+--- Cache for blogs.
+---
+
+CREATE TABLE  `tNewsRssCache` (
+  `lang` CHAR( 2 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `url` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `title` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `ts` TIMESTAMP NOT NULL
+) ENGINE = MYISAM;

@@ -1,0 +1,249 @@
+<?php
+
+/**
+ * @file _wwg.News.php
+ * @author giorno
+ * @package N7
+ * @subpackage Signed
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+namespace io\creat\n7\apps\Signed;
+
+require_once CHASSIS_LIB . 'class.Wa.php';
+
+require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
+require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
+require_once CHASSIS_LIB . 'uicmp/_uicmp_gi_ind.php';
+
+require_once CHASSIS_3RD . 'SimplePie.compiled.php';
+
+require_once N7_SOLUTION_LIB . 'n7_requirer.php';
+
+/**
+ * Webwidget displaying few latest headlines from blog. Configurable for
+ * specific set of languages.
+ */
+class News extends \Wwg
+{
+	/**
+	 * Name of database table for RSS cache.
+	 */
+	const T_RSSCACHE	= 'tNewsRssCache';
+	
+	/**
+	 * Field for two-character language code.
+	 */
+	const F_LANG		= 'lang';
+	
+	/**
+	 * URL of the entry.
+	 */
+	const F_URL			= 'url';
+	
+	/**
+	 * Headline of the entry.
+	 */
+	const F_HEADLINE	= 'title';
+	
+	/**
+	 * Timestamp field. The time of the fetch.
+	 */
+	const F_STAMP		= 'ts';
+	
+	/**
+	 * Authentic RSS channel.
+	 */
+	const CH_AUTH		= 'A';
+	
+	/**
+	 * Link to another RSS channel.
+	 */
+	const CH_LINK		= 'L';
+	
+	/**
+	 * Token for URL field of the row in the database table, which holds
+	 * timestamp of last update. When language field contains this value, other
+	 * fields are interpreted as: 'ts' is timestamp of last fetch, 'lang' is
+	 * language code of the channel, 'title' is ignored.
+	 */
+	const FETCH_STOP	= '__';
+	
+	/**
+	 * Delay between two attempts to fetch channel again. In minutes.
+	 */
+	const FETCH_DELAY	= 15;
+	
+	/**
+	 * Number of items returned from get() operation.
+	 */
+	const GET_SIZE		= 3;
+	
+	/**
+	 * Hard-coded configuration of the webwidget.
+	 * 
+	 * @todo it should allow more flexible configuration
+	 * 
+	 * @var array
+	 */
+	protected $cfg = array( 'en' => array( self::CH_AUTH, 'http://blog.gtdtab.com/feed/' ),
+							'sk' => array( self::CH_LINK, 'en' ),
+							'cs' => array( self::CH_LINK, 'en' ) );
+	
+	/**
+	 * Constructor. Provides content for both, main and Ajax requests.
+	 * 
+	 * @param Signed $app reference to parent application instance
+	 * @param array $messages array with parent app localization
+	 * @param bool $ajax determines whether this call is from Ajax server or main implementation
+	 */
+	public function __construct ( $app, $messages, $ajax = false )
+	{
+		/**
+		 * For SignedMainImpl app we build whole UI and deliver it to the
+		 * template engine.
+		 */
+		if ( $ajax === false )
+		{
+			$this->id = 'NewsRss';
+			$this->template = SIGNEDTAB_ROOT . 'templ/_wwg.News.html';
+			
+			/**
+			 * Instance of indicator is not connected to any particular layout
+			 * hierarchy.
+			 */
+			$ind = new \_uicmp_gi ( $this, '_wwg.News.Ind', \_uicmp_gi::IT_IND, '', $messages['news']['i'] );
+			$ind->generateJs( );
+			
+			$apps	= \_app_registry::getInstance( );
+			$url	= \n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php';	// Ajax server URL
+			$params	= Array( 'app' => $app->getId( ), 'action' => '_wwg.News:update' );	// Ajax request parameters
+
+			$apps->requireJsPlain( 'var ' . $ind->getJsVar( ) . ' = new _uicmp_ind( \'' . $ind->getHtmlId( ) . '\', null, ' . \_uicmp_comp::toJsArray( $messages['news']['i'] ) . ' );' );
+			$apps->requireJsPlain( 'var _wwgNews_i = new _wwgNews( \'' . $url . '\', ' . \_uicmp_comp::toJsArray( $params ) . ', ' . $ind->getJsVar( ) . ' );' );
+			$apps->requireJs( 'inc/chassis/js/_ajax_req_ad.js' , __CLASS__ );
+			$apps->requireJs( 'inc/signed/_wwg.News.js' , __CLASS__ );
+			$apps->requireCss( 'inc/signed/_wwg.News.css' , __CLASS__ );
+			
+			$apps->requireOnLoad( '_wwgNews_i.startup();' );
+
+			\_wwg_registry::getInstance( )->register( \_wwg_registry::POOL_BOTTOM, $this->id, $this );
+			
+			\_smarty_wrapper::getInstance( )->getEngine( )->assign( 'WWG_NEWS_RSS',	$this->get( \n7_globals::lang( ) ) );
+			\_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'WWG_NEWS_IND', $ind );
+		}
+		/**
+		 * For Ajax app we only fetch news and deliver content.
+		 */
+		else
+		{
+			\_smarty_wrapper::getInstance( )->getEngine( )->assign( 'WWG_NEWS_RSS',	$this->get( \n7_globals::lang( ), true ) );
+			echo \_smarty_wrapper::getInstance( )->getEngine( )->fetch( SIGNEDTAB_ROOT . 'templ/_wwg.News.ajx.html' );
+		}
+	}
+	
+	/**
+	 * Queries control record in the table for particular language and triggers
+	 * appropriate action.
+	 * 
+	 * @param string $lang two-character language code
+	 * @param string $url RSS channel URL
+	 */
+	public function fetch ( $lang, $url )
+	{
+		_db_query( "BEGIN" );
+		
+		$last = _db_1field( "SELECT `" . self::F_STAMP . "` FROM `" . self::T_RSSCACHE . "`
+								WHERE `" . self::F_URL . "` = \"" . _db_escape( self::FETCH_STOP ). "\"
+								AND `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"
+								AND `" . self::F_STAMP . "` > ( NOW() - INTERVAL( " . _db_escape( self::FETCH_DELAY ) . " MINUTE ) )" );
+		
+		if ( !(int)$last )
+		{
+			_db_query( "DELETE FROM `" . self::T_RSSCACHE . "`
+						WHERE `" . self::F_URL . "` = \"" . _db_escape( self::FETCH_STOP ). "\"
+						AND `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"" );
+			
+			$feed = new \SimplePie();
+			$feed->enable_cache( false );	// SimplePie cache would be redundant we use our own cache implementation
+			$feed->set_feed_url( $url );
+			$feed->init( );
+			$feed->handle_content_type( );
+			
+			$posts = $feed->get_items( );
+			if (is_array( $posts ) )
+				foreach ( $posts as $post )
+				{
+					$i_title	= $post->get_title( );
+					$i_url		= $post->get_link( );
+					$i_ts		= $post->get_date( "Y-m-d H:i:s" );
+					
+					/**
+					 * Write only unique posts.
+					 */
+					if ( !(int)_db_1field( "SELECT `" . self::F_STAMP . "` FROM `" . self::T_RSSCACHE . "`
+											WHERE `" . self::F_URL . "` = \"" . _db_escape( $i_url ). "\"
+												AND `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"" ) )
+					{
+						_db_query( "INSERT INTO `" . self::T_RSSCACHE . "`
+									SET `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\",
+										`" . self::F_URL . "` = \"" . _db_escape( $i_url ). "\",
+										`" . self::F_HEADLINE . "` = \"" . _db_escape( $i_title ). "\",
+										`" . self::F_STAMP . "` = \"" . _db_escape( $i_ts ). "\"" );
+					}
+						
+				}
+			
+			_db_query( "INSERT INTO `" . self::T_RSSCACHE . "`
+								SET `" . self::F_URL . "` = \"" . _db_escape( self::FETCH_STOP ). "\",
+								`" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\",
+								`" . self::F_STAMP . "` = NOW()" );
+
+		}
+		_db_query( "COMMIT" );
+	}
+	
+	/**
+	 * Returns content data to be displayed in the webwidget.
+	 * 
+	 * @param string $lang two-character language code
+	 * @param bool $fetch defines whether method should attempt to fetch new data or not, true value is used for Ajax calls
+	 * @return mixed
+	 */
+	public function get ( $lang, $fetch = false )
+	{
+		$ret = false;
+		if ( array_key_exists( $lang, $this->cfg ) )
+		{
+			/**
+			 * Check for link.
+			 */
+			if ( $this->cfg[$lang][0] == self::CH_LINK )
+				$lang = $this->cfg[$lang][1];
+			
+			/**
+			 * Update the resources.
+			 */
+			if ( $fetch === true )
+				$this->fetch( $lang, $this->cfg[$lang][1] );
+			
+			/**
+			 * Load from cache.
+			 */
+			$res = _db_query( "SELECT * FROM `" . self::T_RSSCACHE . "`
+								WHERE `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"
+									AND `" . self::F_URL . "` != \"" . _db_escape( self::FETCH_STOP ). "\"
+									ORDER BY `" . self::F_STAMP . "` DESC
+									LIMIT 0," . self::GET_SIZE . "" );
+			if ( $res && _db_rowcount( $res ) )
+				while( $entry = _db_fetchrow( $res ) )
+					$ret[] = $entry;
+				
+			return $ret;
+		}
+		else
+			return false;
+	}
+}
+
+?>

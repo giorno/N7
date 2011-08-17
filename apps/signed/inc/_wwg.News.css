@@ -1,0 +1,15 @@
+
+/** 
+ * @file _wwg.News.css
+ * @author giorno
+ * @package N7
+ * @subpackage Signed
+ *
+ * Styles for News webwidget.
+ */
+
+td._wwgNewsHeadline
+{ 
+	padding-top:		4px;
+	white-space:		nowrap;
+}

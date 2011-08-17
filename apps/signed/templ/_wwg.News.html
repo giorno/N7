@@ -1,0 +1,27 @@
+{* Template rendering News webwidget.
+ *
+ * @file __wwg.News.ajx.html
+ * @author giorno
+ * @package N7
+ * @subpackage Signed
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
+<td class="_wwg n7_pool_fi">
+	<div id="_wwg.News">
+		<table cborder="1" cellpadding="0" cellspacing="0" class="_uicmp">
+			<tr>
+				<td width="1" class="n7_wwg_cap">{$APP_SIGNED_MSG.news.caption}</td>
+				<td class="n7_wwg_ind">
+					{assign var=USR_UICMP_ITEM value=$WWG_NEWS_IND}
+					{include file=$USR_UICMP_ITEM->getRenderer()}
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="n7_wwg_cnt" id="_wwg.News:container">
+					{include file="$APP_SIGNED_UI/_wwg.News.ajx.html"}
+				</td>
+			</tr>
+		</table>
+	</div>
+</td>

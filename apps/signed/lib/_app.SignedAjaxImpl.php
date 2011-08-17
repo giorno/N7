@@ -3,14 +3,20 @@
 /**
  * @file _app.SignedAjaxImpl.php
  * @author giorno
- *
- * Ajax hadler for signed user session without specified application, e.g.
- * general solution-wide tasks like settings, etc.
+ * @package N7
+ * @subpackage Signed
+ * @license Apache License, Version 2.0, see LICENSE file
  */
 
 require_once SIGNEDTAB_LIB . '_app.Signed.php';
+require_once SIGNEDTAB_LIB . '_wwg.News.php';
+
 require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 
+/**
+ * Ajax hadler for signed user session without specified application, e.g.
+ * general solution-wide tasks like settings, etc.
+ */
 class SignedAjaxImpl extends Signed
 {
 	/**
@@ -24,7 +30,7 @@ class SignedAjaxImpl extends Signed
 		 * As this is actually performed only once, this class should be
 		 * instantiated before all others.
 		 */
-		_app_registry::getInstance()->setDefault( $this->id );
+		//_app_registry::getInstance()->setDefault( $this->id );
 	}
 
 	public function exec ( )
@@ -63,6 +69,13 @@ class SignedAjaxImpl extends Signed
 				$this->clock = new Clock( $this->id );
 				echo $this->clock->xml( );
 
+			break;
+
+			/**
+			 * Update the RSS cache and return newest headlines.
+			 */
+			case '_wwg.News:update':
+				$news = new io\creat\n7\apps\Signed\News( $this, $this->getMessages( ), true );
 			break;
 		}
 	}

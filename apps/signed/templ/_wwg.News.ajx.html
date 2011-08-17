@@ -1,0 +1,16 @@
+{* Template rendering content of News webwidget.
+ *
+ * @file __wwg.News.ajx.html
+ * @author giorno
+ * @package N7
+ * @subpackage Signed
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+ 
+{if isset($WWG_NEWS_RSS)&&is_array($WWG_NEWS_RSS)}
+<table cellspacing="0" cellpadding="0">
+	{foreach from=$WWG_NEWS_RSS item=data}
+	<tr><td class="_wwgNewsHeadline"><a target="_blank" href="{$data.url}">{Wa::CutString($data.title, 50)}</a></td></tr>
+	{/foreach}
+</table>
+{/if}
