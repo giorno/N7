@@ -11,7 +11,7 @@
 --- Table of installed applications
 ---
 
-CREATE TABLE IF NOT EXISTS `tApps` (
+CREATE TABLE IF NOT EXISTS `n7_at` (
   `ns` char(64) COLLATE utf8_unicode_ci NOT NULL,
   `app_id` char(64) COLLATE utf8_unicode_ci NOT NULL,
   `fs_name` char(64) COLLATE utf8_unicode_ci NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `tApps` (
 --- Cache for blogs.
 ---
 
-CREATE TABLE  `tNewsRssCache` (
+CREATE TABLE  `signed_news` (
   `lang` CHAR( 2 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `url` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `title` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,

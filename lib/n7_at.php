@@ -18,7 +18,7 @@ class n7_at
 	/**
 	 * Database table name.
 	 */
-	const T_APPS		= 'tApps';
+	const T_APPS		= 'n7_at';
 	
 	/**
 	 * DB field. Solution identifier. Has value of N7_SOLUTION_ID constant.

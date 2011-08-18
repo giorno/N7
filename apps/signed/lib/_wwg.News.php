@@ -29,7 +29,7 @@ class News extends \Wwg
 	/**
 	 * Name of database table for RSS cache.
 	 */
-	const T_RSSCACHE	= 'tNewsRssCache';
+	const T_RSSCACHE	= 'signed_news';
 	
 	/**
 	 * Field for two-character language code.
