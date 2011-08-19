@@ -27,7 +27,7 @@ class License extends Wwg
 		$this->template = dirname(__FILE__) . '/../templ/_wwg.License.html';
 
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
-			$smarty->assign( 'WWG_LICENSE_TEMPLATES', dirname( __FILE__ ) . '/../templ' );
+			$smarty->assign( 'WWG_LICENSE_BADGE', dirname( __FILE__ ) . '/../templ/_wwg.License.Apache2.' . n7_globals::lang() . '.html' );
 
 		_wwg_registry::getInstance( )->register( _wwg_registry::POOL_FOOTER, $this->id, $this );
 		_app_registry::getInstance( )->requireJs( 'inc/branding/_wwg.License.js', $this->id );
