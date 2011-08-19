@@ -86,9 +86,9 @@ class News extends \Wwg
 	 * 
 	 * @var array
 	 */
-	protected $cfg = array( 'en' => array( self::CH_AUTH, 'http://blog.gtdtab.com/feed/' ),
-							'sk' => array( self::CH_LINK, 'en' ),
-							'cs' => array( self::CH_LINK, 'en' ) );
+	protected static $cfg = array(	'en' => array( self::CH_AUTH, 'http://blog.gtdtab.com/feed/' ),
+									'sk' => array( self::CH_LINK, 'en' ),
+									'cs' => array( self::CH_LINK, 'en' ) );
 	
 	/**
 	 * Constructor. Provides content for both, main and Ajax requests.
@@ -213,19 +213,19 @@ class News extends \Wwg
 	public function get ( $lang, $fetch = false )
 	{
 		$ret = false;
-		if ( array_key_exists( $lang, $this->cfg ) )
+		if ( array_key_exists( $lang, self::$cfg ) )
 		{
 			/**
 			 * Check for link.
 			 */
-			if ( $this->cfg[$lang][0] == self::CH_LINK )
-				$lang = $this->cfg[$lang][1];
+			if ( self::$cfg[$lang][0] == self::CH_LINK )
+				$lang = self::$cfg[$lang][1];
 			
 			/**
 			 * Update the resources.
 			 */
 			if ( $fetch === true )
-				$this->fetch( $lang, $this->cfg[$lang][1] );
+				$this->fetch( $lang, self::$cfg[$lang][1] );
 			
 			/**
 			 * Load from cache.
@@ -244,6 +244,17 @@ class News extends \Wwg
 		else
 			return false;
 	}
+	
+	/**
+	 * Public interface used by build systems to alter configuration by
+	 * code outside the class (see bellow).
+	 * 
+	 * @param array $cfg new configuration
+	 */
+	public static function setCfg( $cfg ) { self::$cfg = $cfg; }
 }
+
+/* Initialization of the class with alternate configuration. */
+/*__CFG__ News::setCfg( array( 'en' => array( News::CH_AUTH, 'http://blog.creat.io/n7dev/feed/' ) ), 'sk' => array( News::CH_LINK, 'en' ) ) );*/
 
 ?>
