@@ -39,6 +39,12 @@ else
 include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 
 /**
+ * Deployment string for client side logic.
+ */
+if ( !is_null( $magic = n7_globals::getInstance()->get( 'config' )->get( 'server.magic' ) ) )
+	_app_registry::getInstance( )->setMagic( $magic );
+
+/**
  * Handle base authentification, authorization and access to applications.
  */
 if ( _session_wrapper::getInstance( )->isSigned( ) === true )

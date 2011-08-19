@@ -114,11 +114,11 @@ class InstallerAjaxImpl extends Installer
 			/**
 			 * Updating server and user global properties.
 			 */
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['site']) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.site\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['schema']) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.scheme\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['modrw']) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.modrw\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz']) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.tz\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz']) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"usr.tz\"" );
+			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['site'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.site\"" );
+			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['schema'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.scheme\"" );
+			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['modrw'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.modrw\"" );
+			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.tz\"" );
+			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"usr.tz\"" );
 
 			/**
 			 * Create admin account.

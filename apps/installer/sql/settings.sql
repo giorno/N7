@@ -9,9 +9,10 @@
 ---
 
 --- Server configuration.
-INSERT INTO `{$__1}` SET `scope` = "G", `ns` = "{$__2}", `key` = "server.url.site", `value` = "localhost/morb/gtdtab/page/";
+INSERT INTO `{$__1}` SET `scope` = "G", `ns` = "{$__2}", `key` = "server.url.site", `value` = "localhost";
 INSERT INTO `{$__1}` SET `scope` = "G", `ns` = "{$__2}", `key` = "server.url.scheme", `value` = "http";
 INSERT INTO `{$__1}` SET `scope` = "G", `ns` = "{$__2}", `key` = "server.url.modrw", `value` = "2";
+INSERT INTO `{$__1}` SET `scope` = "G", `ns` = "{$__2}", `key` = "server.magic", `value` = "1";
 
 --- Server timezone.
 INSERT INTO `{$__1}` SET `scope` = "G", `ns` = "{$__2}", `key` = "server.tz", `value` = "Europe/Dublin";
