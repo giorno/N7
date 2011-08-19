@@ -86,7 +86,7 @@ class News extends \Wwg
 	 * 
 	 * @var array
 	 */
-	protected static $cfg = array(	'en' => array( self::CH_AUTH, 'http://blog.gtdtab.com/feed/' ),
+	protected static $cfg = array(	'en' => array( self::CH_AUTH, 'http://blog.creat.io/n7dev/feed/' ),
 									'sk' => array( self::CH_LINK, 'en' ),
 									'cs' => array( self::CH_LINK, 'en' ) );
 	
