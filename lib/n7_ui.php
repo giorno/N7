@@ -8,8 +8,8 @@
  */
 
 require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_dlgs.php';
+require_once CHASSIS_LIB . 'uicmp/layout.php';
+require_once CHASSIS_LIB . 'uicmp/dialogs.php';
 
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 
@@ -24,14 +24,14 @@ class n7_ui
 	/**
 	 * Instance of UICMP layout.
 	 * 
-	 * @var _uicmp_layout 
+	 * @var layout 
 	 */
 	protected $layout = NULL;
 	
 	/**
 	 * Instance of UICMP layout for dynamic dialogs.
 	 * 
-	 * @var _uicmp_dlgs 
+	 * @var dialogs
 	 */
 	protected $dlgs = NULL;
 	
@@ -77,7 +77,7 @@ class n7_ui
 	public function getLayout ( )
 	{
 		if ( is_null( $this->layout ) )
-			$this->layout = new _uicmp_layout( n7_requirer::getInstance( ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+			$this->layout = new \io\creat\chassis\uicmp\layout( n7_requirer::getInstance( ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 		
 		return $this->layout;
 	}
@@ -92,7 +92,7 @@ class n7_ui
 	public function getDlgs ( )
 	{
 		if ( is_null( $this->dlgs ) )
-			$this->dlgs = new _uicmp_dlgs( n7_requirer::getInstance( ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+			$this->dlgs = new \io\creat\chassis\uicmp\dialogs( n7_requirer::getInstance( ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 		
 		return $this->dlgs;
 	}

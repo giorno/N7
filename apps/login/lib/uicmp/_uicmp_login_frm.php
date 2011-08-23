@@ -8,13 +8,13 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_tab.php';
+require_once CHASSIS_LIB . 'uicmp/layout.php';
+require_once CHASSIS_LIB . 'uicmp/tab.php';
 
 /**
  * Login form component. Specialization of _uicmp_tab.
  */
-class _uicmp_login_frm extends _uicmp_tab
+class _uicmp_login_frm extends \io\creat\chassis\uicmp\tab
 {
 	/**
 	 * Localization messages for the component. Contains all languages to
@@ -55,17 +55,17 @@ class _uicmp_login_frm extends _uicmp_tab
 	/**
 	 * Compose and deliver CSS and Javascript requirements of the component.
 	 */
-	public function  generateJs ()
+	public function  generateReqs ()
 	{
-		parent::generateJs( );
+		parent::generateReqs( );
 		$requirer = $this->getRequirer( );
 		if ( !is_null( $requirer ) )
 		{
-			$requirer->call( _uicmp_layout::RES_CSS, Array( 'inc/login/_uicmp.css', $this->id ) );
-			$requirer->call( _uicmp_layout::RES_JS, Array( 'inc/login/_uicmp.js', $this->id ) );
-			$requirer->call( _uicmp_layout::RES_JS, Array( $requirer->getRelative() . 'js/_ajax_req_ad.js', $this->id ) );
-			$requirer->call( _uicmp_layout::RES_JSPLAIN, 'var ' . $this->getJsVar() . ' = new _uicmp_login_frm( \'' . $this->getHtmlId( ) . '\', \'' . $this->url . '\', ' . $this->getJsAjaxParams( ) . ', ' . $this->toJsArray( $this->messages ) . ' );' );
-			$requirer->call( _uicmp_layout::RES_ONLOAD, $this->getJsVar() . '.startup( );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, Array( 'inc/login/_uicmp.css', $this->id ) );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, Array( 'inc/login/_uicmp.js', $this->id ) );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, Array( $requirer->getRelative() . 'js/_ajax_req_ad.js', $this->id ) );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, 'var ' . $this->getJsVar() . ' = new _uicmp_login_frm( \'' . $this->getHtmlId( ) . '\', \'' . $this->url . '\', ' . $this->getJsAjaxParams( ) . ', ' . $this->toJsArray( $this->messages ) . ' );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_ONLOAD, $this->getJsVar() . '.startup( );' );
 		}
 	}
 }

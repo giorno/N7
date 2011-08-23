@@ -1,7 +1,7 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_title.php';
+require_once CHASSIS_LIB . 'uicmp/layout.php';
+require_once CHASSIS_LIB . 'uicmp/headline.php';
 
 require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 
@@ -60,7 +60,7 @@ class AccountMainImpl extends Account implements SemProvider
 		
 			$tab = $this->layout->createTab( $this->id . '.Settings', FALSE );
 				$tab->createFold( $this->messages['foldSettings'] );
-				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['capSettings']) );
+				$tab->getHead( )->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId( ) . '.Title', $this->messages['capSettings']) );
 
 				$sem = new _vcmp_sem(	$tab,
 										$tab->id . '.Sem',
@@ -73,7 +73,7 @@ class AccountMainImpl extends Account implements SemProvider
 				
 			$tab = $this->layout->createTab( $this->id . '.ChPass' );
 				$tab->createFold( $this->messages['foldChPass'] );
-				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['capChPass']) );
+				$tab->getHead( )->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId( ) . '.Title', $this->messages['capChPass']) );
 
 				$chp = new _vcmp_chpass(	$tab,
 											$tab->id . '.ChPass',

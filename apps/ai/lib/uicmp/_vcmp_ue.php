@@ -9,14 +9,14 @@
  * Virtual component rendering User Editor (UE) tab.
  */
 
-require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_gi_ind.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_title.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
+require_once CHASSIS_LIB . 'uicmp/vcmp.php';
+require_once CHASSIS_LIB . 'uicmp/indicator.php';
+require_once CHASSIS_LIB . 'uicmp/headline.php';
+require_once CHASSIS_LIB . 'uicmp/buttons.php';
 
 require_once APP_AI_LIB . 'uicmp/_uicmp_ue.php';
 
-class _vcmp_ue extends _vcmp_comp
+class _vcmp_ue extends \io\creat\chassis\uicmp\vcmp
 {
 	/**
 	 * Reference to User Editor (UE) instance.
@@ -71,25 +71,25 @@ class _vcmp_ue extends _vcmp_comp
 		$this->ue		= new _uicmp_ue( $this->parent->getBody( ), $id, $url, $params );
 		
 		$this->parent->getBody( )->add( $this->ue );
-		$this->parent->getHead( )->add( new _uicmp_title( $this->parent, $this->parent->getId( ) . '.Title', $this->messages['ue']['create'] ) );
+		$this->parent->getHead( )->add( new \io\creat\chassis\uicmp\headline( $this->parent, $this->parent->getId( ) . '.Title', $this->messages['ue']['create'] ) );
 		
-		$buttons = new _uicmp_buttons( $this->parent->getHead( ), $this->parent->getHead( )->getId( ) . '.Buttons' );
-				$buttons->add( new _uicmp_gi( $buttons, $buttons->getId( ) . '.Back', _uicmp_gi::IT_A, $this->messages['ue']['btBack'], $this->parent->getLayoutJsVar( ) . '.back( );', '_uicmp_gi_back' ) );
-				$buttons->add( new _uicmp_gi( $buttons, $buttons->getId( ) . '.S1', _uicmp_gi::IT_TXT, '|' ) );
-				$buttons->add( $this->bt = new _uicmp_gi( $buttons, $buttons->getId( ) . '.Save', _uicmp_gi::IT_BT, $this->messages['ue']['btCreate'], $this->ue->getJsVar() . '.save( );' ) );
-				$this->ind = new _uicmp_gi_ind( $buttons, $buttons->getId( ) . '.Ind', _uicmp_gi::IT_IND, $this->messages['ue']['i'] );
+		$buttons = new \io\creat\chassis\uicmp\buttons( $this->parent->getHead( ), $this->parent->getHead( )->getId( ) . '.Buttons' );
+				$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.Back', \io\creat\chassis\uicmp\grpitem::IT_A, $this->messages['ue']['btBack'], $this->parent->getLayoutJsVar( ) . '.back( );', '_uicmp_gi_back' ) );
+				$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.S1', \io\creat\chassis\uicmp\grpitem::IT_TXT, '|' ) );
+				$buttons->add( $this->bt = new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.Save', \io\creat\chassis\uicmp\grpitem::IT_BT, $this->messages['ue']['btCreate'], $this->ue->getJsVar() . '.save( );' ) );
+				$this->ind = new \io\creat\chassis\uicmp\indicator( $buttons, $buttons->getId( ) . '.Ind', \io\creat\chassis\uicmp\grpitem::IT_IND, $this->messages['ue']['i'] );
 					$buttons->add( $this->ind );
 				$this->parent->getHead( )->add( $buttons );
 	}
 	
-	public function generateJs ( )
+	public function generateReqs ( )
 	{
 		$requirer = $this->ue->getRequirer( );
 		if ( !is_null( $requirer ) )
 		{
-			$requirer->call( _uicmp_layout::RES_JS, array( 'inc/ai/_uicmp.js' , __CLASS__ ) );
-			$requirer->call( _uicmp_layout::RES_JSPLAIN, 'var ' . $this->ue->getJsVar( ) . ' = new _uicmp_ue( ' . $this->parent->getLayoutJsVar( ) . ', \'' . $this->parent->getHtmlId( ) . '\', \'' . $this->parent->getHead( )->getFirst( )->getHtmlId( ) . '\', \'' . $this->ue->getHtmlId( ) . '\', \'' . $this->bt->getHtmlId( ) . '\', ' . $this->ind->getJsVar( ) . ', \''. $this->url . '\', ' . $this->generateJsArray( $this->params ) . ' );' );
-			$requirer->call( _uicmp_layout::RES_JSPLAIN, $this->parent->getLayoutJsVar( ) . '.registerTabCb( \'' . $this->parent->getHtmlId( ) . '\', \'onLoad\', ' . $this->ue->getJsVar( ) . '.startup );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( 'inc/ai/_uicmp.js' , __CLASS__ ) );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, 'var ' . $this->ue->getJsVar( ) . ' = new _uicmp_ue( ' . $this->parent->getLayoutJsVar( ) . ', \'' . $this->parent->getHtmlId( ) . '\', \'' . $this->parent->getHead( )->getFirst( )->getHtmlId( ) . '\', \'' . $this->ue->getHtmlId( ) . '\', \'' . $this->bt->getHtmlId( ) . '\', ' . $this->ind->getJsVar( ) . ', \''. $this->url . '\', ' . \io\creat\chassis\uicmp\uicmp::toJsArray( $this->params ) . ' );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->parent->getLayoutJsVar( ) . '.registerTabCb( \'' . $this->parent->getHtmlId( ) . '\', \'onLoad\', ' . $this->ue->getJsVar( ) . '.startup );' );
 			
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
 /**
  * @file _uicmp_chpass.php
@@ -10,7 +10,7 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
  * 
  * Form component for change password feature.
  */
-class _uicmp_chpass extends _uicmp_comp
+class _uicmp_chpass extends \io\creat\chassis\uicmp\uicmp
 {
 	/**
 	 * Constructor.
@@ -29,7 +29,7 @@ class _uicmp_chpass extends _uicmp_comp
 	/**
 	 * To conform abstract parent.
 	 */
-	public function  generateJs ( ) { }
+	public function  generateReqs ( ) { }
 }
 
 ?>

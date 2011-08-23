@@ -9,7 +9,7 @@
 
 require_once CHASSIS_LIB . '_cdes.php';
 require_once CHASSIS_LIB . 'apps/_app.App.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_cdes_cloud.php';
+require_once CHASSIS_LIB . 'uicmp/cdescloud.php';
 
 /** 
  * Specialization of framework class to provide common processing methods to all
@@ -104,7 +104,7 @@ abstract class N7App extends App
 	 */
 	protected function getCdesCloud ( $table, $js_var, $prefix, $error_msg )
 	{
-		$cloud = new _uicmp_cdes_cloud( NULL, NULL, $js_var, _cdes::allCtxs( _session_wrapper::getInstance( )->getUid( ), $table ), $prefix );
+		$cloud = new \io\creat\chassis\uicmp\cdescloud( NULL, NULL, $js_var, _cdes::allCtxs( _session_wrapper::getInstance( )->getUid( ), $table ), $prefix );
 		$cloud->setErrorMsg( $error_msg );
 		_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'USR_UICMP_CMP', $cloud );
 		_smarty_wrapper::getInstance( )->setContent( $cloud->getRenderer( ) );

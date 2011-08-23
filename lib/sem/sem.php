@@ -1,6 +1,6 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/vcmp.php';
 
 /**
  * @file sem.php

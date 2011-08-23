@@ -14,7 +14,7 @@ require_once CHASSIS_LIB . 'class.Wa.php';
 
 require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
 require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_gi_ind.php';
+require_once CHASSIS_LIB . 'uicmp/indicator.php';
 
 require_once CHASSIS_3RD . 'SimplePie.compiled.php';
 
@@ -112,15 +112,15 @@ class News extends \Wwg
 			 * Instance of indicator is not connected to any particular layout
 			 * hierarchy.
 			 */
-			$ind = new \_uicmp_gi ( $this, '_wwg.News.Ind', \_uicmp_gi::IT_IND, '', $messages['news']['i'] );
-			$ind->generateJs( );
+			$ind = new \io\creat\chassis\uicmp\grpitem( $this, '_wwg.News.Ind', \io\creat\chassis\uicmp\grpitem::IT_IND, '', $messages['news']['i'] );
+			$ind->generateReqs( );
 			
 			$apps	= \_app_registry::getInstance( );
 			$url	= \n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php';	// Ajax server URL
 			$params	= Array( 'app' => $app->getId( ), 'action' => '_wwg.News:update' );	// Ajax request parameters
 
-			$apps->requireJsPlain( 'var ' . $ind->getJsVar( ) . ' = new _uicmp_ind( \'' . $ind->getHtmlId( ) . '\', null, ' . \_uicmp_comp::toJsArray( $messages['news']['i'] ) . ' );' );
-			$apps->requireJsPlain( 'var _wwgNews_i = new _wwgNews( \'' . $url . '\', ' . \_uicmp_comp::toJsArray( $params ) . ', ' . $ind->getJsVar( ) . ' );' );
+			$apps->requireJsPlain( 'var ' . $ind->getJsVar( ) . ' = new _uicmp_ind( \'' . $ind->getHtmlId( ) . '\', null, ' . \io\creat\chassis\uicmp\uicmp::toJsArray( $messages['news']['i'] ) . ' );' );
+			$apps->requireJsPlain( 'var _wwgNews_i = new _wwgNews( \'' . $url . '\', ' . \io\creat\chassis\uicmp\uicmp::toJsArray( $params ) . ', ' . $ind->getJsVar( ) . ' );' );
 			$apps->requireJs( 'inc/chassis/js/_ajax_req_ad.js' , __CLASS__ );
 			$apps->requireJs( 'inc/signed/_wwg.News.js' , __CLASS__ );
 			$apps->requireCss( 'inc/signed/_wwg.News.css' , __CLASS__ );

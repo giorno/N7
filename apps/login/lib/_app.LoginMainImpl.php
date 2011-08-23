@@ -10,7 +10,7 @@
 
 require_once CHASSIS_LIB . 'class.Wa.php';
 require_once CHASSIS_LIB . 'ui/_smarty_wrapper.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_layout.php';
+require_once CHASSIS_LIB . 'uicmp/layout.php';
 
 require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_globals.php';

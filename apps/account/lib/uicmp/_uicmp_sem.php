@@ -1,6 +1,6 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
 /**
  * @file _uicmp_sem.php
@@ -10,7 +10,7 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
  * 
  * Virtual UICMP component rendering settings editor (part of SEM).
  */
-class _uicmp_sem extends _uicmp_comp
+class _uicmp_sem extends \io\creat\chassis\uicmp\uicmp
 {
 	/**
 	 * Reference to SEM model instance.
@@ -38,7 +38,7 @@ class _uicmp_sem extends _uicmp_comp
 	/**
 	 * To conform abstract parent.
 	 */
-	public function  generateJs ( ) { }
+	public function  generateReqs ( ) { }
 }
 
 ?>

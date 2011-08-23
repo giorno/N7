@@ -9,9 +9,9 @@
  * UICMP component rendering content of User Editor (UE) form.
  */
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
-class _uicmp_ue extends _uicmp_comp
+class _uicmp_ue extends \io\creat\chassis\uicmp\uicmp
 {
 	public function __construct ( &$parent, $id = NULL )
 	{
@@ -24,15 +24,7 @@ class _uicmp_ue extends _uicmp_comp
 	/**
 	 * Dummy implementation to conform abstract parent.
 	 */
-	public function generateJs ( ) { }
-
-	/**
-	 * Hack to allow virtual component _vcmp_cpe to extract requirer
-	 * object from _uicmp_layout instance.
-	 *
-	 * @return <_requirer>
-	 */
-	//public function getRequirer ( ) { return parent::getRequirer( ); }
+	public function generateReqs ( ) { }
 }
 
 ?>
