@@ -1,7 +1,7 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_title.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_info.php';
+require_once CHASSIS_LIB . 'uicmp/headline.php';
+require_once CHASSIS_LIB . 'uicmp/info.php';
 
 require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_timezone.php';
@@ -39,8 +39,8 @@ class InstallerMainImpl extends Installer
 		_smarty_wrapper::getInstance( )->setContent( INSTALLER_UI . 'index.html' );
 		$layout = n7_ui::getInstance( )->getLayout( );
 			$tab = $layout->createTab( $this->id . '.Tab', FALSE );
-			$tab->getHead()->add( new _uicmp_title( $tab, $tab->getId() . '.Title', $this->messages['title'] ) );
-			$tab->getHead()->add( new _uicmp_info( $tab, $tab->getId() . '.Info', $this->messages['info'] ) );
+			$tab->getHead()->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId() . '.Title', $this->messages['title'] ) );
+			$tab->getHead()->add( new \io\creat\chassis\uicmp\info( $tab, $tab->getId() . '.Info', $this->messages['info'] ) );
 			$tab->addVcmp( new _vcmp_inst_ctrl( $tab, $this->id . '.Ctrl', n7_timezone::allZones( ), $this->messages ) );
 			$layout->init( );
 			

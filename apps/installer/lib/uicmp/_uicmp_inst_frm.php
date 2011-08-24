@@ -1,6 +1,6 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
+require_once CHASSIS_LIB . 'uicmp/uicmp.php';
 
 /**
  * @file _uicmp_inst_frm.php
@@ -9,7 +9,7 @@ require_once CHASSIS_LIB . 'uicmp/_uicmp_comp.php';
  * 
  * UICMP form rendering UI of installer.
  */
-class _uicmp_inst_frm extends _uicmp_comp
+class _uicmp_inst_frm extends \io\creat\chassis\uicmp\uicmp
 {
 	/**
 	 * List of timezones.
@@ -29,12 +29,12 @@ class _uicmp_inst_frm extends _uicmp_comp
 	/**
 	 * Registers resources requirements.
 	 */
-	public function  generateJs ( )
+	public function  generateReqs ( )
 	{
 		/**
 		 * User login application stylesheet for special purposes.
 		 */
-		$this->getRequirer( )->call( _uicmp_layout::RES_CSS, Array( 'inc/login/_uicmp.css', $this->id ) );
+		$this->getRequirer( )->call( \io\creat\chassis\uicmp\vlayout::RES_CSS, Array( 'inc/login/_uicmp.css', $this->id ) );
 	}
 	
 	/**

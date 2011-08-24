@@ -1,8 +1,8 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/_vcmp_comp.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_buttons.php';
-require_once CHASSIS_LIB . 'uicmp/_uicmp_gi_ind.php';
+require_once CHASSIS_LIB . 'uicmp/vcmp.php';
+require_once CHASSIS_LIB . 'uicmp/buttons.php';
+require_once CHASSIS_LIB . 'uicmp/indicator.php';
 
 require_once INSTALLER_LIB . 'uicmp/_uicmp_inst_frm.php';
 
@@ -13,7 +13,7 @@ require_once INSTALLER_LIB . 'uicmp/_uicmp_inst_frm.php';
  * 
  * Virtual component creating user interface of installer app.
  */
-class _vcmp_inst_ctrl extends _vcmp_comp
+class _vcmp_inst_ctrl extends \io\creat\chassis\uicmp\vcmp
 {
 	/**
 	 * Instance of installer form.
@@ -51,10 +51,10 @@ class _vcmp_inst_ctrl extends _vcmp_comp
 		$this->uicmp	= new _uicmp_inst_frm( $this->parent->getBody( ), $id . 'Form', $zones );
 		$this->parent->getBody( )->add( $this->uicmp );
 		
-		$buttons = new _uicmp_buttons( $this->parent->getHead( ), $id . 'Buttons' );
-			$this->bt = new _uicmp_gi( $buttons, $buttons->id . '.Next', _uicmp_gi::IT_BT, $this->messages['btInstall'], $this->uicmp->getJsVar( ) . '.install( );' );
+		$buttons = new \io\creat\chassis\uicmp\buttons( $this->parent->getHead( ), $id . 'Buttons' );
+			$this->bt = new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->id . '.Next', \io\creat\chassis\uicmp\grpitem::IT_BT, $this->messages['btInstall'], $this->uicmp->getJsVar( ) . '.install( );' );
 			$buttons->add( $this->bt );
-			$this->ind = new _uicmp_gi_ind( $buttons, $buttons->id . '.ind', 'ind', $this->messages['status'] );
+			$this->ind = new \io\creat\chassis\uicmp\indicator( $buttons, $buttons->id . '.ind', 'ind', $this->messages['status'] );
 			$buttons->add( $this->ind );
 			$this->parent->getHead( )->add( $buttons );
 	}
@@ -62,16 +62,16 @@ class _vcmp_inst_ctrl extends _vcmp_comp
 	/**
 	 * Generate client side content and requirements.
 	 */
-	public function generateJs ( )
+	public function generateReqs ( )
 	{
 		$requirer = $this->uicmp->getRequirer( );
 		
 		if ( $requirer )
 		{
 			$js = file_get_contents( INSTALLER_LIB . 'uicmp/_uicmp.js' );
-			$requirer->call( _uicmp_layout::RES_JSPLAIN, $js );
-			$requirer->call( _uicmp_layout::RES_ONLOAD, $this->uicmp->getJsVar( ) . '.startup( );' );
-			$requirer->call( _uicmp_layout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . ' = new _vcmp_inst_ctrl( \'' . $this->uicmp->getHtmlId( ) . '\', \'' . $this->bt->getHtmlId( ) . '\', ' . $this->ind->getJsVar( ) . ' );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $js );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_ONLOAD, $this->uicmp->getJsVar( ) . '.startup( );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . ' = new _vcmp_inst_ctrl( \'' . $this->uicmp->getHtmlId( ) . '\', \'' . $this->bt->getHtmlId( ) . '\', ' . $this->ind->getJsVar( ) . ' );' );
 		}
 	}
 }
