@@ -12,7 +12,7 @@ function _wwgLogMeOut ( )
 								{
 									//asynchronous: false,
 									method: 'post',
-									parameters: 'app=signed&action=_wwg.LogMeOut:logout',
+									parameters: 'app=_[4lan/7uring/0be/5rs]_&action=_wwg.LogMeOut:logout',
 									/*onCreate: function ( )
 									{
 									},*/

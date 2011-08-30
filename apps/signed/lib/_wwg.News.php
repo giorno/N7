@@ -123,7 +123,7 @@ class News extends \Wwg
 			$apps->requireJsPlain( 'var _wwgNews_i = new _wwgNews( \'' . $url . '\', ' . \io\creat\chassis\uicmp\uicmp::toJsArray( $params ) . ', ' . $ind->getJsVar( ) . ' );' );
 			$apps->requireJs( 'inc/chassis/js/_ajax_req_ad.js' , __CLASS__ );
 			$apps->requireJs( 'inc/signed/_wwg.News.js' , __CLASS__ );
-			$apps->requireCss( 'inc/signed/_wwg.News.css' , __CLASS__ );
+			//$apps->requireCss( 'inc/signed/_wwg.News.css' , __CLASS__ );
 			
 			$apps->requireOnLoad( '_wwgNews_i.startup();' );
 

@@ -10,7 +10,7 @@
 {if isset($WWG_NEWS_RSS)&&is_array($WWG_NEWS_RSS)}
 <table cellspacing="0" cellpadding="0">
 	{foreach from=$WWG_NEWS_RSS item=data}
-	<tr><td class="_wwgNewsHeadline"><a target="_blank" href="{$data.url}">{Wa::CutString($data.title, 50)}</a></td></tr>
+	<tr><td class="n7_wwg_row"><a target="_blank" href="{$data.url}">{Wa::CutString($data.title, 50)}</a></td></tr>
 	{/foreach}
 </table>
 {/if}

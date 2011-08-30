@@ -25,18 +25,12 @@ class SignedAjaxImpl extends Signed
 	protected function __construct ( )
 	{
 		parent::__construct( );
-
-		/**
-		 * As this is actually performed only once, this class should be
-		 * instantiated before all others.
-		 */
-		//_app_registry::getInstance()->setDefault( $this->id );
 	}
 
 	public function exec ( )
 	{
 
-		switch ($_POST['action'])
+		switch ( $_POST['action'] )
 		{
 			case 'saveSetting':
 				n7_globals::settings( )->SaveOne( $_POST['key'], $_POST['val'] );
@@ -48,11 +42,14 @@ class SignedAjaxImpl extends Signed
 				echo n7_globals::settings( )->get( $_POST['key'] ); // send result of operation
 			break;
 
+			/**
+			 * Perform logout and signal client side to reload page.
+			 */
 			case '_wwg.LogMeOut:logout':
-			 if ( _session_wrapper::getInstance()->logout() )
-				echo "OK";
-			 else
-				echo "KO";
+				if ( _session_wrapper::getInstance()->logout() )
+					echo "OK";
+				else
+					echo "KO";
 			break;
 
 			/*
