@@ -302,3 +302,9 @@ td.n7_wwg_cnt
 {
 	min-width:						170px;
 }
+
+td.n7_wwg_row
+{ 
+	padding-top:					4px;
+	white-space:					nowrap;
+}
