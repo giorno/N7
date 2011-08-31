@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file _app.AccountMainImpl.php
+ * @author giorno
+ * @package N7
+ * @subpackage Account
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
 require_once CHASSIS_LIB . 'uicmp/layout.php';
 require_once CHASSIS_LIB . 'uicmp/headline.php';
 
@@ -12,34 +20,23 @@ require_once N7_SOLUTION_LIB . 'sem/sem_collection.php';
 
 require_once ACCTAB_LIB . '_app.Account.php';
 require_once ACCTAB_LIB . 'uicmp/_vcmp_sem.php';
-require_once ACCTAB_LIB . 'uicmp/_vcmp_chpass.php';
+require_once ACCTAB_LIB . 'uicmp/chpass.php';
 
 /**
- * @file _app.AccountMainImpl.php
- * @author giorno
- * @package N7
- * @subpackage Account
- * @license Apache License, Version 2.0, see LICENSE file
- *
  * Main execution instance of Account application.
  */
 class AccountMainImpl extends Account implements SemProvider
 {
-
-	/**
-	 * UICMP layout container instance.
-	 * 
-	 * @var <_uicmp_layout>
-	 */
-	protected $layout = NULL;
-
 	/**
 	 * Instance of SEM model.
 	 *
-	 * @var <sem>
+	 * @var sem
 	 */
 	protected $sem = NULL;
 
+	/**
+	 * Constructor. Implementation specific calls.
+	 */
 	protected function __construct ( )
 	{
 		parent::__construct( );
@@ -55,10 +52,17 @@ class AccountMainImpl extends Account implements SemProvider
 	 */
 	public function exec ( )
 	{
-		$this->layout = n7_ui::getInstance( )->getLayout( );
-		$this->layout->createSep( );
+		$layout = n7_ui::getInstance( )->getLayout( );
+		$dlgs = n7_ui::getInstance( )->getDlgs( );
+		$layout->createSep( );
 		
-			$tab = $this->layout->createTab( $this->id . '.Settings', FALSE );
+			$chp = new \io\creat\n7\apps\account\uicmp\chpass(	$dlgs,
+																$this->id . '.ChPass',
+																n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php',
+																Array( 'app' => $this->id, 'action' => 'chpass' ),
+																$this->getMessages( ) );
+			
+			$tab = $layout->createTab( $this->id . '.Settings', FALSE );
 				$tab->createFold( $this->messages['foldSettings'] );
 				$tab->getHead( )->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId( ) . '.Title', $this->messages['capSettings']) );
 
@@ -67,26 +71,15 @@ class AccountMainImpl extends Account implements SemProvider
 										$this->getSem( ),
 										n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php',
 										Array( 'app' => $this->id, 'action' => 'sem' ),
-										$this->getMessages( ) );
+										$this->getMessages( ),
+										array( array( 'ChPass', $this->messages['capChPass'], $chp->getJsVar() . '.show( );' ) ) );
 
 				$tab->addVcmp( $sem );
-				
-			$tab = $this->layout->createTab( $this->id . '.ChPass' );
-				$tab->createFold( $this->messages['foldChPass'] );
-				$tab->getHead( )->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId( ) . '.Title', $this->messages['capChPass']) );
 
-				$chp = new _vcmp_chpass(	$tab,
-											$tab->id . '.ChPass',
-											n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php',
-											Array( 'app' => $this->id, 'action' => 'chpass' ),
-											$this->getMessages( ) );
-
-				$tab->addVcmp( $chp );
-
-		$this->layout->createSep( );
+		$layout->createSep( );
 
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
-		$smarty->assignByRef( 'APP_ACCOUNT_LAYOUT', $this->layout );
+		$smarty->assignByRef( 'APP_ACCOUNT_LAYOUT', $layout );
 		$smarty->assignByRef( 'APP_ACCOUNT_MSG', $this->messages );
 	}
 

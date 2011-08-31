@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file _vcmp_sem.php
+ * @author giorno
+ * @package N7
+ * @subpackage Account
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
 require_once CHASSIS_LIB . 'uicmp/vcmp.php';
 require_once CHASSIS_LIB . 'uicmp/buttons.php';
 require_once CHASSIS_LIB . 'uicmp/grpitem.php';
@@ -8,13 +16,11 @@ require_once CHASSIS_LIB . 'uicmp/indicator.php';
 require_once ACCTAB_LIB . 'uicmp/_uicmp_sem.php';
 
 /**
- * @file _vcmp_sem.php
- * @author giorno
- * @package N7
- * @subpackage SEM
- *
  * Virtual UICMP component rendering settings editor (part of SEM) and
  * corresponding parts of tab element (buttons group, etc.).
+ * 
+ * @todo separate SEM specific part from other Account app specific UI (e.g.
+ * buttons row)
  */
 class _vcmp_sem extends \io\creat\chassis\uicmp\vcmp
 {
@@ -53,7 +59,17 @@ class _vcmp_sem extends \io\creat\chassis\uicmp\vcmp
 	 */
 	protected $params = NULL;
 
-	public function __construct ( &$parent, $id, $sem, $url, $params, $messages )
+	/**
+	 *
+	 * @param \io\creat\chassis\uicmp\tab $parent parent component
+	 * @param string $id indetifier of component
+	 * @param sem $sem SEM instance
+	 * @param string $url Ajax server URL
+	 * @param array $params Ajax request default params
+	 * @param array $messages localization messages
+	 * @param array $extra array of parameters for extra items data to be placed into buttons group
+	 */
+	public function __construct ( &$parent, $id, $sem, $url, $params, $messages, $extra = NULL )
 	{
 		parent::__construct( $parent );
 		$this->sem		= $sem;
@@ -65,6 +81,17 @@ class _vcmp_sem extends \io\creat\chassis\uicmp\vcmp
 		
 		$buttons = new \io\creat\chassis\uicmp\buttons( $this->parent->getHead( ), $this->parent->getHead( )->getId( ) . '.Buttons' );
 				$buttons->add( $this->bt = new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.Reset', \io\creat\chassis\uicmp\grpitem::IT_A, $messages['sem']['btReset'], $this->uicmp->getJsVar() . '.reset( );', '_uicmp_gi_refresh _uicmp_blue_b' ) );
+				
+				/**
+				 * Insert extra Javascript items into buttons group.
+				 */
+				if ( is_array( $extra ) )
+					foreach ( $extra as $index => $item )
+					{
+						$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.E' . $index, \io\creat\chassis\uicmp\grpitem::IT_TXT, '|' ) );
+						$buttons->add( $this->bt = new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.' . $item[0], \io\creat\chassis\uicmp\grpitem::IT_A, $item[1], $item[2] ) );
+					}
+				
 				$buttons->add( new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.S1', \io\creat\chassis\uicmp\grpitem::IT_TXT, '|' ) );
 				$buttons->add( $this->bt = new \io\creat\chassis\uicmp\grpitem( $buttons, $buttons->getId( ) . '.Save', \io\creat\chassis\uicmp\grpitem::IT_BT, $messages['sem']['btSave'], $this->uicmp->getJsVar() . '.save( );' ) );
 				
