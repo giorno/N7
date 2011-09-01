@@ -82,7 +82,7 @@ class LoginMainImpl extends Login
 		$uicmp = new _uicmp_login_frm( $layout, $this->id . '.Form', n7_globals::getInstance( )->get('url')->myUrl( ) . '/ajax.php', array( 'app' => $this->id, 'action' => 'login' ), $this->messages );
 		$uicmp->show( );
 		
-		$layout->addUicmp( $uicmp );
+		//$layout->addUicmp( $uicmp );
 		$layout->init( );
 		
 		/**
