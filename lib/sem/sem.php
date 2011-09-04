@@ -1,13 +1,16 @@
 <?php
 
-require_once CHASSIS_LIB . 'uicmp/vcmp.php';
-
 /**
  * @file sem.php
  * @author giorno
  * @package N7
  * @subpackage SEM
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_LIB . 'uicmp/vcmp.php';
+
+/**
  * Settings Editor Model (SEM). Its template generates HTML of editor and
  * provides data for its UI elements.
  */

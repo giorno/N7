@@ -1,4 +1,11 @@
-{* Template rendering SEM editor form *}
+{* Template rendering View part for SEM model.
+ *
+ * @file sem.html
+ * @author giorno
+ * @package N7
+ * @subpackage Account
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
 
 <td class="_uicmp_body_frm">
 	<table width="100%" cellpadding="0" cellspacing="0">
@@ -18,6 +25,17 @@
 			<tr>
 				<td class="_uicmp_frm_prompt" style="vertical-align:top;">{$ATOM->getName()}</td>
 				<td width="100%" class="_uicmp_frm_field">
+					{if $ATOM->getSize()==1}
+						{assign var=PARTICLE value=$ATOM->getFirst()}
+						{if $PARTICLE->getType()==sem_atom::AT_SELECT}
+							<select id="{$USR_UICMP_CMP->getHtmlId()}.{$PARTICLE->getKey()}">
+								{html_options options=$PARTICLE->getOptions() selected=$PARTICLE->getValue()}
+							</select>
+						{elseif $PARTICLE->getType()==sem_atom::AT_TEXT}
+							<input class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.{$PARTICLE->getKey()}" value="{$PARTICLE->getValue()}">
+						{/if}
+						{if $ATOM->getHint()}<div class="_uicmp_fri_desc" >{$ATOM->getHint()}</div>{/if}
+					{else}
 					<table cellspacing="0" cellpadding="0" width="100%">
 						<tr>
 							{assign var=PARTICLE value=$ATOM->getFirst()}
@@ -27,15 +45,17 @@
 								<select id="{$USR_UICMP_CMP->getHtmlId()}.{$PARTICLE->getKey()}">
 									{html_options options=$PARTICLE->getOptions() selected=$PARTICLE->getValue()}
 								</select>
+								{elseif $PARTICLE->getType()==sem_atom::AT_TEXT}
+								<input class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.{$PARTICLE->getKey()}" value="{$PARTICLE->getValue()}">
 								{/if}
 							</td>
-							{assign var=PARTICLE value=$ATOM->getNext()}
+							{assign var='PARTICLE' value=$ATOM->getNext()}
 							{/while}
 							<td width="100%"></td>
 						</tr>
 						{if $ATOM->getHint()}<tr><td colspan="10" class="_uicmp_fri_desc" >{$ATOM->getHint()}</td></tr>{/if}
 					</table>
-					
+					{/if}
 				</td>
 			</tr>
 			{assign var=ATOM value=$COLL->getNext()}

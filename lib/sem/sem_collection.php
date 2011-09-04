@@ -5,7 +5,10 @@
  * @author giorno
  * @package N7
  * @subpackage SEM
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Class representing all settings for particular owner, e.g. app.
  */
 class sem_collection
@@ -31,6 +34,16 @@ class sem_collection
 	 * @var array
 	 */
 	protected $atoms = NULL;
+	
+	/**
+	 * If not NULL, it is supposed to contain associative array with these keys:
+	 * 'code', 'desc'. Implemented at this level so each application may use it.
+	 * 
+	 * @todo implement more robust solution with separate class instance
+	 * 
+	 * @var array 
+	 */
+	protected $exception = NULL;
 
 	/**
 	 * Constructor.
@@ -50,6 +63,13 @@ class sem_collection
 	 * @param sem_atom $atom atom instance
 	 */
 	public function add ( $atom ) { $this->atoms[$atom->getKey( )] = $atom; }
+	
+	/**
+	 * Set new exception array.
+	 * 
+	 * @param array $ex 
+	 */
+	public function setException ( $ex ) { $this->exception = $ex; }
 
 	/**
 	 * Read interface for identifier of collection.
@@ -88,6 +108,13 @@ class sem_collection
 	 * @return sem_atom 
 	 */
 	public function getById ( $id ) { return $this->atoms[$id]; }
+	
+	/**
+	 * Read interface for exception data.
+	 * 
+	 * @return array 
+	 */
+	public function getException ( ) { return $this->exception; }
 }
 
 ?>

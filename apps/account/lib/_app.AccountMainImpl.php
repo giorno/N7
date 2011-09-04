@@ -87,7 +87,7 @@ class AccountMainImpl extends Account implements SemProvider
 	 * Calls collect on all registered applications. On-demand initialization
 	 * of SEM model instance.
 	 *
-	 * @return <sem>
+	 * @return sem
 	 */
 	private function getSem ( )
 	{
@@ -114,7 +114,7 @@ class AccountMainImpl extends Account implements SemProvider
 	 * Implements interface. Provides SEM collection instance for this
 	 * application.
 	 * 
-	 * @return <sem_collection>
+	 * @return sem_collection
 	 */
 	public function getSemCollection ( )
 	{
@@ -131,8 +131,7 @@ class AccountMainImpl extends Account implements SemProvider
 			$atom = new sem_atom( sem_atom::AT_SELECT, 'usr.tz', n7_globals::settings( )->get( 'usr.tz'), $this->messages['sem']['aTimezone'] );
 				$zones = n7_timezone::allZones( );
 				foreach( $zones as $record )
-					//foreach( $offset as $zone )
-						$atom->addOption( $record['id'], $record['display'] );
+					$atom->addOption( $record['id'], $record['display'] );
 				$coll->add( $atom );
 
 			/* List size */
@@ -141,6 +140,10 @@ class AccountMainImpl extends Account implements SemProvider
 				$atom->addOption( 20, 20 );
 				$atom->addOption( 30, 30 );
 				$atom->addOption( 50, 50 );
+				$coll->add( $atom );
+				
+			/* E-mail address */
+			$atom = new sem_atom( sem_atom::AT_TEXT, 'usr.email', _session_wrapper::getInstance( )->getEmail( ), $this->messages['sem']['aAddress'] );
 				$coll->add( $atom );
 			
 		return $coll;

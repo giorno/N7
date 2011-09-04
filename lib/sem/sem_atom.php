@@ -5,7 +5,10 @@
  * @author giorno
  * @package N7
  * @subpackage SEM
- *
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Model of settings atom, de-facto single setting, for Settings Editor Model
  * (SEM).
  */
@@ -159,6 +162,13 @@ class sem_atom
 	 * @return sem_atom
 	 */
 	public function getNext ( ) { return next( $this->particles); }
+	
+	/**
+	 * Returns length of subparticles array.
+	 * 
+	 * @return int
+	 */
+	public function getSize ( ) { return ( is_array( $this->particles ) ) ? count( $this->particles ) : 0; }
 
 	/**
 	 * Read interface returning associative array of options. Applicable only

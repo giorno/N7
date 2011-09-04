@@ -90,7 +90,7 @@ function _uicmp_sem ( url, params, ind )
 												if ( data.responseText == 'KO' )
 													scope.ind.show( 'e_data', '_uicmp_ind_red' );
 												else
-													scope.ind.show( 'e_unknown', '_uicmp_ind_red' );
+													scope.ind.show( data.responseText, '_uicmp_ind_red' );
 										}
 									}
 								);

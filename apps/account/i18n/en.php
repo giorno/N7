@@ -21,10 +21,12 @@ $__msgAcc['sem']['collGlobal']			= 'Global settings';
 $__msgAcc['sem']['aLanguage']			= 'Language';
 $__msgAcc['sem']['aTimezone']			= 'Timezone';
 $__msgAcc['sem']['aListLen']			= 'Page size';
+$__msgAcc['sem']['aAddress']			= 'E-mail address';
 $__msgAcc['sem']['saving']				= 'Saving...';
 $__msgAcc['sem']['saved']				= 'Saved';
 $__msgAcc['sem']['e_unknown']			= 'Error: Unknown error! Contact administrators.';
 $__msgAcc['sem']['e_data']				= 'Error: invalid value!';
+$__msgAcc['sem']['e_email']				= 'Error: invalid e-mail address!';
 
 /**
  * Change password form.

@@ -1,17 +1,21 @@
 <?php
 
-require_once N7_SOLUTION_LIB . 'sem/iface.SemApplicator.php';
-require_once N7_SOLUTION_LIB . 'sem/sem_decoder.php';
-
-require_once ACCTAB_LIB . '_app.Account.php';
-
 /**
  * @file _app.AccountAjaxImpl.php
  * @author giorno
  * @package N7
  * @subpackage Account
  * @license Apache License, Version 2.0, see LICENSE file
- *
+ */
+
+require_once CHASSIS_3RD . 'EmailAddressValidator.php';
+
+require_once N7_SOLUTION_LIB . 'sem/iface.SemApplicator.php';
+require_once N7_SOLUTION_LIB . 'sem/sem_decoder.php';
+
+require_once ACCTAB_LIB . '_app.Account.php';
+
+/**
  * Main execution instance of Account application.
  */
 class AccountAjaxImpl extends Account implements SemApplicator
@@ -25,10 +29,15 @@ class AccountAjaxImpl extends Account implements SemApplicator
 			 */
 			case 'sem':
 				$sem = sem_decoder::decode( $_POST['data'] );
-				if ( $this->setSem( $sem ) )
+				if ( ( $result = $this->setSem( $sem ) ) === true )
 					echo "OK";
 				else
-					echo "KO";
+				{
+					if ( is_array( $result ) )
+						echo $result['desc'];
+					else
+						echo "KO";
+				}
 			break;
 			
 			/**
@@ -81,7 +90,13 @@ class AccountAjaxImpl extends Account implements SemApplicator
 		}
 	}
 
-	public function setSem( $sem )
+	/**
+	 * Perform set operation on all collections delivered in SEM model.
+	 * 
+	 * @param sem $sem sem model with collections
+	 * @return bool
+	 */
+	public function setSem( &$sem )
 	{
 
 		/**
@@ -94,7 +109,12 @@ class AccountAjaxImpl extends Account implements SemApplicator
 			
 			if ( $app instanceof SemApplicator )
 				if ( !$app->chkSemCollection( $coll ) )
-					return false;
+				{
+					if ( is_array( $ex = $coll->getException( ) ) )
+						return $ex;
+					else
+						return false;
+				}
 
 			$coll = $sem->getNext( );
 		}
@@ -116,7 +136,13 @@ class AccountAjaxImpl extends Account implements SemApplicator
 		return true;
 	}
 
-	public function chkSemCollection ( $coll )
+	/**
+	 * Check if data delivered from client side are valid.
+	 * 
+	 * @param sem_collection $coll client collected data
+	 * @return bool
+	 */
+	public function chkSemCollection ( &$coll )
 	{
 		/**
 		 * Check language.
@@ -139,10 +165,26 @@ class AccountAjaxImpl extends Account implements SemApplicator
 			if ( !in_array ( $atom->getValue( ), Array( 10, 20, 30, 50 ) ) )
 				return false;
 			
+		/**
+		 * Check e-mail address.
+		 */
+		$validator = new EmailAddressValidator;
+		if ( $atom = $coll->getById( 'usr.email') )
+			if ( !$validator->check_email_address( $atom->getValue( ) ) )
+			{
+				$coll->setException( array( 'code' => 'e_email', 'desc' => $this->messages['sem']['e_email'] ) );
+				return false;
+			}
+			
 		return true;
 	}
 
-	public function setSemCollection ( $coll )
+	/**
+	 * Set client collected and delivered data.
+	 * 
+	 * @param sem_colelction $coll collection data
+	 */
+	public function setSemCollection ( &$coll )
 	{
 		if ( $atom = $coll->getById( 'usr.lang' ) )
 			n7_globals::settings( )->saveOne( 'usr.lang', $atom->getValue( ) );
@@ -152,8 +194,22 @@ class AccountAjaxImpl extends Account implements SemApplicator
 
 		if ( $atom = $coll->getById( 'usr.lst.len' ) )
 			n7_globals::settings( )->saveOne( 'usr.lst.len', $atom->getValue( ) );
+		
+		/**
+		 * E-mail address in not ordinary setting, it is updated in users table.
+		 */
+		if ( $atom = $coll->getById( 'usr.email' ) )
+		{
+			_db_query( "UPDATE `" . Config::T_USERS . "` SET `" . Config::F_EMAIL . "` = \"" . _db_escape( $atom->getValue( ) ) . "\"
+						WHERE `" . Config::F_UID . "` = \"" . _db_escape( _session_wrapper::getInstance( )->getUid( ) ) . "\"" );
+		}
 	}
 
+	/**
+	 * Implements abstract method to conform parent requirement.
+	 * 
+	 * @param int $event 
+	 */
 	public function event ( $event ) { }
 
 }

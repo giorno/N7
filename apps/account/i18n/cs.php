@@ -21,10 +21,12 @@ $__msgAcc['sem']['collGlobal']			= 'Globální nastavení';
 $__msgAcc['sem']['aLanguage']			= 'Jazyk';
 $__msgAcc['sem']['aTimezone']			= 'Časová zóna';
 $__msgAcc['sem']['aListLen']			= 'Velikost stránky';
+$__msgAcc['sem']['aAddress']			= 'Emailová adresa';
 $__msgAcc['sem']['saving']				= 'Ukládám...';
 $__msgAcc['sem']['saved']				= 'Uloženo';
 $__msgAcc['sem']['e_unknown']			= 'Chyba: Neznáma chyba! Kontaktujte správce.';
 $__msgAcc['sem']['e_data']				= 'Chyba: chybná hodnota!';
+$__msgAcc['sem']['e_email']				= 'Chyba: nesprávna hodnota v poli Emailová adresa!';
 
 /**
  * Change password form.

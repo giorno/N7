@@ -4,6 +4,7 @@
  * @author giorno
  * @package N7
  * @subpackage SEM
+ * @license Apache License, Version 2.0, see LICENSE file
  *
  * Objects and routines handling client side events of Settings Editor Model
  * (SEM).
