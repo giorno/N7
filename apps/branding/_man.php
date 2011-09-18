@@ -12,7 +12,7 @@
 
 $man = array(
 				'id'		=> '_app.Branding',
-				'version'	=> '0.1-alpha',
+				'version'	=> N7_SOLUTION_VERSION,	// bundled apps have same version information as solution code
 				'flags'		=> 6,
 				'i18n'		=> array(
 										'cs' => 'Branding',

@@ -12,7 +12,7 @@
 
 $man = array(
 				'id'		=> '_[4lan/7uring/0be/5rs]_',
-				'version'	=> '0.1-alpha',
+				'version'	=> N7_SOLUTION_VERSION,	// bundled apps have same version information as solution code
 				'flags'		=> 14,
 				'i18n'		=> array(
 										'cs' => 'Webwidgety pro přihlášené uživatele',

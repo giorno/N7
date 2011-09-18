@@ -12,7 +12,7 @@
 
 $man = array(
 				'id'		=> '_app.Ai',
-				'version'	=> '0.1-alpha',
+				'version'	=> N7_SOLUTION_VERSION,	// bundled apps have same version information as solution code
 				'flags'		=> 14,
 				'i18n'		=> array(
 										'cs' => 'Administrace',

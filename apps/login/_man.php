@@ -12,7 +12,7 @@
 
 $man = array(
 				'id'		=> '_app.Login',
-				'version'	=> '0.1-alpha',
+				'version'	=> N7_SOLUTION_VERSION,	// bundled apps have same version information as solution code
 				'flags'		=> 13,
 				'i18n'		=> array(
 										'cs' => 'Přihlašování',
