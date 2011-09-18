@@ -124,6 +124,7 @@ class InstallerAjaxImpl extends Installer
 			 * Set N7 version information.
 			 */
 			_db_query( "INSERT INTO `{$table}` SET `value` = \"" . _db_escape( N7_SOLUTION_VERSION ) . "\", `scope` = \"G\", `ns` = \"{$ns}\", `key` = \"server.version\"" );
+			_db_query( "INSERT INTO `{$table}` SET `value` = \"" . _db_escape( N7_SOLUTION_VERSION ) . "\", `scope` = \"G\", `ns` = \"{$ns}\", `key` = \"server.magic\"" );
 
 			/**
 			 * Create admin account.
