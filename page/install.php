@@ -4,13 +4,13 @@
  * @file install.php
  * @author giorno
  * @package N7
+ * @license Apache License, Version 2.0, see LICENSE file
  * 
  * Script running N7 solution installer.
  */
 
-
 require_once '../_init.php';
-error_reporting( E_ALL );
+
 require_once CHASSIS_LIB . 'apps/_app_registry.php';
 require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
 include N7_SOLUTION_ROOT . 'i18n/en.php';

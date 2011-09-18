@@ -17,8 +17,6 @@ require_once N7_SOLUTION_LIB . 'n7_globals.php';
 require_once N7_SOLUTION_LIB . 'n7_ui.php';
 require_once N7_SOLUTION_LIB . 'n7_at.php';
 
-error_reporting( E_ALL );
-
 /**
  * Initialize Menhir framework.
  */
@@ -73,7 +71,6 @@ if ( _session_wrapper::getInstance( )->isSigned( ) === true )
 	 */
 	$spacer = new Spacer( );
 	_wwg_registry::getInstance( )->register( _wwg_registry::POOL_BOTTOM, $spacer->getId( ), $spacer );
-	//_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_BOTTOM, Array( Clock::ID, $spacer->getId( ) ) );
 }
 else
 {

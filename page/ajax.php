@@ -10,8 +10,6 @@
  * proper application server instance to execute the loop.
  */
 
-error_reporting( E_ALL);
-
 require_once '../_init.php';
 
 require_once CHASSIS_LIB . 'session/_session_wrapper.php';
