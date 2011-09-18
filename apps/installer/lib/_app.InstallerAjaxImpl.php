@@ -140,6 +140,7 @@ class InstallerAjaxImpl extends Installer
 				$man = NULL;
 				include N7_SOLUTION_APPS . $app . '/_man.php';
 				n7_at::register( $man['id'] , $app, $man['version'], serialize( $man['i18n'] ), $man['flags'] );
+				_db_query( "INSERT INTO `{$table}` SET `value` = \"" . _db_escape( N7_SOLUTION_VERSION ) . "\", `scope` = \"G\", `ns` = \"{$ns}\", `key` = \"server.magic\"" );
 			}
 
 			_db_query( "COMMIT" );
