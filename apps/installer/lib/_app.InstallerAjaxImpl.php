@@ -119,6 +119,11 @@ class InstallerAjaxImpl extends Installer
 			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['modrw'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.modrw\"" );
 			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.tz\"" );
 			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"usr.tz\"" );
+			
+			/**
+			 * Set N7 version information.
+			 */
+			_db_query( "INSERT INTO `{$table}` SET `value` = \"" . _db_escape( N7_SOLUTION_VERSION ) . "\", `scope` = \"G\", `ns` = \"{$ns}\", `key` = \"server.version\"" );
 
 			/**
 			 * Create admin account.
@@ -149,6 +154,8 @@ class InstallerAjaxImpl extends Installer
 		}
 		else
 		{
+			require_once N7_SOLUTION_APPS . 'signed/lib/_wwg.News.php';
+			
 			/**
 			 * Should be safe as database was empty before we started to mess
 			 * with it.
@@ -158,6 +165,9 @@ class InstallerAjaxImpl extends Installer
 			_db_query( "DROP TABLE `" . Config::T_SESSIONS . "`" );
 			_db_query( "DROP TABLE `" . Config::T_LOGINS . "`" );
 			_db_query( "DROP TABLE `" . Config::T_USERS . "`" );
+			
+			_db_query( "DROP TABLE `" . n7_at::T_APPS . "`" );
+			_db_query( "DROP TABLE `" . \io\creat\n7\apps\Signed\News::T_RSSCACHE . "`" );
 			
 			echo 'e_unknown';
 		}

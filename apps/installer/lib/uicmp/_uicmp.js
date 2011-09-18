@@ -3,7 +3,11 @@
  * @file _uicmp.js
  * @author giorno
  * @package N7
- * 
+ * @subpackage Installer
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+/**
  * Javascript logic for installer components. This file is supposed to be
  * embedded directly into <HEAD> section, not linked.
  */
@@ -124,12 +128,9 @@ function _vcmp_inst_ctrl ( form_id, bt_id, ind )
 										},
 										onSuccess: function ( data )
 										{
-											//alert( data.responseText );
-											
 											if (data.responseText.substr( 0, 9 ) == '<!--OK-->' )
 											{
 												scope.ind.show( 'done', '_uicmp_ind_green' );
-												// place response into container
 											}
 											else
 											{
