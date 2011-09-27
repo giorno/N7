@@ -10,8 +10,8 @@
  * displayed in branding widgets.
  */
 
-define( 'BRANDING_SERVICE',		'N7 dev.v.' );
-define( 'BRANDING_PROVIDER',	'&copy; 2008 - 2011 Ján Staník' );
+define( 'BRANDING_SERVICE',		'N7 ' . N7_SOLUTION_VERSION );
+define( 'BRANDING_PROVIDER',	'&copy; 2008 -' . date( "%Y" ) . '  Ján Staník' );
 define( 'BRANDING_PROMOTEXT',	'GitHub.com' );
 define( 'BRANDING_PROMOURL',	'https://github.com/giorno/N7' );
 

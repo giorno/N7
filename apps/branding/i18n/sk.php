@@ -13,6 +13,7 @@
 /**
  * Strings for _wwg.License.
  */
+$__msgBranding['licOthers']             = ' a ďalší';
 $__msgBranding['licTerms']				= 'Zobraziť informácie o Licencii';
 $__msgBranding['licDisclaimer']			= 'N7 je OpenSource kontajner pre webové aplikácie.';
 $__msgBranding['licHideBt']				= 'Zatvoriť';
