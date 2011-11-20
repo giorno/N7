@@ -11,6 +11,8 @@
 
 require_once CHASSIS_LIB . 'i18n/_i18n_loader.php';
 
+require_once CHASSIS_3RD . 'libip2country.php';
+
 require_once CHASSIS_LIB . 'session/_request_globals.php';
 require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 require_once CHASSIS_LIB . 'session/_settings.php';
@@ -132,6 +134,9 @@ class n7_globals extends _request_globals
 	 */
 	private function langFromBrowser ( )
 	{
+		if ( !array_key_exists( 'HTTP_ACCEPT_LANGUAGE', $_SERVER ) )
+			return;
+		
 		/*
 		 * Browser preferrence (Accept-Language header). This is only very simple
 		 * solution. For best fit also quality fragment and full normalized language

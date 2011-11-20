@@ -87,6 +87,11 @@ class n7_at
 	const FL_AJAXRR		= 8;
 	
 	/**
+	 * Application has primitives to handle XML RPC calls.
+	 */
+	const FL_XMLRPC		= 16;
+	
+	/**
 	 * Value for execution sequence marking app as cadidate.
 	 */
 	const V_CANDIDATE	= -1;
