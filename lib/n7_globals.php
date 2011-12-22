@@ -128,9 +128,9 @@ class n7_globals extends _request_globals
 	}
 
 	/**
-	 * Tries to load language preferences from browsers.
-	 * 
-	 * @return <bool>
+	 * Tries to load language preferences from the browser supplied list of
+	 * acceptable content languages.
+	 * @return bool
 	 */
 	private function langFromBrowser ( )
 	{
@@ -167,8 +167,7 @@ class n7_globals extends _request_globals
 
 	/**
 	 * Tries to load language from IP address of the client.
-	 *
-	 * @return <bool>
+	 * @return bool
 	 */
 	private function langFromIp ( )
 	{
@@ -197,7 +196,6 @@ class n7_globals extends _request_globals
 	
 	/**
 	 * Tries to retrieve specific language from HTTP cookies.
-	 * 
 	 * @return bool 
 	 */
 	private function langFromCookie ( )
@@ -218,37 +216,32 @@ class n7_globals extends _request_globals
 
 	/**
 	 * Shortcut for accesing settings instance.
-	 *
-	 * @return <n7_settings>
+	 * @return n7_settings
 	 */
 	public static function settings ( ) { return static::getInstance( )->get( 'settings' ); }
 
 	/**
 	 * Shortcut for accesing language code for request/session language.
-	 *
-	 * @return <string>
+	 * @return string
 	 */
 	public static function lang ( ) { return static::getInstance( )->get( 'usr.lang' ); }
 
 	/**
 	 * Shortcut for accesing array of supported localizations.
-	 *
-	 * @return <array>
+	 * @return array
 	 */
 	public static function languages ( ) { return static::getInstance( )->get( 'languages' ); }
 
 	/**
 	 * Shortcut for accesing user timezone instance. May be NULL for unsigned
 	 * user.
-	 *
-	 * @return <n7_timezone>
+	 * @return n7_timezone
 	 */
 	public static function userTz ( ) { return static::getInstance( )->get( 'usr.tz' ); }
 
 	/**
 	 * Shortcut for accesing server timezone instance.
-	 *
-	 * @return <n7_timezone>
+	 * @return n7_timezone
 	 */
 	public static function serverTz ( ) { return static::getInstance( )->get( 'server.tz' ); }
 
