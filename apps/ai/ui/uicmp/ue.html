@@ -45,11 +45,13 @@
 				</table
 			</td>
 		</tr>
+		{if $USR_UICMP_CMP->renderPasswd( )==TRUE}
 		<tr>
 			<td class="_uicmp_frm_prompt">{$APP_AI_MSG.ue.password}</td>
 			<td width="100%" class="_uicmp_frm_field">
 				<input type="password" class="_uicmp_search_input" id="{$USR_UICMP_CMP->getHtmlId()}.password">
 			</td>
 		</tr>
+		{/if}
 	</table>
 </td>

@@ -38,6 +38,7 @@ $__msgAcc['chpass']['retype']			= 'Retype new password';
 $__msgAcc['chpass']['ind']['e_old']		= 'Error: invalid current password!';
 $__msgAcc['chpass']['ind']['e_new']		= 'Error: invalid value for new password!';
 $__msgAcc['chpass']['ind']['e_retype']	= 'Error: values for new password do not match!';
+$__msgAcc['chpass']['ind']['e_unsupported']	= 'Error: feature not implemented!';
 $__msgAcc['chpass']['ind']['e_unknown']	= $__msgAcc['sem']['e_unknown'];
 $__msgAcc['chpass']['ind']['doing']		= 'Executing..';
 $__msgAcc['chpass']['ind']['done']		= 'Password changed';

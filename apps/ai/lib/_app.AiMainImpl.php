@@ -55,12 +55,20 @@ class AiMainImpl extends Ai
 		$this->layout = n7_ui::getInstance( )->getLayout( );
 		$this->layout->createSep( );
 
+		// Password field is usable only for authentication methods supporting
+		// it's change.
+		$authbe = n7_globals::getInstance()->authbe( );
+		if ( ( is_null( $authbe ) ) || ( $authbe->hasFlag( \io\creat\chassis\authbe::ABE_MODPASSWD ) ) )
+			$modpasswd = TRUE;
+		else
+			$modpasswd = FALSE;
+		
 			/**
 			 * UE form.
 			 */
 			$tab = $this->layout->createTab( $this->id . '.Ue' );
 				$tab->unstack( );
-				$ue = new _vcmp_ue( $tab , $tab->getId( ) . '.Frm', $this->messages, $url, $params );
+				$ue = new _vcmp_ue( $tab , $tab->getId( ) . '.Frm', $this->messages, $url, $params, $modpasswd );
 				$tab->addVcmp( $ue );
 
 							 
@@ -82,10 +90,11 @@ class AiMainImpl extends Ai
 		$this->layout->createSep( );
 		$this->layout->init( );
 		
-		n7_ui::getInstance( )->getMenu( )->register(	new MenuItem(	MenuItem::TYPE_JS,
-														$this->messages['riAdd'],
-														$ue->getJsVar( ) . '.create( );',
-														'_uicmp_blue' ) );
+		if ( $modpasswd )
+			n7_ui::getInstance( )->getMenu( )->register(	new MenuItem(	MenuItem::TYPE_JS,
+															$this->messages['riAdd'],
+															$ue->getJsVar( ) . '.create( );',
+															'_uicmp_blue' ) );
 
 		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
 		$smarty->assignByRef( 'APP_AI_LAYOUT', $this->layout );

@@ -39,6 +39,7 @@ $__msgAcc['chpass']['ind']['e_old']		= 'Chyba: nesprávne súčasné heslo!';
 $__msgAcc['chpass']['ind']['e_new']		= 'Chyba: nepovolená hodnota pre nové heslo!';
 $__msgAcc['chpass']['ind']['e_retype']	= 'Chyba: nové heslo a kontrola nesúhlasia!';
 $__msgAcc['chpass']['ind']['e_unknown']	= $__msgAcc['sem']['e_unknown'];
+$__msgAcc['chpass']['ind']['e_unsupported']	= 'Chyba: Funkcia nie je implementovaná!';
 $__msgAcc['chpass']['ind']['doing']		= 'Vykonávam..';
 $__msgAcc['chpass']['ind']['done']		= 'Heslo zmenené';
 

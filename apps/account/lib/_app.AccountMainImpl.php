@@ -56,11 +56,21 @@ class AccountMainImpl extends Account implements SemProvider
 		$dlgs = n7_ui::getInstance( )->getDlgs( );
 		$layout->createSep( );
 		
+		// Show change password link only for root and auth plugins supporting
+		// that feature.
+		$authbe = n7_globals::getInstance()->authbe( );
+		if ( ( is_null( $authbe ) ) || ( ( \io\creat\chassis\session::getInstance( )->getUid( ) == 1 ) || ( $authbe->hasFlag( \io\creat\chassis\authbe::ABE_MODPASSWD ) ) ) )
+		{
 			$chp = new \io\creat\n7\apps\account\uicmp\chpass(	$dlgs,
 																$this->id . '.ChPass',
-																n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php',
+																n7_globals::getInstance( )->get( 'url' )->myUrl( ) . 'ajax.php',
 																Array( 'app' => $this->id, 'action' => 'chpass' ),
 																$this->getMessages( ) );
+			
+			$extra = array( array( 'ChPass', $this->messages['capChPass'], $chp->getJsVar( ) . '.show( );' ) );
+		}
+		else
+			$extra = NULL;
 			
 			$tab = $layout->createTab( $this->id . '.Settings', FALSE );
 				$tab->createFold( $this->messages['foldSettings'] );
@@ -69,10 +79,10 @@ class AccountMainImpl extends Account implements SemProvider
 				$sem = new _vcmp_sem(	$tab,
 										$tab->id . '.Sem',
 										$this->getSem( ),
-										n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php',
+										n7_globals::getInstance( )->get( 'url' )->myUrl( ) . 'ajax.php',
 										Array( 'app' => $this->id, 'action' => 'sem' ),
 										$this->getMessages( ),
-										array( array( 'ChPass', $this->messages['capChPass'], $chp->getJsVar() . '.show( );' ) ) );
+										$extra );
 
 				$tab->addVcmp( $sem );
 
@@ -143,7 +153,7 @@ class AccountMainImpl extends Account implements SemProvider
 				$coll->add( $atom );
 				
 			/* E-mail address */
-			$atom = new sem_atom( sem_atom::AT_TEXT, 'usr.email', _session_wrapper::getInstance( )->getEmail( ), $this->messages['sem']['aAddress'] );
+			$atom = new sem_atom( sem_atom::AT_TEXT, 'usr.email', \io\creat\chassis\session::getInstance( )->getEmail( ), $this->messages['sem']['aAddress'] );
 				$coll->add( $atom );
 			
 		return $coll;

@@ -8,7 +8,6 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'session/_session_wrapper.php';
 require_once APP_LOGIN_LIB . '_app.Login.php';
 
 /**
@@ -22,7 +21,9 @@ class LoginAjaxImpl extends Login
 	 */
 	public function exec ( )
 	{
-		$session = _session_wrapper::getInstance( );
+		$session = \io\creat\chassis\session::getInstance( );
+		
+		n7_globals::getInstance( )->authbe( );
 		
 		if ( $session->login( N7_SOLUTION_ID , $_POST['login'], $_POST['password'], $_POST['auto'] ) )
 			echo "OK";

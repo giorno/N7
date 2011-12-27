@@ -132,13 +132,17 @@ class AiAjaxImpl extends Ai
 								break;
 							}
 							
-							/**
-							 * Check for password in case of new entry or any password supplied.
-							 */
-							if ( ( ( trim( $_POST['password']) != '') || ((int)$_POST['uid'] == 0 ) ) && ( !AiUsers::passOk( $_POST['password'] ) ) )
+							$authbe = n7_globals::getInstance()->authbe( );
+							if ( ( is_null( $authbe ) ) || ( $authbe->hasFlag( \io\creat\chassis\authbe::ABE_MODPASSWD ) ) )
 							{
-								echo 'e_emptypass';
-								break;
+								/**
+								 * Check for password in case of new entry or any password supplied.
+								 */
+								if ( ( ( trim( $_POST['password']) != '') || ((int)$_POST['uid'] == 0 ) ) && ( !AiUsers::passOk( $_POST['password'] ) ) )
+								{
+									echo 'e_emptypass';
+									break;
+								}
 							}
 							
 							if ( AiUsers::save( $_POST['uid'], $_POST['login'], $_POST['password'], $_POST['email'], $_POST['enabled'] ) )

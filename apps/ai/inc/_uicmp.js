@@ -54,7 +54,9 @@ function _uicmp_ue ( layout, tab_id, cap_id, form_id, bt_id, ind, url, params )
 		document.getElementById( me.form_id + '.uid' ).value = ( me.uid == 0 ) ? me.strings['auto'] : me.uid;
 		document.getElementById( me.form_id + '.login' ).value = login;
 		document.getElementById( me.form_id + '.email' ).value = email;
-		document.getElementById( me.form_id + '.password' ).value = '';
+		var el = document.getElementById( me.form_id + '.password' );
+		if ( el )
+			el.value = '';
 		document.getElementById( me.form_id + '.enabled' ).checked = enabled;
 		me.ind.hide( );
 	};
@@ -154,7 +156,14 @@ function _uicmp_ue ( layout, tab_id, cap_id, form_id, bt_id, ind, url, params )
 			reqParams += '&' + key + '=' + scope.params[key];
 		
 		var email = document.getElementById( me.form_id + '.email' ).value;
-		var password = document.getElementById( me.form_id + '.password' ).value;
+		
+		// Password field is not always rendered.
+		var el = document.getElementById( me.form_id + '.password' );
+		if ( el )
+			var password = el.value;
+		else
+			var password = '';
+
 		var enabled = ( document.getElementById( me.form_id + '.enabled' ).checked ) ? '1' : '0';
 		
 		/**

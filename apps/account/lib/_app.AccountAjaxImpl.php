@@ -45,6 +45,16 @@ class AccountAjaxImpl extends Account implements SemApplicator
 			 */
 			case 'chpass':
 				
+				// In case that authorization plugin is used, perform change
+				// of the password only if it is supported.
+				$authbe = n7_globals::getInstance()->authbe( );
+				if ( ( !is_null( $authbe ) ) && ( ( \io\creat\chassis\session::getInstance( )->getUid( ) > 1 ) && ( $authbe->hasFlag( \io\creat\chassis\authbe::ABE_MODPASSWD ) ) ) )
+				{
+					echo "e_unsupported";
+					break;
+				}
+						
+				
 				$old = base64_decode( $_POST['o'] );
 				$new = base64_decode( $_POST['n'] );
 				$retype = base64_decode( $_POST['r'] );
@@ -52,7 +62,7 @@ class AccountAjaxImpl extends Account implements SemApplicator
 				/**
 				 * Check current password.
 				 */
-				if ( !_session_wrapper::getInstance()->checkPassword( $old ) )
+				if ( !\io\creat\chassis\session::getInstance()->checkPassword( $old ) )
 				{
 					echo "e_old";
 					break;
@@ -78,9 +88,9 @@ class AccountAjaxImpl extends Account implements SemApplicator
 				/**
 				 * Set and check the result.
 				 */
-				_session_wrapper::getInstance()->setPassword( $new );
+				\io\creat\chassis\session::getInstance()->setPassword( $new );
 				
-				if ( !_session_wrapper::getInstance()->checkPassword( $new ) )
+				if ( !\io\creat\chassis\session::getInstance()->checkPassword( $new ) )
 					echo "e_unknown";
 				else
 					echo "OK";
@@ -201,7 +211,7 @@ class AccountAjaxImpl extends Account implements SemApplicator
 		if ( $atom = $coll->getById( 'usr.email' ) )
 		{
 			_db_query( "UPDATE `" . Config::T_USERS . "` SET `" . Config::F_EMAIL . "` = \"" . _db_escape( $atom->getValue( ) ) . "\"
-						WHERE `" . Config::F_UID . "` = \"" . _db_escape( _session_wrapper::getInstance( )->getUid( ) ) . "\"" );
+						WHERE `" . Config::F_UID . "` = \"" . _db_escape( \io\creat\chassis\session::getInstance( )->getUid( ) ) . "\"" );
 		}
 	}
 

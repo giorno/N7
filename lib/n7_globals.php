@@ -14,7 +14,8 @@ require_once CHASSIS_LIB . 'i18n/_i18n_loader.php';
 require_once CHASSIS_3RD . 'libip2country.php';
 
 require_once CHASSIS_LIB . 'session/_request_globals.php';
-require_once CHASSIS_LIB . 'session/_session_wrapper.php';
+require_once CHASSIS_LIB . 'session/session.php';
+require_once CHASSIS_LIB . 'session/authbe.php';
 require_once CHASSIS_LIB . 'session/_settings.php';
 
 require_once N7_SOLUTION_LIB . 'libtz.php';
@@ -77,7 +78,7 @@ class n7_globals extends _request_globals
 		/**
 		 * Configure globals for signed user.
 		 */
-		if ( _session_wrapper::getInstance( )->isSigned( ) )
+		if ( \io\creat\chassis\session::getInstance( )->isSigned( ) )
 		{
 			$this->storage['settings'] = new n7_settings( );
 			$this->storage['usr.lang'] = $this->storage['settings']->get( 'usr.lang' );
@@ -213,6 +214,34 @@ class n7_globals extends _request_globals
 		
 		return false;
 	}
+	
+	/**
+	 * Lazy instantiation of authentication backend plugin. It is needed only
+	 * in specific cases (login, administration UI rendering, etc.), therefore
+	 * no need to have it created for each request.
+	 * @return \io\creat\chassis\authbe
+	 */
+	public function authbe ( )
+	{
+		$abe = $this->get( 'server.authbe' ); // this is not a setting, but a key to globals storage array
+		
+		if ( !( $abe instanceof \io\creat\chassis\authbe ) )
+		{
+			// read global scope setting for the authentication plugin location
+			$lib = N7_SOLUTION_LIB . 'auth/' . trim( $this->storage['config']->get( 'server.auth.lib' ) ) . '.php';
+			if ( ( $lib != '' ) && file_exists( $lib ) )
+			{
+				include $lib;
+				$abe = $this->get( 'server.authbe' ); // this is not a setting, but a key to globals storage array
+				return $abe;
+			}
+
+			return NULL;
+			//$abe = new 
+		}
+		
+		return $abe;
+	}
 
 	/**
 	 * Shortcut for accesing settings instance.
@@ -244,7 +273,6 @@ class n7_globals extends _request_globals
 	 * @return n7_timezone
 	 */
 	public static function serverTz ( ) { return static::getInstance( )->get( 'server.tz' ); }
-
 }
 
 ?>

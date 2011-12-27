@@ -26,7 +26,7 @@ class LogMeOut extends Wwg
 		_wwg_registry::getInstance( )->register( _wwg_registry::POOL_MENU, $spacer->getId( ), $spacer );
 		_wwg_registry::getInstance( )->register( _wwg_registry::POOL_MENU, $this->id, $this );
 		_wwg_registry::getInstance( )->setLayout( _wwg_registry::POOL_MENU, Array( n7_ui::getInstance( )->getMenu( )->getId( ), $spacer->getId( ), LogMeOut::ID ) );
-		_smarty_wrapper::getInstance()->getEngine( )->assign( 'WWG_LOGMEOUT_USERNAME', _session_wrapper::getInstance()->getNick( ) );
+		_smarty_wrapper::getInstance()->getEngine( )->assign( 'WWG_LOGMEOUT_USERNAME', \io\creat\chassis\session::getInstance()->getNick( ) );
 	}
 }
 

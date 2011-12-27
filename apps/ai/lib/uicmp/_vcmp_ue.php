@@ -20,47 +20,41 @@ class _vcmp_ue extends \io\creat\chassis\uicmp\vcmp
 {
 	/**
 	 * Reference to User Editor (UE) instance.
-	 * 
 	 * @var _uicmp_ue 
 	 */
 	protected $ue = NULL;
 	
 	/**
 	 * Reference to Save button.
-	 * 
 	 * @var _uicmp_gi 
 	 */
 	protected $bt = NULL;
 	
 	/**
 	 * Reference to indicator item.
-	 * 
 	 * @var _uicmp_gi_ind
 	 */
 	protected $ind = NULL;
 	
 	/**
 	 * Localization messages used for UICMP components.
-	 * 
 	 * @var array 
 	 */
 	protected $messages = NULL;
 	
 	/**
 	 * Ajax server URL.
-	 * 
 	 * @var string 
 	 */
 	protected $url = NULL;
 	
 	/**
 	 * Ajax request parameters. Associative array.
-	 * 
 	 * @var array 
 	 */
 	protected $params = NULL;
 	
-	public function __construct ( &$parent, $id, &$messages, $url, $params )
+	public function __construct ( &$parent, $id, &$messages, $url, $params, $modpasswd = TRUE )
 	{
 		parent::__construct( $parent );
 		
@@ -68,7 +62,7 @@ class _vcmp_ue extends \io\creat\chassis\uicmp\vcmp
 		$this->url		= $url;
 		$this->params	= $params;
 		
-		$this->ue		= new _uicmp_ue( $this->parent->getBody( ), $id, $url, $params );
+		$this->ue		= new _uicmp_ue( $this->parent->getBody( ), $id, $modpasswd );
 		
 		$this->parent->getBody( )->add( $this->ue );
 		$this->parent->getHead( )->add( new \io\creat\chassis\uicmp\headline( $this->parent, $this->parent->getId( ) . '.Title', $this->messages['ue']['create'] ) );

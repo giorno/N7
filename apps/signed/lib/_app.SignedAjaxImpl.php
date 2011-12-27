@@ -11,8 +11,6 @@
 require_once SIGNEDTAB_LIB . '_app.Signed.php';
 require_once SIGNEDTAB_LIB . '_wwg.News.php';
 
-require_once CHASSIS_LIB . 'session/_session_wrapper.php';
-
 /**
  * Ajax hadler for signed user session without specified application, e.g.
  * general solution-wide tasks like settings, etc.
@@ -46,7 +44,7 @@ class SignedAjaxImpl extends Signed
 			 * Perform logout and signal client side to reload page.
 			 */
 			case '_wwg.LogMeOut:logout':
-				if ( _session_wrapper::getInstance()->logout() )
+				if ( \io\creat\chassis\session::getInstance()->logout() )
 					echo "OK";
 				else
 					echo "KO";

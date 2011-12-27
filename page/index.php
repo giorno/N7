@@ -11,8 +11,6 @@
 
 require_once '../_init.php';
 
-require_once CHASSIS_LIB . 'session/_session_wrapper.php';
-
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 require_once N7_SOLUTION_LIB . 'n7_ui.php';
 require_once N7_SOLUTION_LIB . 'n7_at.php';
@@ -45,13 +43,13 @@ if ( !is_null( $magic = n7_globals::getInstance()->get( 'config' )->get( 'server
 /**
  * Handle base authentification, authorization and access to applications.
  */
-if ( _session_wrapper::getInstance( )->isSigned( ) === true )
+if ( \io\creat\chassis\session::getInstance( )->isSigned( ) === true )
 {
 	/**
 	 * Provide user nickname and domain name in left top corner.
 	 */
 	$host = parse_url( n7_globals::getInstance( )->get( 'url' )->myUrl( ), PHP_URL_HOST );
-	$whoami = _session_wrapper::getInstance( )->getNick( ) . '@' . $host;
+	$whoami = \io\creat\chassis\session::getInstance( )->getNick( ) . '@' . $host;
 	_smarty_wrapper::getInstance( )->getEngine( )->assign( 'N7_NICKNAME', $whoami );
 	
 	n7_ui::getInstance( )->getMenu( )->register(	new MenuItem(	MenuItem::TYPE_TXT,

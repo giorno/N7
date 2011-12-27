@@ -56,7 +56,7 @@ abstract class N7App extends App
 			 */
 			case 'refresh':
 				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 				$cdes->display( $list_cfg, $_POST['id'], $_POST['cdes_ed'], n7_globals::settings( )->get( 'usr.lst.len' ), n7_globals::settings( )->get( 'usr.lst.pagerhalf' ), $_POST['keywords'], $_POST['page'], $_POST['order'], $_POST['dir'], $rm_cb );
 			break;
 
@@ -72,7 +72,7 @@ abstract class N7App extends App
 			 */
 			case 'save':
 				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 				if ( trim( $_POST['disp'] ) == '' )
 					echo "e_format";
 				elseif ( ( $_POST['ctx'] == 0 ) && ( $cdes->exists( $_POST['disp'] ) ) )
@@ -88,7 +88,7 @@ abstract class N7App extends App
 			 */
 			case 'remove':
 				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( _session_wrapper::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
 				$cdes->remove( $_POST['ctx'] );
 			break;
 		}
@@ -104,7 +104,7 @@ abstract class N7App extends App
 	 */
 	protected function getCdesCloud ( $table, $js_var, $prefix, $error_msg )
 	{
-		$cloud = new \io\creat\chassis\uicmp\cdescloud( NULL, NULL, $js_var, _cdes::allCtxs( _session_wrapper::getInstance( )->getUid( ), $table ), $prefix );
+		$cloud = new \io\creat\chassis\uicmp\cdescloud( NULL, NULL, $js_var, _cdes::allCtxs( \io\creat\chassis\session::getInstance( )->getUid( ), $table ), $prefix );
 		$cloud->setErrorMsg( $error_msg );
 		_smarty_wrapper::getInstance( )->getEngine( )->assignByRef( 'USR_UICMP_CMP', $cloud );
 		_smarty_wrapper::getInstance( )->setContent( $cloud->getRenderer( ) );
