@@ -231,13 +231,12 @@ class n7_globals extends _request_globals
 			$lib = N7_SOLUTION_LIB . 'auth/' . trim( $this->storage['config']->get( 'server.auth.lib' ) ) . '.php';
 			if ( ( $lib != '' ) && file_exists( $lib ) )
 			{
-				include $lib;
+				include $lib; // should populate globals
 				$abe = $this->get( 'server.authbe' ); // this is not a setting, but a key to globals storage array
+				\io\creat\chassis\session::getInstance( )->setAuthBe( $abe ); // link to session tracker
 				return $abe;
 			}
-
-			return NULL;
-			//$abe = new 
+			return NULL; 
 		}
 		
 		return $abe;

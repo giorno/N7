@@ -16,7 +16,8 @@ require_once CHASSIS_LIB . 'session/session.php';
  * Authentication against SSH2 service using username and password. It requires
  * remote SSH2 service to support password authentication. Hostname (and port)
  * or IP address are expected to be set in global scope of given settings
- * instance at key 'server.auth.ssh2'.
+ * instance at key 'server.auth.ssh2'. It also requires that PECL SSH2 package
+ * is installed.
  */
 class authbe_ssh2 extends \io\creat\chassis\authbe
 {
@@ -43,9 +44,8 @@ class authbe_ssh2 extends \io\creat\chassis\authbe
 	}
 }
 
-// Initialization and binding with session tracker.
+// Initialization and binding with globals.
 $abe = new authbe_ssh2( \n7_globals::getInstance( )->get( 'config' ) );
-\io\creat\chassis\session::getInstance( )->setAuthBe( $abe );
 \n7_globals::getInstance( )->set( 'server.authbe', $abe );
 
 ?>
