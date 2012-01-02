@@ -34,3 +34,23 @@ CREATE TABLE  `signed_news` (
   `title` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `ts` TIMESTAMP NOT NULL
 ) ENGINE = MYISAM;
+
+
+---
+--- Table for XML RPC authentication tokens.
+---
+
+CREATE TABLE  `n7_rpcsess` (
+  `uid` bigint( 20 ) NOT NULL,
+  `token` char( 32 ) NOT NULL,
+  `expires` datetime NOT NULL,
+  INDEX ( `uid` )
+) ENGINE = INNODB;
+
+
+---
+--- Constraints for XML RPC tokens table.
+---
+
+ALTER TABLE  `n7_rpcsess` ADD FOREIGN KEY (`uid`) REFERENCES `core_users` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
+

@@ -11,7 +11,7 @@
 
 require_once '../_init.php';
 
-require_once CHASSIS_LIB . 'session/\io\creat\chassis\session.php';
+require_once CHASSIS_LIB . 'session/session.php';
 
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 require_once N7_SOLUTION_LIB . 'n7_at.php';

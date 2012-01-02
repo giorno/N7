@@ -7,6 +7,71 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
+require_once CHASSIS_LIB . 'libdb.php';
+require_once CHASSIS_LIB . 'libfw.php';
+
+/**
+ * XML RPC server (XRS) decorator. Binds new primitives to server instance. Uses
+ * Singleton and Decorator patterns. Serves as an example for application
+ * specific decorators.
+ * 
+ * This implementation binds core authentication methods of the N7 container.
+ */
+class CoreXrsDec
+{
+	/**
+	 * Reference to instance implicitly created by the bind() method.
+	 * @var \CoreXrsDec
+	 */
+	private static $instance = NULL;
+	
+	/**
+	 * Reference to XML RPC server instance.
+	 * @var XmlRpcSrv
+	 */
+	protected $server = NULL;
+	
+	/**
+	 * Creates instance and registers new primitives into XML RPC server
+	 * (decorates it).
+	 * @param \XmlRpcServer $srv reference to XML RPC server wrapper
+	 */
+	public static function bind ( &$srv )
+	{
+		if ( is_null( static::$instance ) )
+			static::$instance = new CoreXrsDec( $srv );
+		
+		$srv->register(	static::$instance,	'auth.validate',	'validate',	array( 'token' ) );
+		$srv->register(	static::$instance,	'auth.login',		'login',	array( 'username', 'password' ) );
+	}
+	
+	/**
+	 * Constructor. Makes link to server instance.
+	 * @param \XmlRpcServer $srv server instance
+	 */
+	private function __construct ( $srv ) { $this->server = $srv; }
+	
+	/**
+	 * Hiding copy constructor to follow Singleton pattern.
+	 */
+	private function __clone ( ) { }
+	
+	/**
+	 * [XML RPC] Validates given token against table of tokens.
+	 * @param string $token security token created by login primitive
+	 * @return bool
+	 */
+	public function validate ( $token ) { return $this->server->token2uid( $token ) > 0; }
+	
+	/**
+	 * [XML RPC] Authenticates user given credentials.
+	 * @param string $username user login name
+	 * @param string $password user password
+	 * @return mixed token on success, FALSE on failure
+	 */
+	public function login ( $username, $password ) { return $this->server->login( $username, $password ); }
+}
+
 /**
  * Superclass for all application specific implementations of XML RPC server
  * wrapper. Its purpose is to automate registration and execution of procedures.
@@ -14,6 +79,21 @@
  */
 class XmlRpcSrv
 {
+	/* Table of security tokens for XML RPC sessions. */
+	const T_RPCSESS = 'n7_rpcsess';
+	
+	/* Field name for user ID. */
+	const F_UID = Config::F_UID;
+	
+	/* Field name for security token. */
+	const F_TOKEN = Config::F_TOKEN;
+	
+	/* Field name for expiration timestamp. */
+	const F_EXPIRES = 'expires';
+	
+	/* Default interval for session validity (in minutes). */
+	const INTERVAL = 720;
+	
 	/**
 	 * Server handler.
 	 * @var resource
@@ -34,6 +114,7 @@ class XmlRpcSrv
 	{
 		$this->sh = xmlrpc_server_create( );
 		$this->ft = array( );
+		CoreXrsDec::bind( $this );
 	}
 	
 	/**
@@ -59,8 +140,9 @@ class XmlRpcSrv
 	public function call ( $name, $params )
 	{
 		$p = array( );
+		$i = 0;
 		foreach ( $this->ft[$name]['p'] as $pname )
-			$p[$pname] = $params[0][$pname];
+			$p[$pname] = $params[$i++];
 		return call_user_func_array( array( &$this->ft[$name]['d'], $this->ft[$name]['f'] ), $p );
 	}
 	
@@ -70,6 +152,74 @@ class XmlRpcSrv
 	 * @return mixed
 	 */
 	public function answer ( ) { return xmlrpc_server_call_method( $this->sh, file_get_contents( 'php://input'), NULL ); }
+	
+	/**
+	 * Converts security token to user ID. Returns zero on failure (not logged
+	 * or session expired). Updates existing record with new new date.
+	 * @param string $token security token from the client
+	 * @return int
+	 */
+	public function token2uid ( $token )
+	{
+		_db_query( "DELETE FROM `" . self::T_RPCSESS . "`
+					WHERE `" . self::F_EXPIRES . "` <= NOW()" );
+		
+		$uid = (int)_db_1field( "SELECT `" . self::F_UID . "`
+								FROM `" . self::T_RPCSESS . "`
+								WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"" );
+		if ( $uid > 0 )
+			_db_query ( "UPDATE `" . self::T_RPCSESS . "`
+						SET `" . self::F_EXPIRES . "` = (NOW() + INTERVAL(" . self::INTERVAL . " MINUTE))
+						WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"
+						AND `" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+		
+		return $uid;
+	}
+	
+	/**
+	 * Authenticates user given credentials.
+	 * @param string $username user login name
+	 * @param string $password user password
+	 * @return mixed token on success, FALSE on failure
+	 */
+	public function login ( $username, $password )
+	{
+		$uid = 0;
+		$hash = _fw_hash_passwd( $password );
+		
+		// Do we have authentication plugin configured?
+		$authbe = n7_globals::getInstance( )->authbe( );
+		if ( !is_null( $authbe ) )
+			if ( (int)_db_1field( "SELECT `" . Config::F_UID . "` FROM `" . Config::T_USERS . "` WHERE `" . Config::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"" ) != 1 )
+				$uid = (int)$authbe->validate( $username, $password );
+
+		// Table authentication.
+		if ( $uid < 1 )
+			$uid = (int)_db_1field ( "SELECT `" . Config::F_UID . "`
+										FROM `" . Config::T_USERS . "`
+										WHERE `" . Config::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"
+										AND `" . Config::F_PASSWD . "` = \"" . _db_escape( $hash ) . "\"
+										AND `" . Config::F_ENABLED . "` = '1'" );
+		
+		// Create session.
+		if ( $uid > 0 )
+		{
+			_fw_rand_init( );
+			$token = _fw_rand_hash( );
+			_db_query( "INSERT INTO `" . self::T_RPCSESS . "`
+						SET `" . self::F_EXPIRES . "` = (NOW() + INTERVAL " . self::INTERVAL . " MINUTE),
+							`" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\",
+							`" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+			return $token;
+		}
+		
+		return FALSE;
+	}
+	
+	/*public function logout ( $token )
+	{
+		
+	}*/
 }
 
 ?>
