@@ -21,12 +21,15 @@ require_once CHASSIS_LIB . 'session/session.php';
  */
 class authbe_ssh2 extends \io\creat\chassis\authbe
 {
+	/**
+	 * Attempts to sign user.
+	 * @param string $login user login name
+	 * @param string $password user password
+	 * @return mixed
+	 */
 	public function validate ( $login, $password )
 	{
-		$host = trim( $this->sett->get( 'server.auth.ssh2' ) );
-
-		// Hostname is not configured in the global scope.
-		if ( $host == '' )
+		if ( ( $host = $this->authority( ) ) == NULL )
 			return FALSE;
 		
 		$conn = @ssh2_connect( $host );
@@ -41,6 +44,21 @@ class authbe_ssh2 extends \io\creat\chassis\authbe
 				return $uid;
 		
 		return FALSE;
+	}
+	
+	/**
+	 * Provides authority string (a name of host/domain serving as authority).
+	 * @return mixed
+	 */
+	public function authority ( )
+	{
+		$host = trim( $this->sett->get( 'server.auth.ssh2' ) );
+
+		// Hostname is not configured in the global scope.
+		if ( $host == '' )
+			return NULL;
+		else
+			return $host;
 	}
 }
 

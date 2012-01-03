@@ -48,7 +48,10 @@ if ( \io\creat\chassis\session::getInstance( )->isSigned( ) === true )
 	/**
 	 * Provide user nickname and domain name in left top corner.
 	 */
-	$host = parse_url( n7_globals::getInstance( )->get( 'url' )->myUrl( ), PHP_URL_HOST );
+	if ( ( \io\creat\chassis\session::getInstance()->getUid() != 1) && ( ( $authbe = n7_globals::getInstance( )->authbe( ) ) != NULL ) )
+		$host = $authbe->authority( );
+	else
+		$host = parse_url( n7_globals::getInstance( )->get( 'url' )->myUrl( ), PHP_URL_HOST );
 	$whoami = \io\creat\chassis\session::getInstance( )->getNick( ) . '@' . $host;
 	_smarty_wrapper::getInstance( )->getEngine( )->assign( 'N7_NICKNAME', $whoami );
 	
