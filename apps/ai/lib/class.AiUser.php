@@ -1,20 +1,24 @@
 <?php
 
-require_once CHASSIS_CFG . 'class.Config.php';
-require_once CHASSIS_LIB . 'libfw.php';
-
 /**
  * @file class.AiUser.php
  * @author giorno
  * @package N7
- * 
- * User details handling routines.
+ * @subpackage AI
+ * @license Apache License, Version 2.0, see LICENSE file
+ */
+
+require_once CHASSIS_CFG . 'class.Config.php';
+require_once CHASSIS_LIB . 'libfw.php';
+
+require_once N7_SOLUTION_LIB . 'class.XmlRpcSrv.php';
+/**
+ * User record manipulation routines.
  */
 class AiUser extends Config
 {
 	/**
 	 * Checks if user with given ID is root (an administrator) or not.
-	 * 
 	 * @param int $uid user ID
 	 * @return bool
 	 */
@@ -27,8 +31,28 @@ class AiUser extends Config
 	}
 	
 	/**
+	 * Deletes all sessions for given user ID if their account was disabled.
+	 * Does not apply to root user.
+	 * @param int $uid 
+	 */
+	protected static function cancel ( $uid )
+	{
+		if ( self::isRoot( $uid ) )
+			return;
+		
+		// Delete sessions and autologin tokens for disabled user. This
+		// will effectively cut them off.
+		$enabled = (int)_db_1field( "SELECT `" . self::F_ENABLED . "` FROM `" . self::T_USERS . "` WHERE `" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+		if ( $enabled != 1 )
+		{
+			_db_query( "DELETE FROM `" . self::T_SESSIONS . "` WHERE `" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+			_db_query( "DELETE FROM `" . self::T_SIGNTOKENS . "` WHERE `" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+			_db_query( "DELETE FROM `" . XmlRpcSrv::T_RPCSESS . "` WHERE `" . XmlRpcSrv::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+		}
+	}
+	
+	/**
 	 * Toggle ENABLED flag. Must not be performed for root user(s).
-	 * 
 	 * @param int $uid user ID
 	 * @return bool 
 	 */
@@ -38,19 +62,20 @@ class AiUser extends Config
 			return false;
 		
 		_db_query( "UPDATE `" . self::T_USERS . "` SET `" . self::F_ENABLED . "` = NOT(`" . self::F_ENABLED . "`) WHERE `" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+
+		self::cancel( $uid );
 		
 		return true;
 	}
 	
 	/**
-	 * Performs user account update or create action. May be used form other
-	 * applications, but very carefuly.
-	 * 
+	 * Performs user account update or create action. May be used from other
+	 * applications as well, but be very careful when doing so.
 	 * @param int $uid ID of user account, 0 for creation or new account
 	 * @param string $login login for user account, ignored for update
 	 * @param string $password password, ignored for update if empty
 	 * @param string $email email address
-	 * @param bool $enabled indicated whether account should be enabled or not
+	 * @param bool $enabled indicates whether account should be enabled or not
 	 * @return bool
 	 */
 	public static function save ( $uid, $login, $password, $email, $enabled )
@@ -76,6 +101,7 @@ class AiUser extends Config
 		if ( (int)$uid > 0 )
 		{
 			_db_query( "UPDATE `" . self::T_USERS . "` SET {$pc}{$ec}{$nc} WHERE {$ic}" );
+			self::cancel( $uid );
 			return true;
 		}
 		else
@@ -87,7 +113,6 @@ class AiUser extends Config
 	
 	/**
 	 * Checks if login already exists in the table.
-	 * 
 	 * @param string $login user account login
 	 * @return bool 
 	 */
@@ -98,11 +123,9 @@ class AiUser extends Config
 	
 	/**
 	 * Check password value for fulfilment of security requirements.
-	 * 
 	 * @todo more elaborate check (character classes, etc.)
 	 * @todo develop client side asymmetric encryption of password or client
 	 * side check and sending already hashed password
-	 * 
 	 * @param string $pass plain password to check
 	 * @return bool 
 	 */
@@ -113,10 +136,8 @@ class AiUser extends Config
 	
 	/**
 	 * Checks if login value has valid format.
-	 * 
 	 * @param string $login user account login
 	 * @return bool 
-	 * 
 	 * @todo allow use of certain non-alphanum characters, like dots, dashes, etc.
 	 */
 	public static function loginOk ( $login )
