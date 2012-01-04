@@ -94,6 +94,9 @@ class XmlRpcSrv
 	/* Default interval for session validity (in minutes). */
 	const INTERVAL = 720;
 	
+	/* Authentication error No. */
+	const E_AUTH = 100;
+	
 	/**
 	 * Server handler.
 	 * @var resource
@@ -152,6 +155,14 @@ class XmlRpcSrv
 	 * @return mixed
 	 */
 	public function answer ( ) { return xmlrpc_server_call_method( $this->sh, file_get_contents( 'php://input'), NULL ); }
+	
+	/**
+	 * Produces simple array wrapping error indication
+	 * @param int $id identifier of an error, see member constants for explation
+	 * @param string $msg text explanation
+	 * @return array
+	 */
+	public function error ( $id, $msg = '' ) { return array( 'error' => $id, 'msg' => $msg ); }
 	
 	/**
 	 * Converts security token to user ID. Returns zero on failure (not logged
