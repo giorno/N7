@@ -38,11 +38,11 @@ class CoreXrsDec
 	 */
 	public static function bind ( &$srv )
 	{
-		if ( is_null( static::$instance ) )
-			static::$instance = new CoreXrsDec( $srv );
+		if ( is_null( self::$instance ) )
+			self::$instance = new CoreXrsDec( $srv );
 		
-		$srv->register(	static::$instance,	'auth.validate',	'validate',	array( 'token' ) );
-		$srv->register(	static::$instance,	'auth.login',		'login',	array( 'username', 'password' ) );
+		$srv->register(	self::$instance,	'auth.validate',	'validate',	array( 'token' ) );
+		$srv->register(	self::$instance,	'auth.login',		'login',	array( 'username', 'password' ) );
 	}
 	
 	/**
