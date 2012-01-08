@@ -180,7 +180,7 @@ class XmlRpcSrv
 								WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"" );
 		if ( $uid > 0 )
 			_db_query ( "UPDATE `" . self::T_RPCSESS . "`
-						SET `" . self::F_EXPIRES . "` = (NOW() + INTERVAL(" . self::INTERVAL . " MINUTE))
+						SET `" . self::F_EXPIRES . "` = (NOW() + INTERVAL " . self::INTERVAL . " MINUTE)
 						WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"
 						AND `" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
 		
