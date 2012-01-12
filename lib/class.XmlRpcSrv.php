@@ -43,6 +43,7 @@ class CoreXrsDec
 		
 		$srv->register(	self::$instance,	'auth.validate',	'validate',	array( 'token' ) );
 		$srv->register(	self::$instance,	'auth.login',		'login',	array( 'username', 'password' ) );
+		$srv->register(	self::$instance,	'auth.logout',		'logout',	array( 'token' ) );
 	}
 	
 	/**
@@ -70,6 +71,13 @@ class CoreXrsDec
 	 * @return mixed token on success, FALSE on failure
 	 */
 	public function login ( $username, $password ) { return $this->server->login( $username, $password ); }
+
+	/**
+	 * [XML RPC] Performs logout operation.
+	 * @param string $token security token
+	 * @return array
+	 */
+	public function logout ( $token ) { return $this->server->logout( $token ); }
 }
 
 /**
@@ -227,10 +235,22 @@ class XmlRpcSrv
 		return FALSE;
 	}
 	
-	/*public function logout ( $token )
+	/**
+	 * Deletes session associated with the token.
+	 * @param string $token security token
+	 * @return array
+	 */
+	public function logout ( $token )
 	{
-		
-	}*/
+		if ( $this->token2uid( $token ) > 0 )
+		{
+			_db_query( "DELETE FROM `" . self::T_RPCSESS . "`
+				WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"" );
+			return array( 'status' => ( (int)$this->token2uid( $token ) == 0 ) );
+		}
+		else
+			return array( 'status' => TRUE );
+	}
 }
 
 ?>
