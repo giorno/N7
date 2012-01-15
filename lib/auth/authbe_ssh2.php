@@ -18,6 +18,10 @@ require_once CHASSIS_LIB . 'session/session.php';
  * or IP address are expected to be set in global scope of given settings
  * instance at key 'server.auth.ssh2'. It also requires that PECL SSH2 package
  * is installed.
+ * 
+ * To enable this backend, set value for key 'server.auth.lib' in the 'G' scope
+ * of settings table to 'authbe_ssh2' (the basename of the file without the
+ * extension).
  */
 class authbe_ssh2 extends \io\creat\chassis\authbe
 {
