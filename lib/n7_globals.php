@@ -9,7 +9,7 @@
  * table.
  */
 
-require_once CHASSIS_LIB . 'i18n/_i18n_loader.php';
+require_once CHASSIS_LIB . 'i18n/i18n.php';
 
 require_once CHASSIS_3RD . 'libip2country.php';
 
@@ -123,9 +123,9 @@ class n7_globals extends _request_globals
 			$this->langFromIp( );
 		
 		/**
-		 * Load Chassis framework localization.
+		 * Configure Chassis framework localization Singleton.
 		 */
-		$this->storage['io.creat.chassis.i18n'] = _i18n_loader::getInstance( $this->storage['usr.lang'] );
+		$this->storage['io.creat.chassis.i18n'] = i18n::getInstance( $this->storage['usr.lang'] );
 	}
 
 	/**

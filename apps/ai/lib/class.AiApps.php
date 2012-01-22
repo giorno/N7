@@ -60,7 +60,7 @@ class AiApps
 			/**
 			 * Define structure of the list.
 			 */
-			$builder = new _list_builder( $this->app->getVcmpSearchId( 'At' ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+			$builder = new _list_builder( $this->app->getVcmpSearchId( 'At' ) );
 				$builder->addField( '_seq', $this->messages['at']['seq'], AiCfgFactory::LIST_HDRW_SEQ, 1, 'left', false );
 				$builder->addField( '_flags', $this->messages['at']['flags'], AiCfgFactory::LIST_HDRW_SEQ, 1, 'left', false );
 				$builder->addField( '_name', $this->messages['at']['app'], AiCfgFactory::LIST_HDRW_LOGIN, 1, 'left', false );

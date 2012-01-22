@@ -55,8 +55,7 @@ abstract class N7App extends App
 			 * same way as normal search.
 			 */
 			case 'refresh':
-				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table );
 				$cdes->display( $list_cfg, $_POST['id'], $_POST['cdes_ed'], n7_globals::settings( )->get( 'usr.lst.len' ), n7_globals::settings( )->get( 'usr.lst.pagerhalf' ), $_POST['keywords'], $_POST['page'], $_POST['order'], $_POST['dir'], $rm_cb );
 			break;
 
@@ -71,8 +70,7 @@ abstract class N7App extends App
 			 * Save context editor data.
 			 */
 			case 'save':
-				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table );
 				if ( trim( $_POST['disp'] ) == '' )
 					echo "e_format";
 				elseif ( ( $_POST['ctx'] == 0 ) && ( $cdes->exists( $_POST['disp'] ) ) )
@@ -87,8 +85,7 @@ abstract class N7App extends App
 			 * Remove context.
 			 */
 			case 'remove':
-				require_once CHASSIS_LIB . '_cdes.php';
-				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table, n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+				$cdes = new _cdes( \io\creat\chassis\session::getInstance( )->getUid( ), $table );
 				$cdes->remove( $_POST['ctx'] );
 			break;
 		}

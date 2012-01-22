@@ -109,7 +109,7 @@ class AiUsers extends AiUser
 			/**
 			 * Define structure of lists.
 			 */
-			$builder = new _list_builder( $this->app->getVcmpSearchId( 'Users' ), n7_globals::getInstance( )->get('io.creat.chassis.i18n') );
+			$builder = new _list_builder( $this->app->getVcmpSearchId( 'Users' ) );
 				$builder->addField( self::F_UID, $this->messages['uid'], AiCfgFactory::LIST_HDRW_UID, 1, 'left', true, ( $order == self::F_UID ), $dir );
 				$builder->addField( self::F_LOGIN, $this->messages['login'], AiCfgFactory::LIST_HDRW_LOGIN, 1, '', true, ( $order == self::F_LOGIN ), $dir );
 				$builder->addField( self::F_EMAIL, $this->messages['address'], AiCfgFactory::LIST_HDRW_ADDRESS, 1, '', true, ( $order == self::F_EMAIL ), $dir );
