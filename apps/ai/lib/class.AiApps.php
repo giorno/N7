@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 /**
  * @file class.AiApps.php
  * @author giorno
@@ -64,10 +66,10 @@ class AiApps
 				$builder->addField( '_seq', $this->messages['at']['seq'], AiCfgFactory::LIST_HDRW_SEQ, 1, 'left', false );
 				$builder->addField( '_flags', $this->messages['at']['flags'], AiCfgFactory::LIST_HDRW_SEQ, 1, 'left', false );
 				$builder->addField( '_name', $this->messages['at']['app'], AiCfgFactory::LIST_HDRW_LOGIN, 1, 'left', false );
-				$builder->addField( '_action', '', AiCfgFactory::LIST_HDRW_UID, 1, 'left', false );
-				$builder->addField( '_version', $this->messages['at']['version'], AiCfgFactory::LIST_HDRW_UID, 1, 'left', false );
-				$builder->addField( '_id', $this->messages['at']['id'], AiCfgFactory::LIST_HDRW_ID, 1, 'left', false );
-				$builder->addField( '_path', $this->messages['at']['path'], AiCfgFactory::LIST_HDRW_FSNAME, 1, 'left', false );
+				//$builder->addField( '_action', '', AiCfgFactory::LIST_HDRW_UID, 1, 'left', false );
+				$builder->addField( '_version', $this->messages['at']['version'], AiCfgFactory::LIST_HDRW_APPVER, 1, 'left', false );
+				$builder->addField( '_id', $this->messages['at']['id'], AiCfgFactory::LIST_HDRW_APPID, 1, 'left', false );
+				$builder->addField( '_path', $this->messages['at']['path'], AiCfgFactory::LIST_HDRW_APPPATH, 1, 'left', false );
 				$builder->addField( '_up', '', AiCfgFactory::LIST_HDRW_ICON, 1, 'left', false );
 				$builder->addField( '_down', '', AiCfgFactory::LIST_HDRW_ICON, 1, 'left', false );
 				
@@ -124,11 +126,11 @@ class AiApps
 				 */
 				$builder->AddRow(	new _list_cell(	_list_cell::Text(	( $app[n7_at::F_EXECSEQ] != n7_at::V_CANDIDATE ) ? $app[n7_at::F_EXECSEQ] : '' , '', 'center' ) ),
 									new _list_cell(	_list_cell::Text(	$flags, '', 'center' ) ),
-									new _list_cell(	_list_cell::Text(	$name ) ),
+									//new _list_cell(	_list_cell::Text(	$name ) ),
 					
 									( $app[n7_at::F_EXECSEQ] == n7_at::V_CANDIDATE )
-										? new _list_cell(	_list_cell::deco( $this->messages['at']['install'], '', null, '', $js_var . '.install( \'' . $app[n7_at::F_FSNAME] . '\' );'  ), _list_cell::MAN_DECO )
-										: new _list_cell(	_list_cell::Text( '' ) ),
+										? new _list_cell(	_list_cell::deco( $name, $this->messages['at']['install'], null, '', $js_var . '.install( \'' . $app[n7_at::F_FSNAME] . '\' );'  ), _list_cell::MAN_DECO )
+										: new _list_cell(	_list_cell::Text( $name ) ),
 
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_VERSION] ) ),
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_APPID] ) ),

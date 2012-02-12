@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 /**
  * @file en.php
  * @author giorno
@@ -73,7 +75,7 @@ $__msg_ai['at']['id']				= 'Identifier';
 $__msg_ai['at']['path']				= 'Folder';
 $__msg_ai['at']['flags']			= 'Flags';
 $__msg_ai['at']['version']			= 'Version';
-$__msg_ai['at']['install']			= 'Install';
+$__msg_ai['at']['install']			= 'Click to install';
 $__msg_ai['at']['up']				= 'Move up';
 $__msg_ai['at']['down']				= 'Move down';
 

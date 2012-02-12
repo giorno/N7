@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 /**
  * @file cs.php
  * @author giorno
@@ -73,7 +75,7 @@ $__msg_ai['at']['id']				= 'Identifikátor';
 $__msg_ai['at']['path']				= 'Složka';
 $__msg_ai['at']['flags']			= 'Příznaky';
 $__msg_ai['at']['version']			= 'Verze';
-$__msg_ai['at']['install']			= 'Instalovat';
+$__msg_ai['at']['install']			= 'Kliknutím nainstalujetet';
 $__msg_ai['at']['up']				= 'Posunout nahoru';
 $__msg_ai['at']['down']				= 'Posunout nadolu';
 

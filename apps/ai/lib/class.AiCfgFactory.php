@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 require_once CHASSIS_LIB . 'list/_list_cfg.php';
 
 /**
@@ -59,6 +61,12 @@ class AiCfgFactory
 	 * App folder in AT.
 	 */
 	const LIST_HDRW_FSNAME	= '240px;';
+
+	const LIST_HDRW_APPVER	= '64px';
+
+	const LIST_HDRW_APPID	= '160px';
+
+	const LIST_HDRW_APPPATH	= self::LIST_HDRW_APPID;
 	
 	/**
 	 * Cache used for created instances.
