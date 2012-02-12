@@ -29,7 +29,7 @@ abstract class Installer extends App
 	/**
 	 * Version of solution, which is installed or upgraded to by Installer.
 	 */
-	const VERSION = '0.1';
+	const VERSION = '0.1.1-beta';
 	
 	/**
 	 * Singleton instance.
