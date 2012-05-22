@@ -20,38 +20,40 @@ abstract class AppInstaller
 {
 	/**
 	 * List of applications, both, installed and pending.
-	 * 
 	 * @var array 
 	 */
 	protected $apps = NULL;
 	
 	/**
 	 * Name of application folder under solution apps directory.
-	 * 
 	 * @var string 
 	 */
 	protected $fs_name = NULL;
 	
 	/**
 	 * Namespace for settings entries.
-	 * 
 	 * @var string 
 	 */
 	protected $ns = NULL;
 	
 	/**
 	 * Name of database table for settings.
-	 * 
 	 * @var string 
 	 */
 	protected $table = NULL;
 	
 	/**
 	 * Statements to execute.
-	 * 
 	 * @var array 
 	 */
 	protected $stmts = NULL;
+	
+	/**
+	 * Matrix of possible upgrades. Indexed by version from and valued by
+	 * version to.
+	 * @var array
+	 */
+	protected $upgrades = NULL;
 	
 	/**
 	 * Constructor. Initializes installer.
@@ -146,6 +148,78 @@ abstract class AppInstaller
 					 * Register application into AT.
 					 */
 					n7_at::register( $app[n7_at::F_APPID], $app[n7_at::F_FSNAME], $app[n7_at::F_VERSION], $app[n7_at::F_I18N], $app[n7_at::F_FLAGS] );
+					
+					return true;
+				}
+				
+		return false;
+	}
+	
+	/**
+	 * Performs upgrade by using SQL statements. Information about source and
+	 * target versions is provided by AT class (n7_at).
+	 * 
+	 * @return bool success of operation
+	 */
+	public function upgrade ( )
+	{
+		if ( is_array( $this->apps ) )
+			foreach ( $this->apps as $app )
+				if ( ( $app[n7_at::F_FSNAME] == $this->fs_name ) && ( $app[n7_at::F_EXECSEQ] == n7_at::V_CONFLICT ) )
+				{
+					/**
+					 * Find the upgrade path.
+					 */
+					$next = $app[n7_at::F_VERSION];
+					$path = NULL;
+					$stack[] = array( $next );
+					while( !is_null( $next ) )
+					{
+						// Solution is found, trace back, write path and
+						// terminate.
+						if ( $next == $app['man']['version'] )
+						{
+							foreach ( $stack as $entry )
+								$path[] = $entry[0];
+							
+							break;
+						}
+						
+						// Shift.
+						if ( array_key_exists( $next, $this->upgrades ) )
+						{
+							$stack[] = $this->upgrades[$next];
+							$next = $this->upgrades[$next][0];
+							continue;
+						}
+						
+						// Reduce.
+						array_pop( $stack );
+						
+						if ( count( $stack ) == 0 )
+							$next = $stack[count( $stack ) - 1][0];
+						else
+							$next = NULL; // nothing left on the stack
+					}
+					
+					if ( is_null( $path ) )
+						return FALSE;
+					
+					// Upgrade.
+					$this->begin( );
+					
+						for ( $i = count( $path ) - 1; $i > 0 ; --$i )
+							$this->incrUpgrade( $path[$i - 1], $path[$i] );
+
+						// If above calls prepared SQl statements.
+						if ( is_array( $this->stmts ) )
+							foreach( $this->stmts as $statement )
+								_db_query( $statement );
+					
+					$this->commit( );
+
+					// Register application into AT.
+					n7_at::register( $app[n7_at::F_APPID], $app[n7_at::F_FSNAME], $app['man']['version'], $app[n7_at::F_I18N], $app[n7_at::F_FLAGS] );
 					
 					return true;
 				}

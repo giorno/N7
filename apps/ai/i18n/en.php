@@ -70,12 +70,15 @@ $__msg_ai['at']['i']['loading']		= 'Loading...';
 $__msg_ai['at']['i']['loaded']		= 'Loaded';
 $__msg_ai['at']['i']['installing']	= 'Installing...';
 $__msg_ai['at']['i']['installed']	= 'Installed';
+$__msg_ai['at']['i']['upgrading']	= 'Upgrading...';
+$__msg_ai['at']['i']['upgraded']	= 'Upgraded';
 $__msg_ai['at']['seq']				= 'Sequence';
 $__msg_ai['at']['id']				= 'Identifier';
 $__msg_ai['at']['path']				= 'Folder';
 $__msg_ai['at']['flags']			= 'Flags';
 $__msg_ai['at']['version']			= 'Version';
 $__msg_ai['at']['install']			= 'Click to install';
+$__msg_ai['at']['upgrade']			= 'Click to upgrade to';
 $__msg_ai['at']['up']				= 'Move up';
 $__msg_ai['at']['down']				= 'Move down';
 
