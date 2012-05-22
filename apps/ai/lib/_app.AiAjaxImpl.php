@@ -196,6 +196,22 @@ class AiAjaxImpl extends Ai
 					break;
 					
 					/**
+					 * Perform upgrade of the application.
+					 */
+					case 'upgrade':
+						$lib = N7_SOLUTION_APPS . $_POST['fsname'] . '/inst/class.Installer.php';
+						if ( file_exists( $lib ) )
+						{
+							require_once $lib;
+							$installer = new Installer( );
+							$installer->upgrade( );
+							echo "OK";
+						}
+						else
+							echo "KO";
+					break;
+					
+					/**
 					 * Move app up in execution sequence.
 					 */
 					case 'up':

@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 /**
  * @file n7_at.php
  * @author giorno
@@ -91,10 +93,12 @@ class n7_at
 	 */
 	const FL_XMLRPC		= 16;
 	
-	/**
-	 * Value for execution sequence marking app as cadidate.
-	 */
+	/** Value for execution sequence marking app as cadidate. */
 	const V_CANDIDATE	= -1;
+	
+	/** Value for execution sequence marking app as in conflict (version
+	 * mismatch -> upgrade/downgrade). */
+	const V_CONFLICT	= -2;
 	
 	/**
 	 * Provides array of applications matching given flags.
@@ -113,7 +117,13 @@ class n7_at
 		if ( $apps && _db_rowcount( $apps ) )
 		{
 			while ( $app = _db_fetchrow( $apps ) )
-				$ret[$app[self::F_APPID]] = $app;
+			{
+				$man = self::man( N7_SOLUTION_APPS . '/' . $app[self::F_FSNAME] );
+				
+				// Record in the table matches sources.
+				//if ( $man[self::F_VERSION] == $app[self::F_VERSION] )
+					$ret[$app[self::F_APPID]] = $app;
+			}
 		}
 		
 		return $ret;
@@ -164,7 +174,6 @@ class n7_at
 	/**
 	 * Creates list of applications registered in the system and candidates for
 	 * installation.
-	 * 
 	 * @return mixed
 	 */
 	public static function search ( )
@@ -174,7 +183,11 @@ class n7_at
 		/**
 		 * List installed applications.
 		 */
-		$res = _db_query( "SELECT * FROM `" . self::T_APPS . "` GROUP BY `" . self::F_APPID . "`, `" . self::F_INSTSEQ . "` DESC ORDER BY `" . self::F_EXECSEQ . "` ASC" );
+		$res = _db_query( "SELECT * FROM
+							( SELECT * FROM `" . self::T_APPS . "`
+								GROUP BY `" . self::F_APPID . "`, `" . self::F_INSTSEQ . "` DESC
+								ORDER BY `" . self::F_EXECSEQ . "` ASC, `" . self::F_INSTSEQ . "` DESC ) t1
+							GROUP BY `" . self::F_APPID . "`" );
 		if ( $res && _db_rowcount( $res ) )
 			while ( $app = _db_fetchrow( $res ) )
 				$apps[] = $app;
@@ -190,19 +203,30 @@ class n7_at
 				if ( ( $cand == '.' ) || ( $cand == '..' ) )
 					continue;
 				
-				/**
-				 * @todo check for versions to enable upgrades
-				 */
-				$match = NULL;
+				$match = FALSE;
+				$man = self::man( N7_SOLUTION_APPS . '/' . $cand );
+				
 				if ( is_array( $apps ) )
-					foreach ( $apps as $app )
-						if ( $app[self::F_FSNAME] == $cand )
-							$match = $app;
+					foreach ( $apps as $seq => $app )
+						if ( array_key_exists( self::F_FSNAME, $app) && ( $app[self::F_FSNAME] == $cand ) )
+						{
+							// Version mismatch (upgrade/downgrade is due).
+							if ( is_array( $man ) && ( $man['version'] != $app[self::F_VERSION] ) )
+							{
+								$app[self::F_APPID] = $man['id'];
+								$app[self::F_EXECSEQ] = self::V_CONFLICT;
+								$app[self::F_FLAGS] = $man['flags'];
+								$app[self::F_I18N] = serialize( $man['i18n'] );
+								$app['man'] = $man;
+								$apps[$seq] = $app;
+							}
+							
+							$match = TRUE;
+							break;
+						}
 						
-				if ( is_null( $match ) )
+				if ( !$match )
 				{
-					$man = self::man( N7_SOLUTION_APPS . '/' . $cand );
-					
 					if ( !is_array( $man ) )
 						continue;
 					

@@ -123,14 +123,17 @@ class AiApps
 				
 				/**
 				 * Write list row.
+				 * @todo check for downgrade as well?
 				 */
-				$builder->AddRow(	new _list_cell(	_list_cell::Text(	( $app[n7_at::F_EXECSEQ] != n7_at::V_CANDIDATE ) ? $app[n7_at::F_EXECSEQ] : '' , '', 'center' ) ),
+				$builder->AddRow(	new _list_cell(	_list_cell::Text(	( $app[n7_at::F_EXECSEQ] >= 0 ) ? $app[n7_at::F_EXECSEQ] : '' , '', 'center' ) ),
 									new _list_cell(	_list_cell::Text(	$flags, '', 'center' ) ),
 									//new _list_cell(	_list_cell::Text(	$name ) ),
 					
 									( $app[n7_at::F_EXECSEQ] == n7_at::V_CANDIDATE )
-										? new _list_cell(	_list_cell::deco( $name, $this->messages['at']['install'], null, '', $js_var . '.install( \'' . $app[n7_at::F_FSNAME] . '\' );'  ), _list_cell::MAN_DECO )
-										: new _list_cell(	_list_cell::Text( $name ) ),
+										? new _list_cell(	_list_cell::deco( $name, $this->messages['at']['install'], null, '', $js_var . '.install( \'install\', \'' . $app[n7_at::F_FSNAME] . '\' );'  ), _list_cell::MAN_DECO )
+										: ( ( $app[n7_at::F_EXECSEQ] == n7_at::V_CONFLICT )
+											? new _list_cell(	_list_cell::deco( $name, $this->messages['at']['upgrade'] . ' ' . $app['man']['version'], null, '', $js_var . '.install( \'upgrade\', \'' . $app[n7_at::F_FSNAME] . '\' );'  ), _list_cell::MAN_DECO )
+											: new _list_cell(	_list_cell::Text( $name ) ) ),
 
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_VERSION] ) ),
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_APPID] ) ),
@@ -141,7 +144,7 @@ class AiApps
 																									AiListCell::MAN_AI_AT_UP )
 										: new _list_cell(	_list_cell::Text( '' ) ),
 					
-									( !$last )
+									( ( $app[n7_at::F_EXECSEQ] > 0 ) && !$last )
 										? new _list_cell(	_list_cell::Code( $js_var . ".down( '" . $app[n7_at::F_APPID] . "' );", $this->messages['at']['down'] ),
 																									AiListCell::MAN_AI_AT_DOWN )
 										: new _list_cell(	_list_cell::Text( '' ) ));

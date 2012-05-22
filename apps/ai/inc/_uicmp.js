@@ -335,12 +335,23 @@ function _uicmp_at ( my_name, cnt_id, url, params, ind )
 	};
 	
 	/**
-	 * Invokes installation of application (its database structures).
+	 * Invokes installation of upgrade of an application (its database
+	 * structures).
 	 * 
+	 * @param action 'install' or 'upgrade'
 	 * @param fsname filesystem folder containing application
 	 */
-	this.install = function ( fsname )
+	this.install = function ( action, fsname )
 	{
+		var root;
+		if ( action == 'upgrade' )
+			root = 'upgrad';
+		else
+			if ( action == 'install' )
+				root = action;
+			else
+				return; // not install, not upgrade
+			
 		/**
 		 * Copy me into this scope. Awkward, but works.
 		 */
@@ -353,7 +364,7 @@ function _uicmp_at ( my_name, cnt_id, url, params, ind )
 		for ( var key in scope.params )
 			reqParams += '&' + key + '=' + scope.params[key];
 
-		reqParams += '&method=install' +
+		reqParams += '&method=' + action +
 					 '&fsname=' + fsname;
 
 		var sender = new Ajax.Request( scope.url,
@@ -362,7 +373,7 @@ function _uicmp_at ( my_name, cnt_id, url, params, ind )
 										parameters: reqParams,
 										onCreate: function ( ) {
 											scope.effect_show( );
-											scope.ind.show( 'installing', '_uicmp_ind_gray' );
+											scope.ind.show( root + 'ing', '_uicmp_ind_gray' );
 										},
 										onFailure: function ( )
 										{
@@ -377,7 +388,7 @@ function _uicmp_at ( my_name, cnt_id, url, params, ind )
 											 * @todo implement more specific error messages
 											 */
 											if ( data.responseText == 'OK' )
-												scope.ind.fade( 'installed', '_uicmp_ind_green' );
+												scope.ind.fade( root + 'ed', '_uicmp_ind_green' );
 											else
 												scope.ind.show( 'e_unknown', '_uicmp_ind_red' );
 											scope.list( );

@@ -70,12 +70,15 @@ $__msg_ai['at']['i']['loading']		= 'Načítávám...';
 $__msg_ai['at']['i']['loaded']		= 'Načteno';
 $__msg_ai['at']['i']['installing']	= 'Instaluji...';
 $__msg_ai['at']['i']['installed']	= 'Nainstalováno';
+$__msg_ai['at']['i']['upgrading']	= 'Aktualizuji...';
+$__msg_ai['at']['i']['upgraded']	= 'Zaktualizováno';
 $__msg_ai['at']['seq']				= 'Pořadí';
 $__msg_ai['at']['id']				= 'Identifikátor';
 $__msg_ai['at']['path']				= 'Složka';
 $__msg_ai['at']['flags']			= 'Příznaky';
 $__msg_ai['at']['version']			= 'Verze';
-$__msg_ai['at']['install']			= 'Kliknutím nainstalujetet';
+$__msg_ai['at']['install']			= 'Kliknutím nainstalujete';
+$__msg_ai['at']['upgrade']			= 'Kliknutím nainstalujete verzi';
 $__msg_ai['at']['up']				= 'Posunout nahoru';
 $__msg_ai['at']['down']				= 'Posunout nadolu';
 
