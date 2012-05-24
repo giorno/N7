@@ -25,7 +25,7 @@ class LoginAjaxImpl extends Login
 		
 		n7_globals::getInstance( )->authbe( );
 		
-		if ( $session->login( N7_SOLUTION_ID , $_POST['login'], $_POST['password'], $_POST['auto'] ) )
+		if ( ( array_key_exists( 'login', $_POST ) && array_key_exists( 'password', $_POST ) && array_key_exists( 'auto', $_POST ) ) && ( $session->login( N7_SOLUTION_ID , $_POST['login'], $_POST['password'], $_POST['auto'] ) ) )
 			echo "OK";
 		else
 			echo "KO";
