@@ -1,5 +1,6 @@
 {* Header part of any solution RR (Request-Response) content.
  *
+ * @file x_head.html
  * @author giorno
  * @package N7
  * @license Apache License, Version 2.0, see LICENSE file
@@ -35,6 +36,9 @@
 	<script type="text/javascript" src="inc/chassis/3rd/caret.js"></script>
 	<script type="text/javascript" src="inc/chassis/3rd/textarearesizer.js"></script>
 	<script type="text/javascript" src="inc/chassis/3rd/base64.js"></script>
+	<script type="text/javascript" src="inc/chassis/js/_ajax_req_ad.js"></script>
+
+	
 	{if USR_APPS_REGISTRY}
 		{USR_APPS_REGISTRY->getExecutedId assign='executedId'}
 		{assign var='executedId' value=$executedId scope='global'}
@@ -52,6 +56,8 @@
 <script type="text/javascript">{$jsPlain}</script>
 {/if}
 
+	<script type="text/javascript" src="inc/js/n7_ajax.js"></script>
+	
 	{foreach from=$cssLinks key=file item=comment}
 <link rel="stylesheet" type="text/css" href="{$file}?{$USR_APPS_MAGIC}"></script><!-- {$comment} -->
 	{/foreach}

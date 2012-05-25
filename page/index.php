@@ -60,7 +60,8 @@ if ( \io\creat\chassis\session::getInstance( )->isSigned( ) === true )
 																	NULL ) );
 	
 	
-		
+	\_app_registry::getInstance( )->requireJsPlain( 'var n7_signed=true;' );
+	
 	/**
 	 * Register applications.
 	 */
@@ -75,6 +76,8 @@ if ( \io\creat\chassis\session::getInstance( )->isSigned( ) === true )
 }
 else
 {
+	\_app_registry::getInstance( )->requireJsPlain( 'var n7_signed=false;' );
+	
 	/**
 	 * Register applications for unsigned user and trigger proper one.
 	 */

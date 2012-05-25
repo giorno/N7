@@ -15,8 +15,12 @@ require_once '../_init.php';
 require_once N7_SOLUTION_LIB . 'n7_globals.php';
 require_once N7_SOLUTION_LIB . 'libtz.php';
 require_once N7_SOLUTION_LIB . 'n7_at.php';
+require_once N7_SOLUTION_LIB . 'n7_ajax.php';
 
 n7_globals::getInstance( );
+
+$n7a = new io\creat\n7\n7_ajax( );
+n7_globals::getInstance()->set( 'n7_ajax', $n7a );
 
 include N7_SOLUTION_ROOT . 'i18n/' . n7_globals::lang() . '.php';
 
@@ -28,8 +32,11 @@ if ( \io\creat\chassis\session::getInstance( )->isSigned( ) === true )
 }
 else
 {
+	$n7a->setExpired( );
+	echo $n7a->getResponse( );
 	n7_at::run( n7_at::FL_UNSIGNED | n7_at::FL_AJAXRR, '_ajx.php' );
 }
+
 
 _app_registry::getInstance()->exec( $_POST['app'] );
 _db_close();
