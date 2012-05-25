@@ -13,7 +13,7 @@ require_once CHASSIS_LIB . 'i18n/i18n.php';
 
 require_once CHASSIS_3RD . 'libip2country.php';
 
-require_once CHASSIS_LIB . 'session/_request_globals.php';
+require_once CHASSIS_LIB . 'session/repo.php';
 require_once CHASSIS_LIB . 'session/session.php';
 require_once CHASSIS_LIB . 'session/authbe.php';
 require_once CHASSIS_LIB . 'session/_settings.php';
@@ -24,7 +24,7 @@ require_once N7_SOLUTION_LIB . 'n7_settings.php';
 require_once N7_SOLUTION_LIB . 'n7_timezone.php';
 require_once N7_SOLUTION_LIB . 'n7_url.php';
 
-class n7_globals extends _request_globals
+class n7_globals extends io\creat\chassis\session\repo
 {
 	/**
 	 * Name of cookie carrying HTTP session language code. Cookie name may not
@@ -33,12 +33,30 @@ class n7_globals extends _request_globals
 	const COOKIE_LANG = 'io_creat_n7_lang';
 	
 	/**
-	 * Constructor. Called from Singleton interface. Initializes storage.
+	 * Constructor. Called from Singleton interface. Initializes PDO instance.
 	 */
 	protected function __construct ( )
 	{
+		try
+		{
+			$pdo = new PDO(	"mysql:host=" . N7_MYSQL_HOST . ";dbname=" . N7_MYSQL_DB,
+							N7_MYSQL_USER,
+							N7_MYSQL_PASS );
+
+			$this->set( self::PDO, $pdo );
+		}
+		catch ( PDOException $e )
+		{
+			// raise error to the UI/ajax superstruct and disable further processing
+		}
+	}
+	
+	//Called from Singleton interface. Initializes storage.
+	protected function post( )
+	{
 		/**
 		 * Database connection is required for accessing configuration.
+		 * @deprecated
 		 */
 		_db_connect( N7_MYSQL_HOST, N7_MYSQL_USER, N7_MYSQL_PASS, N7_MYSQL_DB );
 

@@ -1,6 +1,6 @@
 <?PHP
 
-require_once CHASSIS_LIB . "session/_settings.php";
+require_once CHASSIS_LIB . "session/settings.php";
 
 /**
  * @file n7_config.php
@@ -14,13 +14,14 @@ require_once CHASSIS_LIB . "session/_settings.php";
  * to solution namespace (e.g. io.creat.n7.server_timezone); that could save one
  * table field
  */
-class n7_config extends _settings
+class n7_config extends io\creat\chassis\session\settings
 {
 	/**
 	 * Constructor. Defines instance as abstraction over 'G' scope of settings
 	 * table.
+	 * @param PDO $pdo data provider
 	 */
-	public function __construct ( ) { parent::__construct( 'G', N7_SOLUTION_ID ); }
+	public function __construct ( ) { parent::__construct( 'G', N7_SOLUTION_ID, '' ); }
 }
 
 ?>
