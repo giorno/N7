@@ -8,7 +8,7 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'libdb.php';
+require_once CHASSIS_LIB . 'libpdo.php';
 require_once CHASSIS_3RD . 'EmailAddressValidator.php';
 
 require_once N7_SOLUTION_LIB . 'n7_at.php';
@@ -27,47 +27,33 @@ class InstallerAjaxImpl extends Installer
 	 */
 	public function exec ( )
 	{
-		/**
-		 * All roads lead to Rome.
-		 */
-		
-		/**
-		 * Check database connection data.
-		 */
-		$db_ok = @_db_connect( N7_MYSQL_HOST, N7_MYSQL_USER, N7_MYSQL_PASS, N7_MYSQL_DB );
-		if ( !$db_ok )
+		// Check database connection data.
+		if ( is_null( $this->pdo ) )
 		{
 			echo 'e_connect';
 			return;
 		}
 		
-		/**
-		 * Check database if it is empty.
-		 */
-		if( (int)_db_rowcount( _db_query( "SHOW TABLES;" ) ) > 0 )
+		// Check database if it is empty.
+		$sql = $this->pdo->query( "SHOW TABLES" );
+		if ( $sql->fetch( PDO::FETCH_NUM ) )
 		{
 			echo 'e_empty';
 			return;
 		}
 
-		/**
-		 * Check validity of address.
-		 */
+		// Check validity of address.
 		$validator = new EmailAddressValidator( );
 		if ( $validator->check_email_address( $_POST['email'] ) )
 		{
-			/**
-			 * Check for correct login.
-			 */
+			// Check for correct login.
 			if ( !AiUser::loginOk( $_POST['login'] ) )
 			{
 				echo 'e_login';
 				return;
 			}
 							
-			/**
-			 * Check for password in case of new entry or any password supplied.
-			 */
+			// Check for password in case of new entry or any password supplied.
 			if ( !AiUser::passOk( $_POST['password'] ) )
 			{
 				echo 'e_pass';
@@ -102,39 +88,39 @@ class InstallerAjaxImpl extends Installer
 		$script = str_replace( '{$__2}', $ns, $script );
 		$statements = explode( ";\n", $script );
 
-			_db_query( "BEGIN" );
+			$this->pdo->beginTransaction( );
 
 			/**
 			 * Execute scripts.
 			 */
 			if ( is_array( $statements ) )
 				foreach( $statements as $statement )
-					_db_query( $statement );
+					$this->pdo->query( $statement );
 			
-			/**
-			 * Updating server and user global properties.
-			 */
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['site'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.site\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['schema'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.scheme\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['modrw'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.url.modrw\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"server.tz\"" );
-			_db_query( "UPDATE `{$table}` SET `value` = \"" . _db_escape( $_POST['tz'] ) . "\" WHERE `scope` = \"G\" AND `ns` = \"{$ns}\" AND `key` = \"usr.tz\"" );
+			$sql = $this->pdo->prepare( "UPDATE `{$table}`
+					SET `value` = ?
+					WHERE `scope` = 'G'
+						AND `ns` = '{$ns}'
+						AND `key` = ?" );
 			
-			/**
-			 * Set N7 version information.
-			 */
-			_db_query( "INSERT INTO `{$table}` SET `value` = \"" . _db_escape( N7_SOLUTION_VERSION ) . "\", `scope` = \"G\", `ns` = \"{$ns}\", `key` = \"server.version\"" );
-			_db_query( "INSERT INTO `{$table}` SET `value` = \"" . _db_escape( N7_SOLUTION_VERSION ) . "\", `scope` = \"G\", `ns` = \"{$ns}\", `key` = \"server.magic\"" );
-
-			/**
-			 * Create admin account.
-			 */
+			// Updating server and user global properties.
+			$sql->execute( array( $_POST['site'], 'server.url.site' ) );
+			$sql->execute( array( $_POST['schema'], 'server.url.scheme' ) );
+			$sql->execute( array( $_POST['modrw'], 'server.url.modrw' ) );
+			$sql->execute( array( $_POST['tz'], 'server.tz' ) );
+			$sql->execute( array( $_POST['tz'], 'usr.tz' ) );
+			
+			// Set N7 version information.
+			$sql->execute( array( N7_SOLUTION_VERSION, 'server.version' ) );
+			$sql->execute( array( N7_SOLUTION_VERSION, 'server.magic' ) );
+			
+			// Create admin account.
 			AiUser::save( 0, $_POST['login'], $_POST['password'], $_POST['email'], true );
-			_db_query ( "UPDATE `" . Config::T_USERS . "` SET`" . Config::F_UID . "` = \"1\"" );
 			
-			/**
-			 * Populate applications table with bundled applications.
-			 */
+			// Workaround root ID.
+			$this->pdo->query( "UPDATE `" . Config::T_USERS . "` SET`" . Config::F_UID . "` = \"1\"" );
+			
+			// Populate applications table with bundled applications.
 			$apps = array ( 'branding', 'signed', 'account', 'ai', 'login' );
 			foreach( $apps as $app )
 			{
@@ -143,32 +129,25 @@ class InstallerAjaxImpl extends Installer
 				n7_at::register( $man['id'] , $app, $man['version'], serialize( $man['i18n'] ), $man['flags'] );
 			}
 
-			_db_query( "COMMIT" );
+			$this->pdo->commit( );
 		
-		/**
-		 * Check and produce output
-		 */
-		$res = _db_query ( "SELECT * FROM `" . Config::T_USERS . "` WHERE `" . Config::F_UID . "` = \"1\"" );
-		if ( (int)_db_rowcount( $res ) > 0 )
-		{
+		// Check and produce output
+		if ( (int)pdo1f( $this->pdo->prepare( "SELECT COUNT(*) FROM `" . Config::T_USERS . "` WHERE `" . Config::F_UID . "` = \"1\"" ) ) > 0 )
 			echo '<!--OK-->';
-		}
 		else
 		{
 			require_once N7_SOLUTION_APPS . 'signed/lib/_wwg.News.php';
 			
-			/**
-			 * Should be safe as database was empty before we started to mess
-			 * with it.
-			 */
-			_db_query( "DROP TABLE `" . Config::T_SETTINGS . "`" );
-			_db_query( "DROP TABLE `" . Config::T_SIGNTOKENS . "`" );
-			_db_query( "DROP TABLE `" . Config::T_SESSIONS . "`" );
-			_db_query( "DROP TABLE `" . Config::T_LOGINS . "`" );
-			_db_query( "DROP TABLE `" . Config::T_USERS . "`" );
+			// Should be safe as database was empty before we started to mess
+			// with it.
+			$this->pdo->query( "DROP TABLE `" . Config::T_SETTINGS . "`" );
+			$this->pdo->query( "DROP TABLE `" . Config::T_SIGNTOKENS . "`" );
+			$this->pdo->query( "DROP TABLE `" . Config::T_SESSIONS . "`" );
+			$this->pdo->query( "DROP TABLE `" . Config::T_LOGINS . "`" );
+			$this->pdo->query( "DROP TABLE `" . Config::T_USERS . "`" );
 			
-			_db_query( "DROP TABLE `" . n7_at::T_APPS . "`" );
-			_db_query( "DROP TABLE `" . \io\creat\n7\apps\Signed\News::T_RSSCACHE . "`" );
+			$this->pdo->query( "DROP TABLE `" . n7_at::T_APPS . "`" );
+			$this->pdo->query( "DROP TABLE `" . \io\creat\n7\apps\Signed\News::T_RSSCACHE . "`" );
 			
 			echo 'e_unknown';
 		}

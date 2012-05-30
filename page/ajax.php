@@ -39,6 +39,5 @@ else
 
 
 _app_registry::getInstance()->exec( $_POST['app'] );
-_db_close();
 
 ?>

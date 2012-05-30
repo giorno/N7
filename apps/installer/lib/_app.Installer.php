@@ -21,19 +21,17 @@ require_once CHASSIS_LIB . 'apps/_app_registry.php';
  */
 abstract class Installer extends App
 {
-	/**
-	 * Identifier of application instances.
-	 */
+	// Identifier of application instances.
 	const ID = '_app.Installer';
 	
 	/**
-	 * Version of solution, which is installed or upgraded to by Installer.
+	 * PDO instance used for installation/upgrade.
+	 * @var PDO
 	 */
-	const VERSION = '0.1.1-beta';
+	protected $pdo = NULL;
 	
 	/**
 	 * Singleton instance.
-	 * 
 	 * @var Installer 
 	 */
 	protected static $instance = NULL;
@@ -42,11 +40,21 @@ abstract class Installer extends App
 	{
 		$this->id = static::ID;
 		_app_registry::getInstance()->setDefault( $this->id );
+		try
+		{
+			$this->pdo = new PDO(	"mysql:host=" . N7_MYSQL_HOST . ";dbname=" . N7_MYSQL_DB,
+									N7_MYSQL_USER,
+									N7_MYSQL_PASS );
+		}
+		catch ( PDOException $e )
+		{
+			// This will be tested for and error will be reported in UI.
+			$this->pdo = NULL;
+		}
 	}
 	
 	/**
 	 * Singleton interface.
-	 * 
 	 * @return Installer 
 	 */
 	public static function getInstance ( )
@@ -63,27 +71,6 @@ abstract class Installer extends App
 	public function icon ( ) { }
 	
 	public function event ( $event ) { }
-	
-	/**
-	 * Test database connection settings.
-	 * 
-	 * @return bool
-	 */
-	public static function checkDbConnect ( )
-	{
-		return FALSE;
-	}
-	
-	/**
-	 * Scans database for presence of solution tables. Database is considered
-	 * empty if it does not contain any solution or framework tables.
-	 * 
-	 * @return bool 
-	 */
-	public static function isEmpty ( )
-	{
-		return FALSE;
-	}
 }
 
 ?>
