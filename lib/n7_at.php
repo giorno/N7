@@ -9,6 +9,7 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
+require_once CHASSIS_LIB . 'libpdo.php';
 require_once CHASSIS_CFG . 'class.Config.php';
 
 /**
@@ -102,36 +103,25 @@ class n7_at
 	
 	/**
 	 * Provides array of applications matching given flags.
-	 * 
 	 * @param int $flags flags to filter applications
 	 * @return mixed 
 	 */
 	public static function get ( $flags )
 	{
 		$ret = FALSE;
-		$apps = _db_query( "SELECT * FROM `" . self::T_APPS . "`
+		$sql = n7_globals::getInstance( )->get( n7_globals::PDO )->query( "SELECT * FROM `" . self::T_APPS . "`
 								WHERE `" . self::F_FLAGS . "` & " . (string)(int)$flags . " = " . (string)(int)$flags . "
 								GROUP BY `" . self::F_APPID . "`,`" . self::F_INSTSEQ . "`
 								DESC ORDER BY `" . self::F_EXECSEQ . "`" );
 		
-		if ( $apps && _db_rowcount( $apps ) )
-		{
-			while ( $app = _db_fetchrow( $apps ) )
-			{
-				$man = self::man( N7_SOLUTION_APPS . '/' . $app[self::F_FSNAME] );
-				
-				// Record in the table matches sources.
-				//if ( $man[self::F_VERSION] == $app[self::F_VERSION] )
-					$ret[$app[self::F_APPID]] = $app;
-			}
-		}
+		while ( $app = $sql->fetch( PDO::FETCH_ASSOC ) )
+			$ret[$app[self::F_APPID]] = $app;
 		
 		return $ret;
 	}
 	
 	/**
 	 * Include file from application folder for each application matching flags.
-	 * 
 	 * @param int $flags flags to filter applications
 	 * @param string $script path to script relative to the application folder
 	 */
@@ -150,7 +140,6 @@ class n7_at
 	/**
 	 * Imports manifest script for application given by path and returns it as
 	 * an array.
-	 * 
 	 * @param string $path 
 	 * @return array
 	 */
@@ -180,17 +169,13 @@ class n7_at
 	{
 		$app = NULL;
 		
-		/**
-		 * List installed applications.
-		 */
-		$res = _db_query( "SELECT * FROM
+		$sql = n7_globals::getInstance( )->get( n7_globals::PDO )->query( "SELECT * FROM
 							( SELECT * FROM `" . self::T_APPS . "`
 								GROUP BY `" . self::F_APPID . "`, `" . self::F_INSTSEQ . "` DESC
 								ORDER BY `" . self::F_EXECSEQ . "` ASC, `" . self::F_INSTSEQ . "` DESC ) t1
 							GROUP BY `" . self::F_APPID . "`" );
-		if ( $res && _db_rowcount( $res ) )
-			while ( $app = _db_fetchrow( $res ) )
-				$apps[] = $app;
+		
+		$apps = $sql->fetchAll( PDO::FETCH_ASSOC );
 		
 		/**
 		 * Scan for candidates in apps directory.
@@ -246,7 +231,6 @@ class n7_at
 	
 	/**
 	 * Registers new application or its new version into the table.
-	 * 
 	 * @todo optimize query to compute inst_seq value internally
 	 * 
 	 * @param string $id indetifier of application, value of APP_ID member
@@ -257,12 +241,15 @@ class n7_at
 	 */
 	public static function register ( $id, $dir, $version, $i18n, $flags = 0 )
 	{
-		$latest = _db_1line( "SELECT *
+		$pdo = n7_globals::getInstance( )->get( n7_globals::PDO );
+		$sql = $pdo->prepare( "SELECT `" . self::F_INSTSEQ . "`,`" . self::F_EXECSEQ . "`
 								FROM `" . self::T_APPS . "`
-								WHERE `" . self::F_NS . "` = \"" . _db_escape( N7_SOLUTION_ID ) . "\"
-									AND `" . self::F_APPID . "` = \"" . _db_escape( $id ) . "\"
+								WHERE `" . self::F_NS . "` = ?
+									AND `" . self::F_APPID . "` = ?
 								ORDER BY `" . self::F_INSTSEQ . "` DESC
 								LIMIT 0,1" );
+		
+		$latest  = io\creat\chassis\pdo1lp($sql, array( N7_SOLUTION_ID, $id ), PDO::FETCH_ASSOC );
 		
 		if ( is_array( $latest ) )
 		{
@@ -272,20 +259,28 @@ class n7_at
 		else
 		{
 			$inst_seq = 0;
-			$exec_seq = _db_1field( "SELECT COUNT(DISTINCT `" . self::F_APPID . "`) FROM `" . self::T_APPS . "`
-										WHERE `" . self::F_NS . "` = \"" . _db_escape( N7_SOLUTION_ID ) . "\"" );
+			$exec_seq = pdo1f( $pdo->prepare( "SELECT COUNT(DISTINCT `" . self::F_APPID . "`) FROM `" . self::T_APPS . "`
+										WHERE `" . self::F_NS . "` = ?" ), array( N7_SOLUTION_ID ) );
 		}
-		
-		_db_query( "INSERT INTO `" . self::T_APPS . "`
-						SET `" . self::F_NS . "` = \"" . _db_escape( N7_SOLUTION_ID ) . "\",
-							`" . self::F_APPID . "` = \"" . _db_escape( $id ) . "\",
-							`" . self::F_FSNAME . "` = \"" . _db_escape( $dir ) . "\",
-							`" . self::F_VERSION . "` = \"" . _db_escape( $version ) . "\",
-							`" . self::F_INSTSEQ . "` = \"" . _db_escape( $inst_seq ) . "\",
-							`" . self::F_EXECSEQ . "` = \"" . _db_escape( $exec_seq ) . "\",
-							`" . self::F_I18N . "` = \"" . _db_escape( $i18n ) . "\",
+
+		$pdo->prepare( "INSERT INTO `" . self::T_APPS . "`
+						SET `" . self::F_NS . "` = ?,
+							`" . self::F_APPID . "` = ?,
+							`" . self::F_FSNAME . "` = ?,
+							`" . self::F_VERSION . "` = ?,
+							`" . self::F_INSTSEQ . "` = ?,
+							`" . self::F_EXECSEQ . "` = ?,
+							`" . self::F_I18N . "` = ?,
 							`" . self::F_STAMP . "` = NOW(),
-							`" . self::F_FLAGS . "` = \"" . _db_escape( $flags ) . "\"" );
+							`" . self::F_FLAGS . "` = ?"
+					)->execute( array(	N7_SOLUTION_ID,
+										$id,
+										$dir,
+										$version,
+										$inst_seq,
+										$exec_seq,
+										$i18n,
+										$flags ) );
 	}
 	
 	/**
@@ -297,6 +292,15 @@ class n7_at
 	 */
 	public static function move ( $id, $dist )
 	{
+		$pdo = n7_globals::getInstance()->get( n7_globals::PDO );
+		$sql = $pdo->prepare( "UPDATE `" . self::T_APPS . "`
+					SET `" . self::F_EXECSEQ . "` = ?
+					WHERE `" . self::F_NS . "` = ?
+						AND `" . self::F_APPID . "` = ?
+						AND `" . self::F_INSTSEQ . "` = ?" );
+		
+		$pdo->beginTransaction( );
+			
 		$apps = self::search( );
 		
 		if ( is_array( $apps ) )
@@ -312,17 +316,17 @@ class n7_at
 						$swap = $apps[$j];
 						if ( $swap[self::F_EXECSEQ] >= 0 )
 						{
-							_db_query( "UPDATE `" . self::T_APPS . "`
-											SET `" . self::F_EXECSEQ . "` = " . _db_escape( $swap[self::F_EXECSEQ] ) . "
-											WHERE `" . self::F_NS . "` = \"" . _db_escape( N7_SOLUTION_ID ) . "\"
-												AND `" . self::F_APPID . "` = \"" . _db_escape( $app[self::F_APPID] ) . "\"
-												AND `" . self::F_INSTSEQ . "` = \"" . _db_escape( $app[self::F_INSTSEQ] ) . "\"" );
+							$sql->execute( array(	$swap[self::F_EXECSEQ],
+													N7_SOLUTION_ID,
+													$app[self::F_APPID],
+													$app[self::F_INSTSEQ] ) );
 							
-							_db_query( "UPDATE `" . self::T_APPS . "`
-											SET `" . self::F_EXECSEQ . "` = " . _db_escape( $app[self::F_EXECSEQ] ) . "
-											WHERE `" . self::F_NS . "` = \"" . _db_escape( N7_SOLUTION_ID ) . "\"
-												AND `" . self::F_APPID . "` = \"" . _db_escape( $swap[self::F_APPID] ) . "\"
-												AND `" . self::F_INSTSEQ . "` = \"" . _db_escape( $swap[self::F_INSTSEQ] ) . "\"" );
+							$sql->execute( array(	$app[self::F_EXECSEQ],
+													N7_SOLUTION_ID,
+													$swap[self::F_APPID],
+													$swap[self::F_INSTSEQ] ) );
+							
+							$pdo->commit( );
 							
 							return true;
 						}
@@ -331,6 +335,8 @@ class n7_at
 				}
 			}
 		}
+		
+		$pdo->rollBack( );
 		return false;
 	}
 	

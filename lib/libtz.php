@@ -9,6 +9,7 @@
  */
 
 require_once CHASSIS_LIB . "libdb.php";
+require_once CHASSIS_LIB . "libpdo.php";
 
 require_once N7_SOLUTION_LIB . "n7_globals.php";
 
@@ -41,9 +42,13 @@ function _tz_detransformation ( $input )
 
 /**
  * Set MySQL connection timezone.
- *
+ * @todo remove old DB layer calls
  * @param string $zone timezone identifier
  */
-function _tz_setsqltz ( $zone ) { _db_query( "SET time_zone = \"" . _db_escape( $zone ) . "\"" ); }
+function _tz_setsqltz ( $zone )
+{
+	_db_query( "SET time_zone = \"" . _db_escape( $zone ) . "\"" );
+	n7_globals::getInstance()->get(n7_globals::PDO )->prepare( "SET time_zone = ?" )->execute( array( $zone ) );
+}
 
 ?>

@@ -56,6 +56,12 @@ abstract class AppInstaller
 	protected $upgrades = NULL;
 	
 	/**
+	 * System PDO (from global repository).
+	 * @var PDO
+	 */
+	protected $pdo = NULL;
+	
+	/**
 	 * Constructor. Initializes installer.
 	 * 
 	 * @param string $fs_name name of app folder under apps dir
@@ -69,17 +75,18 @@ abstract class AppInstaller
 		$this->table	= $table;
 		
 		$this->apps  = n7_at::search( );
+		$this->pdo = n7_globals::getInstance( )->get( n7_globals::PDO );
 	}
 	
 	/**
 	 * Beginning of SQL transaction.
 	 */
-	protected function begin ( ) { _db_query( 'BEGIN' ); }
+	protected function begin ( ) { $this->pdo->beginTransaction( ); }
 	
 	/**
 	 * Commit of SQL transaction.
 	 */
-	protected function commit ( ) { _db_query( 'COMMIT' ); }
+	protected function commit ( ) { $this->pdo->commit( ); }
 	
 	/**
 	 * Main installation method. This may be overridden in derived classes to
@@ -142,7 +149,7 @@ abstract class AppInstaller
 					 */
 					if ( is_array( $this->stmts ) )
 						foreach( $this->stmts as $statement )
-							_db_query( $statement );
+							$this->pdo->query( $statement );
 
 					/**
 					 * Register application into AT.
@@ -214,7 +221,7 @@ abstract class AppInstaller
 						// If above calls prepared SQl statements.
 						if ( is_array( $this->stmts ) )
 							foreach( $this->stmts as $statement )
-								_db_query( $statement );
+								$this->pdo->query( $statement );
 					
 					$this->commit( );
 

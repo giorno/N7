@@ -7,7 +7,7 @@
  * @license Apache License, Version 2.0, see LICENSE file
  */
 
-require_once CHASSIS_LIB . 'libdb.php';
+require_once CHASSIS_LIB . 'libpdo.php';
 require_once CHASSIS_LIB . 'libfw.php';
 
 /**
@@ -118,6 +118,12 @@ class XmlRpcSrv
 	protected $ft = NULL;
 	
 	/**
+	 * Core tables PDO. The one maintained by global repository.
+	 * @var PDO
+	 */
+	protected $pdo = NULL;
+	
+	/**
 	 * Constructor. Should be called from the subclass constructor before any
 	 * call to register() method.
 	 */
@@ -125,6 +131,7 @@ class XmlRpcSrv
 	{
 		$this->sh = xmlrpc_server_create( );
 		$this->ft = array( );
+		$this->pdo = n7_globals::getInstance( )->get( n7_globals::PDO );
 		CoreXrsDec::bind( $this );
 	}
 	
@@ -180,17 +187,19 @@ class XmlRpcSrv
 	 */
 	public function token2uid ( $token )
 	{
-		_db_query( "DELETE FROM `" . self::T_RPCSESS . "`
+		$this->pdo->query( "DELETE FROM `" . self::T_RPCSESS . "`
 					WHERE `" . self::F_EXPIRES . "` <= NOW()" );
 		
-		$uid = (int)_db_1field( "SELECT `" . self::F_UID . "`
+		$uid = (int)\io\creat\chassis\pdo1f( $this->pdo->prepare( "SELECT `" . self::F_UID . "`
 								FROM `" . self::T_RPCSESS . "`
-								WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"" );
+								WHERE `" . self::F_TOKEN . "` = ?" ), array( $token ) );
+		
 		if ( $uid > 0 )
-			_db_query ( "UPDATE `" . self::T_RPCSESS . "`
+			$this->pdo->prepare( "UPDATE `" . self::T_RPCSESS . "`
 						SET `" . self::F_EXPIRES . "` = (NOW() + INTERVAL " . self::INTERVAL . " MINUTE)
-						WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"
-						AND `" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+						WHERE `" . self::F_TOKEN . "` = ?
+						AND `" . self::F_UID . "` = ?"
+								)->execute( array( $token, $uid ) );
 		
 		return $uid;
 	}
@@ -209,26 +218,31 @@ class XmlRpcSrv
 		// Do we have authentication plugin configured?
 		$authbe = n7_globals::getInstance( )->authbe( );
 		if ( !is_null( $authbe ) )
-			if ( (int)_db_1field( "SELECT `" . Config::F_UID . "` FROM `" . Config::T_USERS . "` WHERE `" . Config::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"" ) != 1 )
+			if ( (int)\io\creat\chassis\pdo1f( $this->pdo->prepare( "SELECT `" . Config::F_UID . "`
+								FROM `" . Config::T_USERS . "`
+								WHERE `" . Config::F_LOGIN . "` = ?" ),
+							array( $username ) ) != 1 )
 				$uid = (int)$authbe->validate( $username, $password );
 
 		// Table authentication.
 		if ( $uid < 1 )
-			$uid = (int)_db_1field ( "SELECT `" . Config::F_UID . "`
+			$uid = (int)\io\creat\chassis\pdo1f( $this->pdo->prepare( "SELECT `" . Config::F_UID . "`
 										FROM `" . Config::T_USERS . "`
-										WHERE `" . Config::F_LOGIN . "` = \"" . _db_escape( $username ) . "\"
-										AND `" . Config::F_PASSWD . "` = \"" . _db_escape( $hash ) . "\"
-										AND `" . Config::F_ENABLED . "` = '1'" );
+										WHERE `" . Config::F_LOGIN . "` = ?
+										AND `" . Config::F_PASSWD . "` = ?
+										AND `" . Config::F_ENABLED . "` = '1'" ),
+								array( $username, $hash ) );
 		
 		// Create session.
 		if ( $uid > 0 )
 		{
 			_fw_rand_init( );
 			$token = _fw_rand_hash( );
-			_db_query( "INSERT INTO `" . self::T_RPCSESS . "`
+			$this->pdo->prepare( "INSERT INTO `" . self::T_RPCSESS . "`
 						SET `" . self::F_EXPIRES . "` = (NOW() + INTERVAL " . self::INTERVAL . " MINUTE),
-							`" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\",
-							`" . self::F_UID . "` = \"" . _db_escape( $uid ) . "\"" );
+							`" . self::F_TOKEN . "` = ?
+							`" . self::F_UID . "` = ?"
+								)->execute( array( $token, $uid ) );
 			return $token;
 		}
 		
@@ -244,8 +258,10 @@ class XmlRpcSrv
 	{
 		if ( $this->token2uid( $token ) > 0 )
 		{
-			_db_query( "DELETE FROM `" . self::T_RPCSESS . "`
-				WHERE `" . self::F_TOKEN . "` = \"" . _db_escape( $token ) . "\"" );
+			$this->pdo->prepare( "DELETE FROM `" . self::T_RPCSESS . "`
+				WHERE `" . self::F_TOKEN . "` = ?"
+								)->execute( array( $token ) );
+			
 			return array( 'status' => ( (int)$this->token2uid( $token ) == 0 ) );
 		}
 		else
