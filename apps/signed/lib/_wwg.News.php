@@ -11,6 +11,7 @@
 namespace io\creat\n7\apps\Signed;
 
 require_once CHASSIS_LIB . 'class.Wa.php';
+require_once CHASSIS_LIB . 'libpdo.php';
 
 require_once CHASSIS_LIB . 'apps/_wwg_registry.php';
 require_once CHASSIS_LIB . 'apps/_wwg.Wwg.php';
@@ -80,6 +81,12 @@ class News extends \Wwg
 	const GET_SIZE		= 3;
 	
 	/**
+	 * System PDO instance.
+	 * @var PDO
+	 */
+	protected $pdo = NULL;
+
+	/**
 	 * Hard-coded configuration of the webwidget.
 	 * 
 	 * @todo it should allow more flexible configuration
@@ -99,6 +106,8 @@ class News extends \Wwg
 	 */
 	public function __construct ( $app, $messages, $ajax = false )
 	{
+		$this->pdo = \n7_globals::getInstance( )->get( \n7_globals::PDO );
+		
 		/**
 		 * For SignedMainImpl app we build whole UI and deliver it to the
 		 * template engine.
@@ -151,19 +160,22 @@ class News extends \Wwg
 	 */
 	public function fetch ( $lang, $url )
 	{
-		_db_query( "BEGIN" );
+		$this->pdo->beginTransaction( );
 		
-		$last = _db_1field( "SELECT `" . self::F_STAMP . "` FROM `" . self::T_RSSCACHE . "`
-								WHERE `" . self::F_URL . "` = \"" . _db_escape( self::FETCH_STOP ). "\"
-								AND `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"
-								AND `" . self::F_STAMP . "` > ( NOW() - INTERVAL( " . _db_escape( self::FETCH_DELAY ) . " MINUTE ) )" );
+		$last = \io\creat\chassis\pdo1f(
+					$this->pdo->prepare( "SELECT `" . self::F_STAMP . "`
+						FROM `" . self::T_RSSCACHE . "`
+						WHERE `" . self::F_URL . "` = '" . self::FETCH_STOP . "'
+							AND `" . self::F_LANG . "` = ?
+							AND `" . self::F_STAMP . "` > ( NOW() - INTERVAL( " . self::FETCH_DELAY . " MINUTE ) )" ),
+							array( $lang ) );
 		
 		if ( !(int)$last )
 		{
-			_db_query( "DELETE FROM `" . self::T_RSSCACHE . "`
-						WHERE `" . self::F_URL . "` = \"" . _db_escape( self::FETCH_STOP ). "\"
-						AND `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"" );
-			
+			$this->pdo->prepare( "DELETE FROM `" . self::T_RSSCACHE . "`
+				WHERE `" . self::F_URL . "` = '" . self::FETCH_STOP . "'
+				AND `" . self::F_LANG . "` = ?" )->execute( array( $lang ) );
+
 			$feed = new \SimplePie();
 			$feed->enable_cache( false );	// SimplePie cache would be redundant we use our own cache implementation
 			$feed->set_feed_url( $url );
@@ -172,6 +184,17 @@ class News extends \Wwg
 			
 			$posts = $feed->get_items( );
 			if (is_array( $posts ) )
+			{
+				$sql1 = $this->pdo->prepare( "SELECT `" . self::F_STAMP . "`
+							FROM `" . self::T_RSSCACHE . "`
+							WHERE `" . self::F_URL . "` = ?
+								AND `" . self::F_LANG . "` = ?" );
+				
+				$sql2 = $this->pdo->prepare( "INSERT INTO `" . self::T_RSSCACHE . "`
+									SET `" . self::F_LANG . "` = ?,
+										`" . self::F_URL . "` = ?,
+										`" . self::F_HEADLINE . "` = ?,
+										`" . self::F_STAMP . "` = ?" );
 				foreach ( $posts as $post )
 				{
 					$i_title	= $post->get_title( );
@@ -181,26 +204,17 @@ class News extends \Wwg
 					/**
 					 * Write only unique posts.
 					 */
-					if ( !(int)_db_1field( "SELECT `" . self::F_STAMP . "` FROM `" . self::T_RSSCACHE . "`
-											WHERE `" . self::F_URL . "` = \"" . _db_escape( $i_url ). "\"
-												AND `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"" ) )
-					{
-						_db_query( "INSERT INTO `" . self::T_RSSCACHE . "`
-									SET `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\",
-										`" . self::F_URL . "` = \"" . _db_escape( $i_url ). "\",
-										`" . self::F_HEADLINE . "` = \"" . _db_escape( $i_title ). "\",
-										`" . self::F_STAMP . "` = \"" . _db_escape( $i_ts ). "\"" );
-					}
-						
+					if ( !(int)\io\creat\chassis\pdo1f( $sql1, array( $i_url, $lang ) ) )
+						$sql2->execute( array( $lang, $i_url, $i_title, $i_ts ) );
 				}
+			}
 			
-			_db_query( "INSERT INTO `" . self::T_RSSCACHE . "`
-								SET `" . self::F_URL . "` = \"" . _db_escape( self::FETCH_STOP ). "\",
-								`" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\",
-								`" . self::F_STAMP . "` = NOW()" );
-
+			$this->pdo->prepare( "INSERT INTO `" . self::T_RSSCACHE . "`
+								SET `" . self::F_URL . "` = '" . self::FETCH_STOP . "',
+								`" . self::F_LANG . "` = ?,
+								`" . self::F_STAMP . "` = NOW()" )->execute( array( $lang ) );			
 		}
-		_db_query( "COMMIT" );
+		$this->pdo->commit( );
 	}
 	
 	/**
@@ -227,19 +241,14 @@ class News extends \Wwg
 			if ( $fetch === true )
 				$this->fetch( $lang, self::$cfg[$lang][1] );
 			
-			/**
-			 * Load from cache.
-			 */
-			$res = _db_query( "SELECT * FROM `" . self::T_RSSCACHE . "`
-								WHERE `" . self::F_LANG . "` = \"" . _db_escape( $lang ). "\"
-									AND `" . self::F_URL . "` != \"" . _db_escape( self::FETCH_STOP ). "\"
+			$sql = $this->pdo->prepare( "SELECT * FROM `" . self::T_RSSCACHE . "`
+								WHERE `" . self::F_LANG . "` = ?
+									AND `" . self::F_URL . "` != '" . self::FETCH_STOP . "'
 									ORDER BY `" . self::F_STAMP . "` DESC
 									LIMIT 0," . self::GET_SIZE . "" );
-			if ( $res && _db_rowcount( $res ) )
-				while( $entry = _db_fetchrow( $res ) )
-					$ret[] = $entry;
-				
-			return $ret;
+			
+			if ( $sql->execute( array( $lang ) ) )
+				return $sql->fetchAll( \PDO::FETCH_ASSOC );
 		}
 		else
 			return false;

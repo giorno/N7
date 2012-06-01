@@ -209,10 +209,11 @@ class AccountAjaxImpl extends Account implements SemApplicator
 		 * E-mail address in not ordinary setting, it is updated in users table.
 		 */
 		if ( $atom = $coll->getById( 'usr.email' ) )
-		{
-			_db_query( "UPDATE `" . Config::T_USERS . "` SET `" . Config::F_EMAIL . "` = \"" . _db_escape( $atom->getValue( ) ) . "\"
-						WHERE `" . Config::F_UID . "` = \"" . _db_escape( \io\creat\chassis\session::getInstance( )->getUid( ) ) . "\"" );
-		}
+			n7_globals::getInstance()->get( n7_globals::PDO )->prepare(
+				"UPDATE `" . Config::T_USERS . "`
+					SET `" . Config::F_EMAIL . "` = ?
+					WHERE `" . Config::F_UID . "` = ?"
+				)->execute( array( $atom->getValue( ), \io\creat\chassis\session::getInstance( )->getUid( ) ) );
 	}
 
 	/**
