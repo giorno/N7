@@ -163,7 +163,7 @@ class n7_at
 	/**
 	 * Creates list of applications registered in the system and candidates for
 	 * installation.
-	 * @return mixed
+	 * @return mixed if successful, integer indexed array
 	 */
 	public static function search ( )
 	{
@@ -172,8 +172,8 @@ class n7_at
 		$sql = n7_globals::getInstance( )->get( n7_globals::PDO )->query( "SELECT * FROM
 							( SELECT * FROM `" . self::T_APPS . "`
 								GROUP BY `" . self::F_APPID . "`, `" . self::F_INSTSEQ . "` DESC
-								ORDER BY `" . self::F_EXECSEQ . "` ASC, `" . self::F_INSTSEQ . "` DESC ) t1
-							GROUP BY `" . self::F_APPID . "`" );
+								ORDER BY `" . self::F_INSTSEQ . "` DESC,`" . self::F_EXECSEQ . "` ASC ) t1
+							GROUP BY `" . self::F_APPID . "` ORDER BY `" . self::F_EXECSEQ . "`" );
 		
 		$apps = $sql->fetchAll( PDO::FETCH_ASSOC );
 		
@@ -314,7 +314,9 @@ class n7_at
 					if ( ( $j >= 0) && ( $j < count( $apps ) ) )
 					{
 						$swap = $apps[$j];
-						if ( $swap[self::F_EXECSEQ] >= 0 )
+						
+						// Neither is in conflict or new.
+						if ( ( $app[self::F_EXECSEQ] >= 0 ) && ( $swap[self::F_EXECSEQ] >= 0 ) )
 						{
 							$sql->execute( array(	$swap[self::F_EXECSEQ],
 													N7_SOLUTION_ID,

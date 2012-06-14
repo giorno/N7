@@ -66,7 +66,6 @@ class AiApps
 				$builder->addField( '_seq', $this->messages['at']['seq'], AiCfgFactory::LIST_HDRW_SEQ, 1, 'left', false );
 				$builder->addField( '_flags', $this->messages['at']['flags'], AiCfgFactory::LIST_HDRW_SEQ, 1, 'left', false );
 				$builder->addField( '_name', $this->messages['at']['app'], AiCfgFactory::LIST_HDRW_LOGIN, 1, 'left', false );
-				//$builder->addField( '_action', '', AiCfgFactory::LIST_HDRW_UID, 1, 'left', false );
 				$builder->addField( '_version', $this->messages['at']['version'], AiCfgFactory::LIST_HDRW_APPVER, 1, 'left', false );
 				$builder->addField( '_id', $this->messages['at']['id'], AiCfgFactory::LIST_HDRW_APPID, 1, 'left', false );
 				$builder->addField( '_path', $this->messages['at']['path'], AiCfgFactory::LIST_HDRW_APPPATH, 1, 'left', false );
@@ -139,12 +138,12 @@ class AiApps
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_APPID] ) ),
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_FSNAME] ) ),
 					
-									( $app[n7_at::F_EXECSEQ] > 0 )
+									( ( $i > 0 ) && ( ( $app[n7_at::F_EXECSEQ] > 0 ) && ( $apps[$i - 1][n7_at::F_EXECSEQ] > 0 ) ) )
 										? new _list_cell(	_list_cell::Code( $js_var . ".up( '" . $app[n7_at::F_APPID] . "' );", $this->messages['at']['up'] ),
 																									AiListCell::MAN_AI_AT_UP )
 										: new _list_cell(	_list_cell::Text( '' ) ),
 					
-									( ( $app[n7_at::F_EXECSEQ] > 0 ) && !$last )
+									( ( $i < count( $apps ) - 1 ) && ( ( $app[n7_at::F_EXECSEQ] > 0 ) && ( $apps[$i + 1][n7_at::F_EXECSEQ] > 0 ) ) )
 										? new _list_cell(	_list_cell::Code( $js_var . ".down( '" . $app[n7_at::F_APPID] . "' );", $this->messages['at']['down'] ),
 																									AiListCell::MAN_AI_AT_DOWN )
 										: new _list_cell(	_list_cell::Text( '' ) ));
