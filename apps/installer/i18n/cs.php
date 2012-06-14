@@ -1,5 +1,7 @@
 <?php
 
+// vim: ts=4
+
 /**
  * @file cs.php
  * @author giorno
@@ -10,8 +12,10 @@
  * Localization file for Czech language.
  */
 
-$_msgInstaller['title']					= 'Instalace N7';
-$_msgInstaller['info']					= 'Poskytněte správné nastavení pro tuhle instalaci a detaily pro správcovský účet.';
+$_msgInstaller['inst']['title']			= 'Instalace N7';
+$_msgInstaller['inst']['info']			= 'Poskytněte správné nastavení pro tuhle instalaci a detaily pro správcovský účet.';
+$_msgInstaller['ugd']['title']			= 'Aktualizace N7';
+$_msgInstaller['ugd']['info']			= 'Databáze je zastaralá. Vložte jméno a heslo správce a spusťte aktualizaci.';
 
 $_msgInstaller['url']					= 'URL stránky';
 $_msgInstaller['modrw']					= 'mod-rewrite';
@@ -22,6 +26,7 @@ $_msgInstaller['password']				= 'Heslo';
 $_msgInstaller['email']					= 'E-mailová adresa';
 
 $_msgInstaller['btInstall']				= 'Instalovat';
+$_msgInstaller['btUpgrade']				= 'Aktualizovat';
 
 $_msgInstaller['status']['executing']	= 'Vykonávám...';
 $_msgInstaller['status']['done']		= 'Dokončeno';
@@ -31,5 +36,7 @@ $_msgInstaller['status']['e_pass']		= 'Chyba: chybné heslo!';
 $_msgInstaller['status']['e_address']	= 'Chyba: chybná e-mailová adresa!';
 $_msgInstaller['status']['e_connect']	= 'Chyba: nemůžu se připojit k databáze!';
 $_msgInstaller['status']['e_empty']		= 'Chyba: databáza není prázdná!';
+$_msgInstaller['status']['e_root']		= 'Chyba: chybné přihlašovací údaje!';
+$_msgInstaller['status']['e_path']		= 'Chyba: aktualizace není možnáя!';
 
 ?>

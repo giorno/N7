@@ -3,7 +3,7 @@
 // vim: ts=4
 
 /**
- * @file _app.InstallerMainImpl.php
+ * @file _app.UpgraderMainImpl.php
  * @author giorno
  * @package N7
  * @subpackage Installer
@@ -17,13 +17,13 @@ require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_timezone.php';
 require_once N7_SOLUTION_LIB . 'n7_ui.php';
 
-require_once INSTALLER_LIB. '_app.Installer.php';
-require_once INSTALLER_LIB. 'uicmp/_vcmp_inst_ctrl.php';
+require_once INSTALLER_LIB. '_app.Upgrader.php';
+require_once INSTALLER_LIB. 'uicmp/ugd_ctrl.php';
 
 /**
- * Main RR implementation of Installer application.
+ * Main RR implementation of Upgrader application.
  */
-class InstallerMainImpl extends Installer
+class UpgraderMainImpl extends Upgrader
 {	
 	protected function __construct ( )
 	{
@@ -36,12 +36,14 @@ class InstallerMainImpl extends Installer
 
 	public function exec ( )
 	{
+		$url		= n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php';	// Ajax server URL
+		$params		= Array( 'app' => $this->id, 'action' => 'ue' );					// Ajax request parameters
 		_smarty_wrapper::getInstance( )->setContent( INSTALLER_UI . 'index.html' );
 		$layout = n7_ui::getInstance( )->getLayout( );
 			$tab = $layout->createTab( $this->id . '.Tab', FALSE );
-			$tab->getHead()->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId() . '.Title', $this->messages['inst']['title'] ) );
-			$tab->getHead()->add( new \io\creat\chassis\uicmp\info( $tab, $tab->getId() . '.Info', $this->messages['inst']['info'] ) );
-			$tab->addVcmp( new _vcmp_inst_ctrl( $tab, $this->id . '.Ctrl', n7_timezone::allZones( ), $this->messages ) );
+			$tab->getHead()->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId() . '.Title', $this->messages['ugd']['title'] ) );
+			$tab->getHead()->add( new \io\creat\chassis\uicmp\info( $tab, $tab->getId() . '.Info', $this->messages['ugd']['info'] ) );
+			$tab->addVcmp( new \io\creat\n7\installer\ugd_ctrl( $tab, $this->id . '.Ctrl', $this->messages, n7_globals::getInstance()->get( 'url' )->myUrl( ) . 'ajax.php', array( 'app' => $this->id, 'action' => 'upgrade' ) ) );
 			$layout->init( );
 			
 		/**

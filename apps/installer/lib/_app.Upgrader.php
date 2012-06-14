@@ -3,7 +3,7 @@
 // vim: ts=4
 
 /**
- * @file _app.Installer.php
+ * @file _app.Upgrader.php
  * @author giorno
  * @package N7
  * @subpackage Installer
@@ -14,18 +14,13 @@ require_once CHASSIS_LIB . 'apps/_app.App.php';
 require_once CHASSIS_LIB . 'apps/_app_registry.php';
 
 /** 
- * Common part of installer application. Contains functionality shared by all
- * its implementations. Singleton.
- * 
- * Installer instances owned by Installer application are used only for
- * installation of solution and its core application through main install.php
- * script, they are not involved in installation of any other applications. To
- * install applications please use Installer class in N7 libraries folder.
+ * Common logic of upgrade application. Used to update database for new
+ * version of N7 and core applications.
  */
-abstract class Installer extends App
+abstract class Upgrader extends App
 {
 	// Identifier of application instances.
-	const ID = '_app.Installer';
+	const ID = '_app.Upgrader';
 	
 	/**
 	 * PDO instance used for installation/upgrade.
@@ -35,20 +30,23 @@ abstract class Installer extends App
 	
 	/**
 	 * Singleton instance.
-	 * @var Installer 
+	 * @var Upgrader 
 	 */
 	protected static $instance = NULL;
 	
+	/**
+	 * Constructor. Ensures that our application is the first application.
+	 */
 	protected function __construct ( )
 	{
 		$this->id = static::ID;
-		_app_registry::getInstance()->setDefault( $this->id );
+		_app_registry::getInstance( )->setDefault( $this->id );
 		$this->pdo = n7_globals::getInstance()->get( n7_globals::PDO );		
 	}
 	
 	/**
 	 * Singleton interface.
-	 * @return Installer 
+	 * @return Upgrader
 	 */
 	public static function getInstance ( )
 	{

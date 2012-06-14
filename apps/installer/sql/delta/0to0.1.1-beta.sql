@@ -24,3 +24,9 @@ CREATE TABLE  `n7_rpcsess` (
 ---
 
 ALTER TABLE  `n7_rpcsess` ADD FOREIGN KEY (`uid`) REFERENCES `core_users` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+---
+--- Required for PDO implementation of io\creat\chassis\session\settings class.
+---
+ALTER TABLE `core_settings` ADD UNIQUE `core_settings_index` ( `scope`, `id`, `ns`, `key` );
+

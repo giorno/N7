@@ -1,0 +1,26 @@
+{* Template rendering content of Installer tab component *}
+{* Template rendering Upgrader form.
+ *
+ * @file ugd_frm.html
+ * @author giorno
+ * @package N7
+ * @subpackage Installer
+ * @license Apache License, Version 2.0, see LICENSE file
+ *}
+
+			<td class="_uicmp_body_frm">
+				<table width="100%" cellspacing="0" cellpadding="0">
+					<tr>
+						<td class="_uicmp_frm_prompt">{$APP_INST_MSG.login}</td>
+						<td width="100%" class="_uicmp_frm_field">
+							<input type="text" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.login">
+						</td>
+					</tr>
+					<tr>
+						<td class="_uicmp_frm_prompt">{$APP_INST_MSG.password}</td>
+						<td class="_uicmp_frm_field">
+							<input type="password" class="_uicmp_frm_input" id="{$USR_UICMP_CMP->getHtmlId()}.password">
+						</td>
+					</tr>
+				</table>
+			</td>
