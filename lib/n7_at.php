@@ -115,7 +115,12 @@ class n7_at
 								DESC ORDER BY `" . self::F_EXECSEQ . "`" );
 		
 		while ( $app = $sql->fetch( PDO::FETCH_ASSOC ) )
-			$ret[$app[self::F_APPID]] = $app;
+		{
+			// Exclude applications with new code.
+			$man = self::man( N7_SOLUTION_APPS . '/' . $app[self::F_FSNAME] );
+			if ( ( !is_null( $man ) ) && ( $man[self::F_VERSION] == $app[self::F_VERSION] ) )
+				$ret[$app[self::F_APPID]] = $app;
+		}
 		
 		return $ret;
 	}

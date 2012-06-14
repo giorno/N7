@@ -78,7 +78,7 @@ $__msg_ai['at']['path']				= 'Prečinok';
 $__msg_ai['at']['flags']			= 'Príznaky';
 $__msg_ai['at']['version']			= 'Verzia';
 $__msg_ai['at']['install']			= 'Kliknutím nainštalujete';
-$__msg_ai['at']['upgrade']			= 'Kliknutím nainštalujete verziu';
+$__msg_ai['at']['upgrade']			= 'Neaktualizované, kliknutím nainštalujete novú verziu';
 $__msg_ai['at']['up']				= 'Posunúť nahor';
 $__msg_ai['at']['down']				= 'Posunúť nadol';
 

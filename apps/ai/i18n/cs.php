@@ -78,7 +78,7 @@ $__msg_ai['at']['path']				= 'Složka';
 $__msg_ai['at']['flags']			= 'Příznaky';
 $__msg_ai['at']['version']			= 'Verze';
 $__msg_ai['at']['install']			= 'Kliknutím nainstalujete';
-$__msg_ai['at']['upgrade']			= 'Kliknutím nainstalujete verzi';
+$__msg_ai['at']['upgrade']			= 'Neaktualizováno, kliknutím nainstalujete novou verzi';
 $__msg_ai['at']['up']				= 'Posunout nahoru';
 $__msg_ai['at']['down']				= 'Posunout nadolu';
 
