@@ -264,7 +264,7 @@ class n7_at
 		else
 		{
 			$inst_seq = 0;
-			$exec_seq = pdo1f( $pdo->prepare( "SELECT COUNT(DISTINCT `" . self::F_APPID . "`) FROM `" . self::T_APPS . "`
+			$exec_seq = \io\creat\chassis\pdo1f( $pdo->prepare( "SELECT COUNT(DISTINCT `" . self::F_APPID . "`) FROM `" . self::T_APPS . "`
 										WHERE `" . self::F_NS . "` = ?" ), array( N7_SOLUTION_ID ) );
 		}
 
