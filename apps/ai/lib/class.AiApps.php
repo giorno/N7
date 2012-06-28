@@ -15,7 +15,9 @@ require_once CHASSIS_LIB . 'list/_list_builder.php';
 require_once N7_SOLUTION_LIB . 'n7_at.php';
 
 /**
- * Class building visual list of applications to be sent to the client.
+ * Class building visual list of applications to be sent to the client. This
+ * implementation does not use Persistence classes, but is supposed to provide
+ * same Look&Feel.
  */
 class AiApps
 {
@@ -52,6 +54,8 @@ class AiApps
 	 */
 	public function search ( $js_var )
 	{
+		$start = microtime( true );
+		
 		/**
 		 * Extract list of applications.
 		 */
@@ -72,7 +76,7 @@ class AiApps
 				$builder->addField( '_up', '', AiCfgFactory::LIST_HDRW_ICON, 1, 'left', false );
 				$builder->addField( '_down', '', AiCfgFactory::LIST_HDRW_ICON, 1, 'left', false );
 				
-			$builder->ComputePaging( 999999, count( $apps ), 1, 1, n7_globals::settings( )->get( 'usr.lst.pagerhalf' ) );
+			$builder->computePaging( 999999, count( $apps ), 1, 1, n7_globals::settings( )->get( 'usr.lst.pagerhalf' ), sprintf( "%4.4f", microtime( true ) - $start ) );
 
 			for ( $i = 0; $i < count( $apps ); ++$i )
 			{	
