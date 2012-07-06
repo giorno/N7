@@ -19,6 +19,8 @@ require_once CHASSIS_LIB . 'pers/settproxy.php';
 require_once CHASSIS_LIB . 'list/_list_cell.php';
 require_once CHASSIS_LIB . 'libpdo.php';
 
+require_once N7_SOLUTION_LIB . 'class.XmlRpcSrv.php';
+
 require_once APP_AI_LIB . 'class.AiCfgFactory.php';
 require_once APP_AI_LIB . 'class.AiListCell.php';
 
