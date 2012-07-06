@@ -108,6 +108,7 @@ class _vcmp_at extends \io\creat\chassis\uicmp\vcmp
 
 		if ( !is_null( $requirer ) )
 		{
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JS, array( 'inc/ai/_uicmp.js' , __CLASS__ ) );
 			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, 'var ' . $this->getJsVar( ) . ' = new _uicmp_at( \''. $this->getJsVar( ) .'\', \''. $this->cnt->getHtmlId( ) .'\', \'' . $this->url . '\', ' . \io\creat\chassis\uicmp\uicmp::toJsArray( $this->params ) .  ', ' . $this->ind->getJsVar( ) . ' );' );
 			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $this->parent->getJsVar( ) . '.registerTabCb( \'' . $this->tab->getHtmlId( ) . '\', \'onShow\', ' . $this->getJsVar( ) . '.list );' );
 		}

@@ -11,12 +11,11 @@
  */
 
 require_once dirname( __FILE__ ) . '/_cfg.php';
-require_once APP_AI_LIB . 'class.AiUser.php';
 
-if ( AiUser::isRoot( \io\creat\chassis\session::getInstance()->getUid() ) )
+if ( (int)\io\creat\chassis\session::getInstance( )->getUid( ) == 1 )
 {
 	require_once APP_AI_LIB . '_app.AiAjaxImpl.php';
-AiAjaxImpl::getInstance();
+	AiAjaxImpl::getInstance();
 }
 
 ?>
