@@ -68,12 +68,12 @@ class AccountAjaxImpl extends Account implements SemApplicator
 					break;
 				}
 					
-				require_once APP_AI_LIB . 'class.AiUser.php';
+				require_once APP_AI_LIB . 'pers/users.php';
 				
 				/**
 				 * Check new password to fulfillment of security.
 				 */
-				if ( !AiUser::passOk( $new ) )
+				if ( !\io\creat\n7\ai\users::passOk( $new ) )
 				{
 					echo "e_new";
 					break;

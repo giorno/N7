@@ -12,7 +12,7 @@ require_once CHASSIS_LIB . 'libpdo.php';
 require_once CHASSIS_3RD . 'EmailAddressValidator.php';
 
 require_once N7_SOLUTION_LIB . 'n7_at.php';
-require_once N7_SOLUTION_APPS. 'ai/lib/class.AiUser.php';
+require_once N7_SOLUTION_APPS. 'ai/lib/pers/users.php';
 
 require_once INSTALLER_LIB. '_app.Installer.php';
 
@@ -47,14 +47,14 @@ class InstallerAjaxImpl extends Installer
 		if ( $validator->check_email_address( $_POST['email'] ) )
 		{
 			// Check for correct login.
-			if ( !AiUser::loginOk( $_POST['login'] ) )
+			if ( !\io\creat\n7\ai\users::loginOk( $_POST['login'] ) )
 			{
 				echo 'e_login';
 				return;
 			}
 							
 			// Check for password in case of new entry or any password supplied.
-			if ( !AiUser::passOk( $_POST['password'] ) )
+			if ( !\io\creat\n7\ai\users::passOk( $_POST['password'] ) )
 			{
 				echo 'e_pass';
 				return;
@@ -115,7 +115,7 @@ class InstallerAjaxImpl extends Installer
 			$sql->execute( array( N7_SOLUTION_VERSION, 'server.magic' ) );
 			
 			// Create admin account.
-			AiUser::save( 0, $_POST['login'], $_POST['password'], $_POST['email'], true );
+			$this->pdo->prepare( "INSERT INTO `" . self::T_USERS . "` SET ?, ?, ?, ?" )->execute( array( $_POST['login'], $_POST['password'], $_POST['email'], 1 ) );
 			
 			// Workaround root ID.
 			$this->pdo->query( "UPDATE `" . Config::T_USERS . "` SET`" . Config::F_UID . "` = \"1\"" );

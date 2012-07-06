@@ -18,10 +18,7 @@ require_once N7_SOLUTION_LIB . 'n7_requirer.php';
 require_once N7_SOLUTION_LIB . 'n7_ui.php';
 
 require_once APP_AI_LIB . '_app.Ai.php';
-//require_once APP_AI_LIB . 'class.AiCfgFactory.php';
-
 require_once APP_AI_LIB . 'uicmp/_vcmp_at.php';
-/*require_once APP_AI_LIB . 'uicmp/_vcmp_ue.php';*/
 
 class AiMainImpl extends Ai
 {
@@ -54,54 +51,20 @@ class AiMainImpl extends Ai
 		$this->layout = n7_ui::getInstance( )->getLayout( );
 		$this->layout->createSep( );
 
-		// Password field is usable only for authentication methods supporting
-		// it's change.
-		/*$authbe = n7_globals::getInstance()->authbe( );
-		if ( ( is_null( $authbe ) ) || ( $authbe->hasFlag( \io\creat\chassis\authbe::ABE_MODPASSWD ) ) )
-			$modpasswd = TRUE;
-		else
-			$modpasswd = FALSE;*/
+		$this->getPi( )->tableUi( )->show( );
+		$this->getPi( )->client( );
 		
-			/**
-			 * UE form.
-			 */
-	/*		$tab = $this->layout->createTab( $this->id . '.Ue' );
-				$tab->unstack( );
-				$ue = new _vcmp_ue( $tab , $tab->getId( ) . '.Frm', $this->messages, $url, $params, $modpasswd );
-				$tab->addVcmp( $ue );
-	*/		
-			$this->getPi( )->tableUi( )->show( );
-			$this->getPi( )->client( );
-			
-
-							 
-			//$params['ue_js_var'] = $ue->getJsVar( );
-			/*$params['action'] = 'search';
-			$tab = $this->layout->createTab( $this->id . '.Users', FALSE );
-				$tab->getHead( )->add( new \io\creat\chassis\uicmp\headline( $tab, $tab->getId( ) . '.Title', $this->messages['title']) );
-				$tab->createFold( $this->messages['fold'] );
-				$srch = $tab->createSearch( $this->getVcmpSearchId( 'Users' ), 0, $url, $params, AiCfgFactory::getCfg( 'usr.lst.Users' ), $page_size );
-				$rszr = $srch->getResizer( );
-				$rszr->add( new \io\creat\chassis\uicmp\grpitem( $rszr, $rszr->getId( ) . '.mi1', \io\creat\chassis\uicmp\grpitem::IT_A,  $this->messages['riAdd'], $ue->getJsVar( ) . '.create( );', '_uicmp_gi_add' ) );
-			*/	
-			$params['action'] = 'at';
-			$this->layout->addVcmp( new _vcmp_at( $this->layout, $this->getVcmpSearchId( 'At' ), $url, $params, $this->messages ) );
-			/*$tab = $this->layout->createTab( $this->id . '.Apps' );
-				$tab->getHead( )->add( new _uicmp_title( $tab, $tab->getId( ) . '.Title', $this->messages['tApps']) );
-				$tab->createFold( $this->messages['fApps'] );*/
+		$params['action'] = 'at';
+		$this->layout->addVcmp( new _vcmp_at( $this->layout, $this->getVcmpSearchId( 'At' ), $url, $params, $this->messages ) );
 
 		$this->layout->createSep( );
 		$this->layout->init( );
 		
 		if ( $this->getPi( )->has( pers::FL_PI_CREATE ) )
-		//if ( $modpasswd )
 			n7_ui::getInstance( )->getMenu( )->register(	new MenuItem(	MenuItem::TYPE_JS,
 															$this->messages['pi_users']['tui']['anchor'],
 															$this->getPi( )->jsVar( ) . '.create( );',
 															'_uicmp_blue' ) );
-
-/*		$smarty = _smarty_wrapper::getInstance( )->getEngine( );
-		$smarty->assignByRef( 'APP_AI_LAYOUT', $this->layout );*/
 	}
 	
 	/**
