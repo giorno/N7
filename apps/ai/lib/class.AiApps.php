@@ -142,12 +142,12 @@ class AiApps
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_APPID] ) ),
 									new _list_cell(	_list_cell::Text(	$app[n7_at::F_FSNAME] ) ),
 					
-									( ( $i > 0 ) && ( ( $app[n7_at::F_EXECSEQ] > 0 ) && ( $apps[$i - 1][n7_at::F_EXECSEQ] > 0 ) ) )
+									( ( $i > 0 ) && ( ( $app[n7_at::F_EXECSEQ] >= 0 ) && ( $apps[$i - 1][n7_at::F_EXECSEQ] >= 0 ) ) )
 										? new _list_cell(	_list_cell::Code( $js_var . ".up( '" . $app[n7_at::F_APPID] . "' );", $this->messages['at']['up'] ),
 																									AiListCell::MAN_AI_AT_UP )
 										: new _list_cell(	_list_cell::Text( '' ) ),
 					
-									( ( $i < count( $apps ) - 1 ) && ( ( $app[n7_at::F_EXECSEQ] > 0 ) && ( $apps[$i + 1][n7_at::F_EXECSEQ] > 0 ) ) )
+									( ( $i < count( $apps ) - 1 ) && ( ( $app[n7_at::F_EXECSEQ] >= 0 ) && ( $apps[$i + 1][n7_at::F_EXECSEQ] >= 0 ) ) )
 										? new _list_cell(	_list_cell::Code( $js_var . ".down( '" . $app[n7_at::F_APPID] . "' );", $this->messages['at']['down'] ),
 																									AiListCell::MAN_AI_AT_DOWN )
 										: new _list_cell(	_list_cell::Text( '' ) ));
