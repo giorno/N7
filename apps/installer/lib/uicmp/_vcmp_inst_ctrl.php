@@ -4,6 +4,7 @@ require_once CHASSIS_LIB . 'uicmp/vcmp.php';
 require_once CHASSIS_LIB . 'uicmp/buttons.php';
 require_once CHASSIS_LIB . 'uicmp/indicator.php';
 
+require_once INSTALLER_LIB . '_app.InstallerMainImpl.php';
 require_once INSTALLER_LIB . 'uicmp/_uicmp_inst_frm.php';
 
 /**
@@ -68,10 +69,10 @@ class _vcmp_inst_ctrl extends \io\creat\chassis\uicmp\vcmp
 		
 		if ( $requirer )
 		{
-			$js = file_get_contents( INSTALLER_LIB . 'uicmp/_uicmp.js' );
+			$js = file_get_contents( INSTALLER_LIB . 'uicmp/inst.js' );
 			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $js );
 			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_ONLOAD, $this->uicmp->getJsVar( ) . '.startup( );' );
-			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . ' = new _vcmp_inst_ctrl( \'' . $this->uicmp->getHtmlId( ) . '\', \'' . $this->bt->getHtmlId( ) . '\', ' . $this->ind->getJsVar( ) . ' );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . ' = new inst_ctrl( \'' . $this->uicmp->getHtmlId( ) . '\', \'' . $this->bt->getHtmlId( ) . '\', ' . $this->ind->getJsVar( ) . ', \'' . InstallerMainImpl::ID . '\' );' );
 		}
 	}
 }
