@@ -69,6 +69,7 @@ class ugd_ctrl extends \io\creat\chassis\uicmp\vcmp
 			$js = file_get_contents( INSTALLER_LIB . 'uicmp/ugd.js' );
 			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, $js );
 			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_JSPLAIN, 'var ' . $this->uicmp->getJsVar( ) . ' = new ugd_ctrl( \'' . $this->uicmp->getHtmlId( ) . '\', \'' . $this->bt->getHtmlId( ) . '\', ' . $this->ind->getJsVar( ) . ', \'' . $this->url . '\', ' . $this->toJsArray( $this->params ) . ' );' );
+			$requirer->call( \io\creat\chassis\uicmp\vlayout::RES_ONLOAD, $this->uicmp->getJsVar( ) . '.startup( );' );
 		}
 	}
 }

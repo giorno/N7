@@ -32,6 +32,11 @@ function ugd_ctrl ( form_id, bt_id, ind, url, params )
 }
 
 /**
+ * Focus username input field.
+ */
+ugd_ctrl.prototype.startup = function ( ) { this.focus( ); }
+
+/**
  * Disables controls for the duration of installation.
  * @param disabled desired state
  */
