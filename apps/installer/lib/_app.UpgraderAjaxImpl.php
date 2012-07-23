@@ -55,7 +55,7 @@ class UpgraderAjaxImpl extends Upgrader
 				switch ( $to )
 				{
 					// From some ancient version to 0.1.1-beta.
-					case '0.1.2-dev':
+					case '0.1.2-beta':
 						
 						// Prepare table of settings for new index.
 						//`scope`, `id`, `ns`, `key`
@@ -68,7 +68,7 @@ class UpgraderAjaxImpl extends Upgrader
 						$this->pdo->query( "INSERT INTO `" . Config::T_SETTINGS . "` SELECT * FROM incrUpgrade{$this->counter}" );
 						
 						// Upgrade.
-						$script = file_get_contents( INSTALLER_ROOT . 'sql/delta/0.1.1-betato0.1.2-dev.sql' );
+						$script = file_get_contents( INSTALLER_ROOT . 'sql/delta/0.1.1-betato0.1.2-beta.sql' );
 						$sqls = $this->sanitize( $script );
 						foreach ( $sqls as $sql )
 							$this->pdo->query( $sql );
@@ -105,7 +105,7 @@ class UpgraderAjaxImpl extends Upgrader
 		{
 			// Build matrix/tree of possible upgrades.
 			$upgrades[''] = array( '0.1.1-beta' ); // from any ancient version to 0.0.1-beta (first tagged)
-			$upgrades['0.1.1-beta'] = array( '0.1.2-dev' );
+			$upgrades['0.1.1-beta'] = array( '0.1.2-beta' );
 			
 		
 			$from = (string)n7_globals::getInstance( )->get( 'config' )->get( 'server.version' );
@@ -137,7 +137,7 @@ class UpgraderAjaxImpl extends Upgrader
 				// Reduce.
 				array_pop( $stack );
 						
-				if ( count( $stack ) == 0 )
+				if ( count( $stack ) != 0 )
 					$next = $stack[count( $stack ) - 1][0];
 				else
 					$next = NULL; // nothing left on the stack
