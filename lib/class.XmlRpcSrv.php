@@ -240,7 +240,7 @@ class XmlRpcSrv
 			$token = _fw_rand_hash( );
 			$this->pdo->prepare( "INSERT INTO `" . self::T_RPCSESS . "`
 						SET `" . self::F_EXPIRES . "` = (NOW() + INTERVAL " . self::INTERVAL . " MINUTE),
-							`" . self::F_TOKEN . "` = ?
+							`" . self::F_TOKEN . "` = ?,
 							`" . self::F_UID . "` = ?"
 								)->execute( array( $token, $uid ) );
 			return $token;
