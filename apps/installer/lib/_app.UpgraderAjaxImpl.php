@@ -54,7 +54,7 @@ class UpgraderAjaxImpl extends Upgrader
 			case '0.1.2-beta':
 				switch ( $to )
 				{
-					case '0.1.3-dev':
+					case '0.1.3-beta':
 					break;
 				}
 			break;
@@ -114,7 +114,7 @@ class UpgraderAjaxImpl extends Upgrader
 			// Build matrix/tree of possible upgrades.
 			$upgrades[''] = array( '0.1.1-beta' ); // from any ancient version to 0.0.1-beta (first tagged)
 			$upgrades['0.1.1-beta'] = array( '0.1.2-beta' );
-			$upgrades['0.1.2-beta'] = array( '0.1.3-dev' );
+			$upgrades['0.1.2-beta'] = array( '0.1.3-beta' );
 			
 		
 			$from = (string)n7_globals::getInstance( )->get( 'config' )->get( 'server.version' );
