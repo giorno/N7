@@ -123,6 +123,7 @@ class UpgraderAjaxImpl extends Upgrader
 			$next = $from;
 			$path = NULL;
 			$stack[] = array( $next );
+			$counter =0;
 			while( !is_null( $next ) )
 			{
 				// Solution is found, trace back, write path and
@@ -136,19 +137,19 @@ class UpgraderAjaxImpl extends Upgrader
 				}
 						
 				// Shift.
-				if ( array_key_exists( $next, $upgrades ) )
+				if ( $next && array_key_exists( $next, $upgrades ) )
 				{
 					$stack[] = $upgrades[$next];
-					$next = $upgrades[$next][0];
+					$next = reset( $stack[count( $stack ) - 1] );
 					continue;
 				}
 						
 				// Reduce.
-				array_pop( $stack );
+				$next = next( $stack[count( $stack ) - 1] );
+				if ( $next == FALSE )
+					array_pop( $stack );
 						
-				if ( count( $stack ) != 0 )
-					$next = $stack[count( $stack ) - 1][0];
-				else
+				if ( count( $stack ) == 0 )
 					$next = NULL; // nothing left on the stack
 			}
 					
