@@ -21,7 +21,7 @@ define( 'N7_SOLUTION_APPS',	N7_SOLUTION_ROOT . 'apps/' );
 /**
  * Serverware version.
  */
-define( 'N7_SOLUTION_VERSION', '0.1.3-beta' );
+define( 'N7_SOLUTION_VERSION', '0.1.4-dev' );
 
 /**
  * Loading installation specific configuration.
