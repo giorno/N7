@@ -37,10 +37,16 @@ class AiCfgFactory
 	 * Width of login field in Ai lists.
 	 */
 	const LIST_HDRW_LOGIN	= '*';
+	
 	/**
 	 * Width of UID field in Ai lists.
 	 */
 	const LIST_HDRW_ADDRESS	= '320px';
+	
+	/**
+	 * Width of Last Acces field in Ai lists.
+	 */
+	const LIST_HDRW_LAST	= '240px';
 	
 	/**
 	 * Width of icon/action field in Ai lists.

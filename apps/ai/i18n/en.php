@@ -34,6 +34,7 @@ $__msg_ai['pi_users']['rui']['ind']['e_exists']= 'Error: login already in use!';
 $__msg_ai['pi_users']['rui']['ind']['e_login']= 'Error: invalid login!';
 $__msg_ai['pi_users']['uid']			= 'UID';
 $__msg_ai['pi_users']['login']			= 'Login';
+$__msg_ai['pi_users']['last']			= 'Last access';
 $__msg_ai['pi_users']['password']		= 'Enter password';
 $__msg_ai['pi_users']['email']			= 'E-mail address';
 $__msg_ai['pi_users']['enabled']		= 'Enabled account';

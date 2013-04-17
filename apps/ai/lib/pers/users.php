@@ -90,6 +90,40 @@ class users extends \io\creat\chassis\pers\instance
 	}
 	
 	/**
+	 * Adds special logic for Last Access field, which is foreign to this table.
+	 * @todo would it be beneficial to add timezone conversion, use custom datetime format and/or remove data part from today's (perhaps in upstream logic)?
+	 * @param array $search parsed search query, output of searchp()
+	 * @return string
+	 */
+	protected function searchq ( &$search )
+	{
+		$and = $or = $where = $extraLp = $extraRp = '';
+		
+		foreach ( $this->fields as $field )
+			parent::fieldq( $search, $field, $and, $or );
+		
+		if ( is_array( $or ) )
+			$and[] = ' ( ' . implode( ' OR ', $or ) . ' ) ';
+		if ( is_array( $and ) )
+		{
+			$where = 'WHERE ' . implode( ' AND ', $and );
+			
+			// for actual search we would need to add extra level of SELECT
+			// nesting to avoid confusing data output (such as invalid record
+			// count)
+			$extraLp = " ( SELECT * FROM ";
+			$extraRp = " ) grouped";
+		}
+
+		return "FROM {$extraLp}(	SELECT `{$this->table}`.*,`" . \Config::T_LOGINS . "`.`" . \Config::F_STAMP . "` as " . \Config::F_STAMP . " FROM `{$this->table}`
+									LEFT JOIN `" . \Config::T_LOGINS . "`
+										ON ( `" . $this->table . "`.`" . \Config::F_UID . "` = `" . \Config::T_LOGINS . "`.`" . \Config::F_UID . "` )
+									{$where}
+									ORDER BY `" . \Config::T_LOGINS . "`.`" . \Config::F_STAMP. "` DESC ) `{$this->table}`
+								GROUP BY `" . $this->table . "`.`" . \Config::F_UID. "` {$extraRp}";
+	}
+	
+	/**
 	 * Deletes all sessions associated with user account.
 	 * @param int $uid user ID
 	 */
@@ -156,9 +190,7 @@ class users extends \io\creat\chassis\pers\instance
 		}
 		else
 			echo 'e_address';
-		
-		/*var_dump( $index );
-		var_dump( $fields );*/
+
 		return FALSE;
 	}
 	
@@ -236,6 +268,14 @@ class users extends \io\creat\chassis\pers\instance
 												$this->messages['login'],
 												'',
 												\AiCfgFactory::LIST_HDRW_LOGIN );
+		
+		$this->fields[\Config::F_STAMP]
+			= new \io\creat\chassis\pers\field( \Config::F_STAMP,
+												\pers::FT_DATETIME,
+												\pers::FL_FD_ORDER | \pers::FL_FD_VIEW | \pers::FL_FD_HIDDEN,
+												$this->messages['last'],
+												'',
+												\AiCfgFactory::LIST_HDRW_LAST );
 		
 		if ( $this->has( \pers::FL_PI_CREATE ) )
 			$this->fields[\Config::F_PASSWD]

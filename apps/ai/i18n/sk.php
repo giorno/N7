@@ -34,6 +34,7 @@ $__msg_ai['pi_users']['rui']['ind']['e_exists']= 'Chyba: prihlasovacie meno sa u
 $__msg_ai['pi_users']['rui']['ind']['e_login']= 'Chyba: chybné prihlasovacie meno!';
 $__msg_ai['pi_users']['uid']			= 'UID';
 $__msg_ai['pi_users']['login']			= 'Prihlasovacie meno';
+$__msg_ai['pi_users']['last']			= 'Posledný prístup';
 $__msg_ai['pi_users']['password']		= 'Nastavte heslo';
 $__msg_ai['pi_users']['email']			= 'E-mailová adresa';
 $__msg_ai['pi_users']['enabled']		= 'Povolený účet';
