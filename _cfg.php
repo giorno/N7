@@ -14,11 +14,11 @@
  */
 define ( 'N7_SOLUTION_ID',		'io.creat.n7' );
 
-define ( 'N7_FRAMEWORK_ROOT',	'/path/to/Chassis/framework/dir' );
+define ( 'N7_FRAMEWORK_ROOT',	'/home/jstanik/projects/Chassis' );
 
-define ( 'N7_MYSQL_HOST',		'MySQL server' );
-define ( 'N7_MYSQL_USER',		'MySQL user' );
-define ( 'N7_MYSQL_PASS',		'MySQL password' );
-define ( 'N7_MYSQL_DB',			'MySQL database' );
+define ( 'N7_MYSQL_HOST',		'localhost' );
+define ( 'N7_MYSQL_USER',		'n7d' );
+define ( 'N7_MYSQL_PASS',		'n7d' );
+define ( 'N7_MYSQL_DB',			'n7prod' );
 
 ?>

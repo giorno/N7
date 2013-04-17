@@ -105,22 +105,16 @@ class users extends \io\creat\chassis\pers\instance
 		if ( is_array( $or ) )
 			$and[] = ' ( ' . implode( ' OR ', $or ) . ' ) ';
 		if ( is_array( $and ) )
-		{
 			$where = 'WHERE ' . implode( ' AND ', $and );
-			
-			// for actual search we would need to add extra level of SELECT
-			// nesting to avoid confusing data output (such as invalid record
-			// count)
-			$extraLp = " ( SELECT * FROM ";
-			$extraRp = " ) grouped";
-		}
 
-		return "FROM {$extraLp}(	SELECT `{$this->table}`.*,`" . \Config::T_LOGINS . "`.`" . \Config::F_STAMP . "` as " . \Config::F_STAMP . " FROM `{$this->table}`
+		// we would need to add extra level of SELECT nesting to avoid confusing
+		// data output (such as invalid record count)
+		return "FROM  ( SELECT * FROM (	SELECT `{$this->table}`.*,`" . \Config::T_LOGINS . "`.`" . \Config::F_STAMP . "` as " . \Config::F_STAMP . " FROM `{$this->table}`
 									LEFT JOIN `" . \Config::T_LOGINS . "`
 										ON ( `" . $this->table . "`.`" . \Config::F_UID . "` = `" . \Config::T_LOGINS . "`.`" . \Config::F_UID . "` )
 									{$where}
 									ORDER BY `" . \Config::T_LOGINS . "`.`" . \Config::F_STAMP. "` DESC ) `{$this->table}`
-								GROUP BY `" . $this->table . "`.`" . \Config::F_UID. "` {$extraRp}";
+								GROUP BY `" . $this->table . "`.`" . \Config::F_UID. "`  ) grouped";
 	}
 	
 	/**
