@@ -9,6 +9,18 @@
  * Script providing interface for XML RPC server.
  */
 
+ini_set( 'default_charset', 'UTF-8' );
+
+$xmlrpc_defencoding = "UTF8";
+$xmlrpc_internalencoding = "UTF8";
+$output_options = array(
+                       "output_type" => "php",
+                       "verbosity" => "pretty",
+                       "escaping" => array("markup", "non-ascii", "non-print"),
+                       "version" => "xmlrpc",
+                       "encoding" => "utf-8"
+                      );
+
 require_once '../_init.php';
 
 require_once CHASSIS_LIB . 'session/session.php';

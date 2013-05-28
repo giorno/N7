@@ -129,6 +129,16 @@ class XmlRpcSrv
 	 */
 	public function __construct ( )
 	{
+		global $xmlrpc_defencoding, $xmlrpc_internalencoding,$output_options;
+		$xmlrpc_defencoding = "UTF8";
+		$xmlrpc_internalencoding = "UTF8";
+		$output_options = array(
+                       "output_type" => "php",
+                       "verbosity" => "pretty",
+                       "escaping" => array("markup", "non-ascii", "non-print"),
+                       "version" => "xmlrpc",
+                       "encoding" => "utf-8"
+                      );
 		$this->sh = xmlrpc_server_create( );
 		$this->ft = array( );
 		$this->pdo = n7_globals::getInstance( )->get( n7_globals::PDO );
@@ -169,7 +179,14 @@ class XmlRpcSrv
 	 * appropriate MIME header (Content-Type: text/xml) to the client.
 	 * @return mixed
 	 */
-	public function answer ( ) { return xmlrpc_server_call_method( $this->sh, file_get_contents( 'php://input'), NULL ); }
+	public function answer ( )
+	{
+		$output_options = array(
+                       "encoding" => "utf-8"
+                      );
+		return xmlrpc_server_call_method( $this->sh, file_get_contents( 'php://input'), NULL, $output_options );
+		
+	}
 	
 	/**
 	 * Produces simple array wrapping error indication
