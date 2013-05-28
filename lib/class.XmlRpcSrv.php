@@ -184,7 +184,7 @@ class XmlRpcSrv
 		$output_options = array(
                        "encoding" => "utf-8"
                       );
-		return xmlrpc_server_call_method( $this->sh, file_get_contents( 'php://input'), NULL, $output_options );
+		return str_replace( "&#38;", "&", xmlrpc_server_call_method( $this->sh, file_get_contents( 'php://input'), NULL, $output_options ) );
 		
 	}
 	
