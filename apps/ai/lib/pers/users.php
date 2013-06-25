@@ -41,8 +41,14 @@ class users extends \io\creat\chassis\pers\instance
 	 */
 	public function __construct ( &$layout, $messages, $url, $params )
 	{
+		// Honour the authentication backend configuration.
+		$authbe = \n7_globals::getInstance()->authbe( );
+		$extra_flags = 0;
+		if ( ( is_null( $authbe ) ) || ( $authbe->hasFlag( \io\creat\chassis\authbe::ABE_MODPASSWD ) ) )
+			$extra_flags |= \pers::FL_PI_CREATE;
+
 		parent::__construct(	\Config::T_USERS,
-								\pers::FL_PI_RUI | \pers::FL_PI_TUI | \pers::FL_PI_RESIZE | \pers::FL_PI_ANCHORS,
+								\pers::FL_PI_RUI | \pers::FL_PI_TUI | \pers::FL_PI_RESIZE | \pers::FL_PI_ANCHORS | $extra_flags,
 								$layout,
 								$messages,
 								$url,
@@ -50,10 +56,6 @@ class users extends \io\creat\chassis\pers\instance
 								new \io\creat\chassis\pers\settproxy( \n7_globals::settings( ), \AiCfgFactory::getInstance( ), 'usr.lst.len', 'usr.lst.pagerhalf' )
 							);
 		
-		// Honour the authentication backend configuration.
-		$authbe = \n7_globals::getInstance()->authbe( );
-		if ( ( is_null( $authbe ) ) || ( $authbe->hasFlag( \io\creat\chassis\authbe::ABE_MODPASSWD ) ) )
-			$this->flags |= \pers::FL_PI_CREATE;
 	}
 	
 	/**
