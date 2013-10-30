@@ -107,7 +107,6 @@ inst_ctrl.prototype.install = function ( )
 	function onFailure ( ) { scope.disabled( false ); scope.ind.show( 'e_unknown', '_uicmp_ind_red' ); }
 	function onSuccess ( data )
 	{
-		alert(data.responseText);
 		if (data.responseText.substr( 0, 9 ) == 'OK' )
 			scope.ind.show( 'done', '_uicmp_ind_green' );
 		else
